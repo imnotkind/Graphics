@@ -7,32 +7,26 @@
 #pragma comment(lib, "Opengl32.lib")
 
 using namespace std;
-void renderScene(void) {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glFlush();
-}
 
+#include "CEngine.h"
+#include "CGraphics.h"
 
-void mytest1(unsigned char key, int x, int y)
-{
-	if (key == 'q')
-	{
-		cout << "q!" << endl;
-		while (true)
-		{
-			cout << "hihihi" << endl;
-			Sleep(1000);
-		}
-	}
-	cout << "No!" << endl;
+CGraphics Graphics;
+CEngine Engine;
+
+void cb_draw(void) {
+
+	Graphics.M_Draw();
+	//glClear(GL_COLOR_BUFFER_BIT); move to graphics
+	//glFlush();
 }
-void mytest2(int key, int x, int y)
+void cb_key(unsigned char key, int x, int y)
 {
-	if (key == GLUT_KEY_UP)
-	{
-		cout << "hmm??" << endl;
-	}
-	cout << "wtf" << endl;
+	Engine.M_Event_KeyPress(key, false);
+}
+void cb_skey(int key, int x, int y)
+{
+	Engine.M_Event_KeyPress(key, true);
 }
 
 int main(int argc, char **argv) {
@@ -41,10 +35,10 @@ int main(int argc, char **argv) {
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(320, 320);
 	glutCreateWindow("Hello OpenGL");
-	glutDisplayFunc(renderScene);
 
-	glutKeyboardFunc(mytest1);
-	glutSpecialFunc(mytest2);
+	glutDisplayFunc(cb_draw);
+	glutKeyboardFunc(cb_key);
+	glutSpecialFunc(cb_skey);
 
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glewInit();

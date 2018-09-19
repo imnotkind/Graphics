@@ -122,7 +122,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CCharacter.cpp" />
+    <ClCompile Include="CEnemy.cpp" />
+    <ClCompile Include="CEngine.cpp" />
+    <ClCompile Include="CGraphics.cpp" />
+    <ClCompile Include="CItem.cpp" />
+    <ClCompile Include="CSomething.cpp" />
+    <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CCharacter.h" />
+    <ClInclude Include="CEnemy.h" />
+    <ClInclude Include="CEngine.h" />
+    <ClInclude Include="CGraphics.h" />
+    <ClInclude Include="CItem.h" />
+    <ClInclude Include="CSomething.h" />
+    <ClInclude Include="CTexture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
