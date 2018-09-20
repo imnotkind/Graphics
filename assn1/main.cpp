@@ -14,11 +14,12 @@ using namespace std;
 CGraphics Graphics;
 CEngine Engine;
 
+
 void cb_draw(void) {
 
 	Graphics.M_Draw();
-	//glClear(GL_COLOR_BUFFER_BIT); move to graphics
-	//glFlush();
+	glClear(GL_COLOR_BUFFER_BIT);
+	glFlush();
 }
 void cb_key(unsigned char key, int x, int y)
 {
@@ -28,6 +29,7 @@ void cb_skey(int key, int x, int y)
 {
 	Engine.M_Event_KeyPress(key, true);
 }
+
 
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
