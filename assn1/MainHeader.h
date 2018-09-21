@@ -13,13 +13,17 @@
 #include <map>
 #include <string>
 
+
+
 #pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "freeglut.lib")
 #pragma comment(lib, "Opengl32.lib")
 
-using namespace std;
-
 #include "TVector.h"
+
+
+using namespace std;
+using namespace glm;
 
 typedef TVector<int, 2> T2Int;
 typedef TVector<int, 4> T4Int;
@@ -34,3 +38,5 @@ typedef int Type_Not_Determined;
 #define MC_In(a,b,x) (x <= b && x >= a)
 #define MC_R(x) ((int)((x)+0.5))
 #define CR_(x) const x&
+
+#define PI glm::pi<double>()

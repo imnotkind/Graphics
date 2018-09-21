@@ -9,12 +9,24 @@ CEngine Engine;
 CMath* CMath::Instance = NULL;
 map<int, CMessageQueue<SScriptMessage>*> CMessageQueue<SScriptMessage>::V_Multiton = map<int, CMessageQueue<SScriptMessage>*>();
 
-void cb_draw(void) {
+void cb_display(void) {
+	cout << "display" << endl;
 
-	Graphics.M_Draw();
 	glClear(GL_COLOR_BUFFER_BIT);
-	glFlush();
+
+	Graphics.M_RenderGame();
+
+	glutSwapBuffers();
 }
+
+void cb_reshape(int w, int h) {
+	cout << "reshape" << endl;
+
+	glViewport(0, 0, w, h);
+	glLoadIdentity(); 
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0); 
+}
+
 void cb_key(unsigned char key, int x, int y)
 {
 	Engine.M_Event_KeyPress(key, false);
@@ -27,20 +39,22 @@ void cb_skey(int key, int x, int y)
 
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(320, 320);
+	glutInitWindowSize(400, 400);
 	glutCreateWindow("Hello OpenGL");
+	
 
-	glutDisplayFunc(cb_draw);
+	glutDisplayFunc(cb_display);
+	glutReshapeFunc(cb_reshape);
 	glutKeyboardFunc(cb_key);
 	glutSpecialFunc(cb_skey);
 
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	
 	glewInit();
 
 	Graphics.M_Initialize();
-	Engine.M_Initialize();
+	//Engine.M_Initialize();
 
 	glutMainLoop();
 
