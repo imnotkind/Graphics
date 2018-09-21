@@ -7,6 +7,21 @@
     <Filter Include="Graphics">
       <UniqueIdentifier>{75334f49-91f5-4865-856d-d57c85ed5953}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Texture">
+      <UniqueIdentifier>{262517c3-cf85-4256-a12b-edbd4f220aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Something">
+      <UniqueIdentifier>{31cecfaf-c069-43dc-b3a8-6a80776ea383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Something\Character">
+      <UniqueIdentifier>{b4949669-84a4-4296-9c24-1d32e4dc9f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Something\Enemy">
+      <UniqueIdentifier>{2f76d61f-cc30-4237-b830-f21ef4cf39bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Something\Item">
+      <UniqueIdentifier>{dd1f180c-d136-4e49-9e89-b63bc13b56ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -16,6 +31,21 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CSomething.cpp">
+      <Filter>Engine\Something</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnemy.cpp">
+      <Filter>Engine\Something\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CItem.cpp">
+      <Filter>Engine\Something\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CCharacter.cpp">
+      <Filter>Engine\Something\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEngine.h">
@@ -23,6 +53,21 @@
     </ClInclude>
     <ClInclude Include="CGraphics.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CSomething.h">
+      <Filter>Engine\Something</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnemy.h">
+      <Filter>Engine\Something\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>Engine\Something\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CCharacter.h">
+      <Filter>Engine\Something\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
