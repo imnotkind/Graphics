@@ -72,17 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Lib\freeglut\include;$(SolutionDir)Lib\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Lib\freeglut\include;$(SolutionDir)Lib\glew-2.1.0\include;$(SolutionDir)Lib\glm-0.9.9.2;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Lib\glew-2.1.0\lib\Release\x64;$(SolutionDir)Lib\freeglut\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)\Lib\glew-2.1.0\include;$(SolutionDir)\Lib\freeglut\include;$(SolutionDir)Lib\glm-0.9.9.2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Lib\glew-2.1.0\lib\Release\Win32;$(SolutionDir)\Lib\freeglut\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)\Lib\glew-2.1.0\include;$(SolutionDir)\Lib\freeglut\include;$(SolutionDir)Lib\glm-0.9.9.2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Lib\glew-2.1.0\lib\Release\Win32;$(SolutionDir)\Lib\freeglut\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)Lib\freeglut\include;$(SolutionDir)Lib\glew-2.1.0\include;$(SolutionDir)Lib\glm-0.9.9.2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Lib\glew-2.1.0\lib\Release\x64;$(SolutionDir)Lib\freeglut\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
