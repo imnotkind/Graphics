@@ -6,6 +6,8 @@
 CGraphics Graphics;
 CEngine Engine;
 
+CMath* CMath::Instance = NULL;
+
 
 void cb_draw(void) {
 

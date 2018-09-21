@@ -3,6 +3,7 @@
 #include "CItem.h"
 #include "CEnemy.h"
 #include "TGrid.h"
+#include "CMath.h"
 
 #include <set>
 
@@ -16,9 +17,10 @@ class CEngine
 	friend CGraphics;
 
 	CCharacter V_Player;
-	set <CEnemy*> V_Enemies;
-	set <CItem*> V_Items;
+	set <unique_ptr<CEnemy>> V_Enemies;
+	set <unique_ptr<CItem>> V_Items;
 	
+	T2Int M_GetEmptyPlace(void);
 public:
 
 	void M_CollisionTest(void);

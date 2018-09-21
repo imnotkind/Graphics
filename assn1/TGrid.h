@@ -10,9 +10,11 @@ class TGrid
 {
 	vector<T> arr;
 	TVector<int, n> off;
-	TVector<int, n> size;
+	
 
 public:
+	TVector<int, n> size;
+
 	void resize(TVector<int, n> s, T v = T())
 	{
 		for (i = 0; i < n; i++) n *= s[i];

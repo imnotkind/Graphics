@@ -25,6 +25,9 @@
     <Filter Include="Helper">
       <UniqueIdentifier>{ee4f6eb3-8211-471a-a8f6-ac7aa042eb81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper\CMath">
+      <UniqueIdentifier>{aa64264c-f1a5-43ae-be7c-f5d8e4beb375}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -48,6 +51,9 @@
     </ClCompile>
     <ClCompile Include="CCharacter.cpp">
       <Filter>Engine\Something\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CMath.cpp">
+      <Filter>Helper\CMath</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="TVector.h">
       <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="CMath.h">
+      <Filter>Helper\CMath</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

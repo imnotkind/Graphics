@@ -1,0 +1,38 @@
+#pragma once
+#include "MainHeader.h"
+#include <cmath>
+#include <random>
+
+#define C_E (2.7182818284)
+
+class CMath
+{
+	mt19937 M_Random;
+	CMath() { M_Random.seed((unsigned int)time(NULL)); }
+	~CMath() {}
+	static CMath* Instance;
+
+public:
+	static CMath* getInstance(void)
+	{
+		if (Instance == NULL)Instance = new CMath;
+		return Instance;
+	}
+	static void freeInstance(void)
+	{
+		if (Instance) delete Instance;
+	}
+	//
+	double M_Num_dRandom(double min, double max);
+	double M_Num_Gaussian(double mean, double sigma);
+	int M_Num_iRandom(int min, int max);
+	int M_Num_Discretization(double src, double s, double e, int d);
+	//
+	double M_Func_Sigmoid(double r);
+	//
+	bool M_St_Frequency(double f); //decide 0 or 1 randomly
+
+};
+
+
+
