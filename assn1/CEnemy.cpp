@@ -2,11 +2,7 @@
 
 
 
-CEnemy::CEnemy()
+void CEnemy::M_Loop(double t)
 {
-}
 
-
-CEnemy::~CEnemy()
-{
 }

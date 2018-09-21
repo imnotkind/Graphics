@@ -4,7 +4,9 @@ class CEnemy :
 	public CSomething
 {
 public:
-	CEnemy();
-	virtual ~CEnemy();
+	virtual void M_Loop(double t);
+
+	CEnemy(T2Double p, Type_Not_Determined i, T4Int c, double r) : CSomething(p, i, c, r) {}
+	virtual ~CEnemy(){}
 };
 

@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CEnemy.cpp" />
     <ClCompile Include="CEngine.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CBullet.h" />
     <ClInclude Include="CCharacter.h" />
     <ClInclude Include="CEnemy.h" />
     <ClInclude Include="CEngine.h" />
@@ -167,8 +169,10 @@
     <ClInclude Include="CSomething.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="MainHeader.h" />
+    <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="TGrid.h" />
     <ClInclude Include="TVector.h" />
+    <ClInclude Include="TVector_speical.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

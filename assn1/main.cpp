@@ -7,7 +7,7 @@ CGraphics Graphics;
 CEngine Engine;
 
 CMath* CMath::Instance = NULL;
-
+map<int, CMessageQueue<SScriptMessage>*> CMessageQueue<SScriptMessage>::V_Multiton = map<int, CMessageQueue<SScriptMessage>*>();
 
 void cb_draw(void) {
 

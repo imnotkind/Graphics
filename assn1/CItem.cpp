@@ -1,12 +1,6 @@
 #include "CItem.h"
 
-
-
-CItem::CItem()
+void CItem::M_Loop(double t)
 {
-}
 
-
-CItem::~CItem()
-{
 }

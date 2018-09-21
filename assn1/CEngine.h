@@ -16,17 +16,18 @@ class CEngine
 	double M_Grid_Size;
 	friend CGraphics;
 
-	CCharacter V_Player;
-	set <unique_ptr<CEnemy>> V_Enemies;
-	set <unique_ptr<CItem>> V_Items;
+	shared_ptr<CCharacter> V_Player;
+	set <shared_ptr<CSomething>> V_Objects;
 	
+
 	T2Int M_GetEmptyPlace(void);
-	void M_MoveRequest(Vec2f d);
+	void M_MoveRequest(Vec2f d); //request for move character
 
 
 public:
 
 	void M_CollisionTest(void);
+	void M_Loop(void);
 
 	void M_Initialize(void);
 	void M_Event_KeyPress(int key, bool special);

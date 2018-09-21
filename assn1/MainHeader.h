@@ -1,12 +1,17 @@
 #pragma once
 
 #include <iostream>
+
+#include <memory>
+
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include <vector>
-#include <memory>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+
+#include <vector>
+#include <map>
+#include <string>
 
 #pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "freeglut.lib")
@@ -17,6 +22,7 @@ using namespace std;
 #include "TVector.h"
 
 typedef TVector<int, 2> T2Int;
+typedef TVector<int, 4> T4Int;
 
 typedef glm::vec2 Vec2f;
 typedef glm::ivec2 Vec2i;

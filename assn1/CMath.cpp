@@ -2,16 +2,6 @@
 
 
 
-CMath::CMath()
-{
-}
-
-
-CMath::~CMath()
-{
-}
-
-
 double CMath::M_Num_dRandom(double min, double max)
 {
 	uniform_real_distribution<double> dis(min, max);

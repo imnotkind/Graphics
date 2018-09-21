@@ -28,6 +28,9 @@
     <Filter Include="Helper\CMath">
       <UniqueIdentifier>{aa64264c-f1a5-43ae-be7c-f5d8e4beb375}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Something\Bullet">
+      <UniqueIdentifier>{7d033344-f6c7-45f2-88d0-40efa15b2b8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -54,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="CMath.cpp">
       <Filter>Helper\CMath</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>Engine\Something\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +95,15 @@
     </ClInclude>
     <ClInclude Include="CMath.h">
       <Filter>Helper\CMath</Filter>
+    </ClInclude>
+    <ClInclude Include="TVector_speical.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageQueue.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="CBullet.h">
+      <Filter>Engine\Something\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

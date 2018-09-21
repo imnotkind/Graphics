@@ -12,5 +12,5 @@ public:
 	T2Double(const TVector<double, 2>& x) { TVector<double, 2>::operator=(x); }
 	T2Double(const Vec2f& x) { (*this)[0] = x[0], (*this)[1] = x[1]; }
 	void operator=(const T2Double& x) { TVector<double, 2>::operator=(x); }
-	
+	Vec2f convert_gl(void) { return Vec2f((*this)[0], (*this)[1]); }
 };
