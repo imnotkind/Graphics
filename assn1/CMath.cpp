@@ -43,3 +43,14 @@ bool CMath::M_St_Frequency(double f)
 {
 	return M_Num_dRandom(0, 1) <= f;
 }
+
+T2Double CMath::M_2TV_Normalize(T2Double P)
+{
+	double d = sqrt(P[0] * P[0] + P[1] * P[1]);
+	return P * (1 / d);
+}
+T2Double CMath::M_2TV_Angle(T2Double Start, T2Double End)
+{
+	End -= Start;
+	return T2Double(atan2(End[1], End[0]), sqrt(End[0] * End[0] + End[1] * End[1]));
+}

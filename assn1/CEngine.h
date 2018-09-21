@@ -21,6 +21,9 @@ class CEngine
 	set <unique_ptr<CItem>> V_Items;
 	
 	T2Int M_GetEmptyPlace(void);
+	void M_MoveRequest(Vec2f d);
+
+
 public:
 
 	void M_CollisionTest(void);

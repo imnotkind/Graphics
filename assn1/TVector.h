@@ -118,3 +118,13 @@ public:
 	}
 };
 
+
+class T2Double : public TVector<double, 2>
+{
+public:
+	T2Double(void) {}
+	T2Double(double a, double b) { (*this)[0] = a, (*this)[1] = b; }
+	T2Double(const T2Double& x) { TVector<double, 2>::operator=(x); }
+	void operator=(const T2Double& x) { TVector<double, 2>::operator=(x); }
+
+};

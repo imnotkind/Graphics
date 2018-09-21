@@ -2,7 +2,7 @@
 #include "MainHeader.h"
 #include <cmath>
 #include <random>
-
+#include "TVector_speical.h"
 #define C_E (2.7182818284)
 
 class CMath
@@ -32,6 +32,9 @@ public:
 	//
 	bool M_St_Frequency(double f); //decide 0 or 1 randomly
 
+
+	T2Double M_2TV_Normalize(T2Double P);
+	T2Double M_2TV_Angle(T2Double Start, T2Double End); ///angle and distance
 };
 
 
