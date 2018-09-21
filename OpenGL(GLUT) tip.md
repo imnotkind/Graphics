@@ -98,7 +98,7 @@ glRectd(0, 0, 100, 33.3);
 
 이런 식의 코딩이 필요한데, 필연적으로 reshape과 display의 구조 개혁이 필요함(예시에서 나온 대로는 안 됨)
 
-
+`glutCreateSubWindow`를 이용한 코딩도 가능한듯, 추후 조사
 
 
 

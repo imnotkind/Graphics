@@ -28,6 +28,15 @@ glm::mat4 transform(glm::vec2 const& Orientation, glm::vec3 const& Translate, gl
 	return Proj * View * Model;
 }
 
+void renderBitmapCharacter(double x, double y, void *font, const char *string)
+{
+	const char *c;
+	glRasterPos2d(x, y);
+	for (c = string; *c != '\0'; c++)
+	{
+		glutBitmapCharacter(font, *c);
+	}
+}
 
 
 /*
@@ -81,10 +90,10 @@ void changeSize(int w, int h) {
 */
 
 typedef struct rect {
-	float x;
-	float y;
-	float width;
-	float height;
+	double x;
+	double y;
+	double width;
+	double height;
 } rect;
 rect rectangle = { 50,50,10,20 };
 
@@ -127,11 +136,13 @@ void display1() {
 
 	glColor3d(0, 0, 0);
 	glBegin(GL_LINE_LOOP);
-	glVertex2f(rectangle.x, rectangle.y);
-	glVertex2f(rectangle.x, rectangle.y + rectangle.height);
-	glVertex2f(rectangle.x + rectangle.width, rectangle.y + rectangle.height);
-	glVertex2f(rectangle.x + rectangle.width, rectangle.y);
+	glVertex2d(rectangle.x, rectangle.y);
+	glVertex2d(rectangle.x, rectangle.y + rectangle.height);
+	glVertex2d(rectangle.x + rectangle.width, rectangle.y + rectangle.height);
+	glVertex2d(rectangle.x + rectangle.width, rectangle.y);
 	glEnd();
+
+	renderBitmapCharacter(50, 50, GLUT_BITMAP_HELVETICA_18, "HELLO WORLD");
 
 	glutSwapBuffers();
 }
@@ -193,8 +204,8 @@ void display2() {
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < 50; i++) {
 		double theta = 2.0f * 3.1415926f * double(i) / double(50);//get the current angle 
-		double x = 30 * cosf(theta);//calculate the x component 
-		double y = 30 * sinf(theta);//calculate the y component 
+		double x = 30 * cosl(theta);//calculate the x component 
+		double y = 30 * sinl(theta);//calculate the y component 
 		glVertex2d(x + 50, y + 50);//output vertex 
 	}
 	glEnd();
@@ -209,6 +220,8 @@ void display2() {
 	glVertex2d(50, 0);
 	glVertex2d(50, 100);
 	glEnd();
+
+	renderBitmapCharacter(50, 50, GLUT_BITMAP_HELVETICA_18, "HELLO WORLD");
 
 	glutSwapBuffers();
 }
@@ -253,19 +266,20 @@ void skey1(int key, int x, int y)
 }
 
 
+
 int main(int argc, char **argv) {
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); //GLUT_DEPTH for 3D
 	glutInitWindowPosition(400, 400);
-	glutInitWindowSize(800, 400);
+	glutInitWindowSize(800, 800);
 	glutCreateWindow("Hello OpenGL");
 	glClearColor(1, 1, 1, 1); //only needed once actually if you're going to clear with the same color
 	glShadeModel(GL_FLAT);
 
 
-	glutReshapeFunc(reshape2);
-	glutDisplayFunc(display2);
+	glutReshapeFunc(reshape1);
+	glutDisplayFunc(display1);
 	glutIdleFunc(idle1);
 	glutKeyboardFunc(key1);
 	glutSpecialFunc(skey1);
