@@ -11,6 +11,15 @@ CEngine::~CEngine()
 {
 }
 
+void CEngine::M_ListenMessages(void)
+{
+	auto mq = SMQueue::M_GetSingletone(0);
+	auto m = mq->M_Pop();
+	if (m.type == "creation")
+	{
+		V_Objects.insert(shared_ptr<CSomething>((CSomething*)m.content));
+	}
+}
 void CEngine::M_MoveRequest(Vec2f d)
 {
 	for (int x = 0; x < V_Map.size[0]; x++)
@@ -40,8 +49,6 @@ void CEngine::M_Loop(void)
 		p->M_Loop(t);
 	}
 	V_Player->M_Loop(t);
-
-
 
 }
 void CEngine::M_Event_KeyPress(int key, bool special)
@@ -77,13 +84,13 @@ void CEngine::M_Initialize(void)
 	{
 		auto p = M_GetEmptyPlace();
 		V_Map[p] = 2;
-		auto q = V_Objects.insert(unique_ptr<CItem>(new CItem(T2Double(p[0], p[1]), 0, T4Int(255,255,255,255), 0.0)));
+		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]), 0, T4Int(255,255,255,255), 0.0)));
 	}
 	//place enemies
 	for (int i = 0; i < n_enm; i++)
 	{
 		auto p = M_GetEmptyPlace();
-		auto q = V_Objects.insert(unique_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]), 0, T4Int(255, 255, 255, 255), 0.0)));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]), 0, T4Int(255, 255, 255, 255), 0.0)));
 		//p.first->get()->~~ : some initialization
 	}
 

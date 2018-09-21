@@ -27,7 +27,9 @@ class CEngine
 public:
 
 	void M_CollisionTest(void);
+
 	void M_Loop(void);
+	void M_ListenMessages(void);
 
 	void M_Initialize(void);
 	void M_Event_KeyPress(int key, bool special);
