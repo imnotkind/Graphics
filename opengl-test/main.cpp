@@ -8,6 +8,16 @@
 // Include all GLM extensions
 #include <glm/ext.hpp> // perspective, translate, rotate
 
+
+#pragma comment(lib, "glew32.lib")
+#pragma comment(lib, "freeglut.lib")
+#pragma comment(lib, "Opengl32.lib")
+
+using namespace std;
+using namespace glm;
+
+
+
 glm::mat4 transform(glm::vec2 const& Orientation, glm::vec3 const& Translate, glm::vec3 const& Up)
 {
 	glm::mat4 Proj = glm::perspective(glm::radians(45.f), 1.33f, 0.1f, 10.f);
@@ -18,43 +28,255 @@ glm::mat4 transform(glm::vec2 const& Orientation, glm::vec3 const& Translate, gl
 	return Proj * View * Model;
 }
 
-#pragma comment(lib, "glew32.lib")
-#pragma comment(lib, "freeglut.lib")
-#pragma comment(lib, "Opengl32.lib")
 
-using namespace std;
+
+/*
+float angl = 0.0f;
 
 void renderScene(void) {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glFlush();
-}
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
-void myReshape(int w, int h) {
 	glLoadIdentity();
-	glViewport(0, 0, w, h); 
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+	gluLookAt(0.0f, 0.0f, 10.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f);
+
+	glRotatef(angl, 0.0f, 1.0f, 0.0f);
+
+	glBegin(GL_TRIANGLES);
+	glVertex3f(-2.0f, -2.0f, 0.0f);
+	glVertex3f(2.0f, 0.0f, 0.0);
+	glVertex3f(0.0f, 2.0f, 0.0);
+	glEnd();
+
+	angl += 0.1f;
+
+	glutSwapBuffers();
 }
 
-void display() {
+void changeSize(int w, int h) {
+
+	// Prevent a divide by zero, when window is too short
+	// (you cant make a window of zero width).
+	if (h == 0)
+		h = 1;
+	float ratio = 1.0* w / h;
+
+	// Use the Projection Matrix
+	glMatrixMode(GL_PROJECTION);
+
+	// Reset Matrix
+	glLoadIdentity();
+
+	// Set the viewport to be the entire window
+	glViewport(0, 0, w, h);
+
+	// Set the correct perspective.
+	gluPerspective(45, ratio, 0.1, 100);
+
+	// Get Back to the Modelview
+	glMatrixMode(GL_MODELVIEW);
+}
+
+*/
+
+typedef struct rect {
+	float x;
+	float y;
+	float width;
+	float height;
+} rect;
+rect rectangle = { 50,50,10,20 };
+
+void reshape1(int w, int h) {
+	cout << "reshapefunc1" << endl;
+
+	/*
+	glMatrixMode(GL_PROJECTION); //matrix mode switchnot needed in 2d
+	glLoadIdentity();
+
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	*/
+
+	//ordering essential
+	glViewport(0, 0, w, h);
+	glLoadIdentity(); //essential for reload
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0); //coordinate in virtual world
+}
+
+void display1() {
+	cout << "displayfunc1" << endl;
+
+
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.0, 1.0, 1.0);
-	glRectf(10.0, 10.0, 90.0, 90.0);
+
+	glColor3d(0, 1, 1);
+	glRectd(50, 0, 75, 100);
+
+	glColor3d(1, 1, 0);
+	glRectd(75, 0, 100, 100);
+
+	glColor3d(0, 0, 0);
+	glBegin(GL_TRIANGLES);
+	glVertex2d(-10, -10);
+	glVertex2d(10, 70);
+	glVertex2d(70, 10);
+	glEnd();
+
+	glColor3d(0, 0, 0);
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(rectangle.x, rectangle.y);
+	glVertex2f(rectangle.x, rectangle.y + rectangle.height);
+	glVertex2f(rectangle.x + rectangle.width, rectangle.y + rectangle.height);
+	glVertex2f(rectangle.x + rectangle.width, rectangle.y);
+	glEnd();
+
+	glutSwapBuffers();
+}
+
+//multiple viewport (screen split)
+int width;
+int height;
+void reshape2(int w, int h) {
+	cout << "reshapefunc2" << endl;
+
+	width = w;
+	height = h;
+
+
+
+}
+
+void display2() {
+	cout << "displayfunc1" << endl;
+
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glViewport(0, 0, width / 2, height / 2);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+	glColor3ub(0, 0, 255);
+	glRectd(0, 0, 33.3, 100);
+	glColor3ub(255, 255, 255);
+	glRectd(33.3, 0, 66.6, 100);
+	glColor3ub(255, 0, 0);
+	glRectd(66.6, 0, 99.9, 100);
+
+	glViewport(width / 2, 0, width / 2, height / 2);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+	glColor3ub(255, 204, 0);
+	glRectd(0, 0, 100, 33.3);
+	glColor3ub(255, 0, 0);
+	glRectd(0, 33.3, 100, 66.6);
+	glColor3ub(0, 0, 0);
+	glRectd(0, 66.6, 100, 99.9);
+
+	glViewport(0, height / 2, width / 2, height / 2);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+	glColor3ub(0, 255, 0);
+	glRectd(0, 0, 33.3, 100);
+	glColor3ub(255, 255, 255);
+	glRectd(33.3, 0, 66.6, 100);
+	glColor3ub(255, 0, 0);
+	glRectd(66.6, 0, 99.9, 100);
+
+	glViewport(width / 2, height / 2, width / 2, height / 2);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+	glColor3ub(255, 255, 255);
+	glRectd(0, 0, 100, 100);
+	glColor3ub(255, 0, 0);
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < 50; i++) {
+		double theta = 2.0f * 3.1415926f * double(i) / double(50);//get the current angle 
+		double x = 30 * cosf(theta);//calculate the x component 
+		double y = 30 * sinf(theta);//calculate the y component 
+		glVertex2d(x + 50, y + 50);//output vertex 
+	}
+	glEnd();
+
+	glViewport(0, 0, width, height);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+	glColor3ub(0, 0, 0);
+	glBegin(GL_LINES);
+	glVertex2d(0, 50);
+	glVertex2d(100, 50);
+	glVertex2d(50, 0);
+	glVertex2d(50, 100);
+	glEnd();
+
 	glutSwapBuffers();
 }
 
 
+
+void idle1() {
+	rectangle.x += 0.1;
+	rectangle.y += 0.1;
+
+	glutPostRedisplay();
+}
+
+void timer1(int value) { //auxiliary value, pass when registering callback
+	cout << "3 sec elapsed, aux value : " << value << endl;
+}
+
+void mouse1(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON)
+		cout << "left mouse ";
+	else if (button == GLUT_RIGHT_BUTTON)
+		cout << "right mouse ";
+	else if (button == GLUT_MIDDLE_BUTTON)
+		cout << "middle mouse ";
+
+	if (state == GLUT_UP)
+		cout << "UP";
+	else if (state == GLUT_DOWN)
+		cout << "DOWN";
+
+	cout << "(" << x << "," << y << ")" << endl;
+
+}
+
+void key1(unsigned char key, int x, int y)
+{
+	cout << "key : " << key << "// mousepos : (" << x << "," << y << ")" << endl;
+}
+void skey1(int key, int x, int y)
+{
+	cout << "specialkey : " << key << "// mousepos : (" << x << "," << y << ")" << endl;
+}
+
+
 int main(int argc, char **argv) {
+
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowPosition(200, 200);
-	glutInitWindowSize(770, 320);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); //GLUT_DEPTH for 3D
+	glutInitWindowPosition(400, 400);
+	glutInitWindowSize(800, 400);
 	glutCreateWindow("Hello OpenGL");
-	glutDisplayFunc(display);
-	glutReshapeFunc(myReshape);
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-	glewInit();
+	glClearColor(1, 1, 1, 1); //only needed once actually if you're going to clear with the same color
+	glShadeModel(GL_FLAT);
+
+
+	glutReshapeFunc(reshape2);
+	glutDisplayFunc(display2);
+	glutIdleFunc(idle1);
+	glutKeyboardFunc(key1);
+	glutSpecialFunc(skey1);
+	glutMouseFunc(mouse1);
+	glutTimerFunc(3000, timer1, 444);
+
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+		fprintf(stderr, "Glewinit Error: %s\n", glewGetErrorString(err));
+
+
 	glutMainLoop();
 
 	return 0;
