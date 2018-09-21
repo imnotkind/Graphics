@@ -15,3 +15,9 @@ void CEngine::M_Event_KeyPress(int key, bool special)
 {
 
 }
+
+void CEngine::M_Initialize(void)
+{
+	//TODO: load the map
+
+}

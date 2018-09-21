@@ -22,6 +22,9 @@
     <Filter Include="Engine\Something\Item">
       <UniqueIdentifier>{dd1f180c-d136-4e49-9e89-b63bc13b56ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{ee4f6eb3-8211-471a-a8f6-ac7aa042eb81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -68,6 +71,15 @@
     </ClInclude>
     <ClInclude Include="CCharacter.h">
       <Filter>Engine\Something\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="MainHeader.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="TGrid.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="TVector.h">
+      <Filter>Helper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
