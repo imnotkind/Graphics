@@ -31,6 +31,9 @@
     <Filter Include="Engine\Something\Bullet">
       <UniqueIdentifier>{7d033344-f6c7-45f2-88d0-40efa15b2b8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Handler">
+      <UniqueIdentifier>{b67628ca-033c-4304-907c-857e28039833}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -60,6 +63,9 @@
     </ClCompile>
     <ClCompile Include="CSomething.cpp">
       <Filter>Engine\Something\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CHandler.cpp">
+      <Filter>Handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="CBullet.h">
       <Filter>Engine\Something\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CHandler.h">
+      <Filter>Handler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
