@@ -13,6 +13,11 @@ CUserInput::~CUserInput()
 
 void CUserInput::M_PressDown(int key, bool special)
 {
+	if (V_pressingkeys.find(make_pair(key, special)) != V_pressingkeys.end())
+	{
+		return;
+	}
+
 	auto iq = SIQueue::M_GetSingletone(0);
 	SInputMessage s;
 	s.key = key;
@@ -20,7 +25,7 @@ void CUserInput::M_PressDown(int key, bool special)
 	s.type = "down";
 	iq->M_Push(s);
 
-	//TODO : record somewhere
+	V_pressingkeys.insert(make_pair(key,special));
 
 }
 void CUserInput::M_PressUp(int key, bool special)
@@ -32,10 +37,9 @@ void CUserInput::M_PressUp(int key, bool special)
 	s.type = "up";
 	iq->M_Push(s);
 
-	//TODO : record somewhere
+	V_pressingkeys.erase(make_pair(key, special));
 }
 bool CUserInput::M_IfPressed(int key, bool special)
 {
-	return false;
-	//TODO
+	return V_pressingkeys.find(make_pair(key, special)) != V_pressingkeys.end();
 }
