@@ -64,8 +64,6 @@ void cb_supkey(int key, int x, int y)
 
 int main(int argc, char **argv) {
 
-	CUserInput::getInstance();
-
 	glutInit(&argc, argv);
 	Graphics.M_Initialize(&Engine);
 
