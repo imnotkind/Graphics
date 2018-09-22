@@ -25,12 +25,6 @@ void cb_reshape(int w, int h)
 
 void cb_idle()
 {
-	/*
-	auto iq = CUserInput::getInstance();
-	for (auto i = iq->V_pressingkeys.begin(); i != iq->V_pressingkeys.end(); i++)
-		cout << i->first << i->second ;
-	cout << endl;
-	*/
 	Graphics.M_CallbackIdle();
 	Engine.M_Loop();
 }
@@ -38,6 +32,7 @@ void cb_idle()
 void cb_key(unsigned char key, int x, int y)
 {
 	//cout << key << endl;
+	Graphics.M_ChangeCamera(Vec2d(-100, -100), Vec2d(200, 200));
 	auto iq = CUserInput::getInstance();
 	iq->M_PressDown(key, false);
 }
@@ -47,14 +42,14 @@ void cb_skey(int key, int x, int y)
 	auto iq = CUserInput::getInstance();
 	iq->M_PressDown(key, true);
 }
-void cb_upkey(unsigned char key, int x, int y)
+void cb_keyup(unsigned char key, int x, int y)
 {
 	//cout << "up: " << key << endl;
 	auto iq = CUserInput::getInstance();
 	iq->M_PressUp(key, false);
 
 }
-void cb_supkey(int key, int x, int y)
+void cb_skeyup(int key, int x, int y)
 {
 	//cout << "up : " << key << endl;
 	auto iq = CUserInput::getInstance();
@@ -72,8 +67,8 @@ int main(int argc, char **argv) {
 	glutIdleFunc(cb_idle);
 	glutKeyboardFunc(cb_key);
 	glutSpecialFunc(cb_skey);
-	glutKeyboardUpFunc(cb_upkey);
-	glutSpecialUpFunc(cb_supkey);
+	glutKeyboardUpFunc(cb_keyup);
+	glutSpecialUpFunc(cb_skeyup);
 	
 	glewInit();
 

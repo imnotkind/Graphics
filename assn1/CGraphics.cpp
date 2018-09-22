@@ -64,7 +64,7 @@ void CGraphics::M_CallbackDisplay()
 
 	M_DrawLine(Vec2d(0, 50), Vec2d(100, 50), T4Int(255, 0, 0, 255));
 	M_DrawLine(Vec2d(50, 0), Vec2d(50, 100), T4Int(255, 0, 0, 255));
-	M_DrawFont(Vec2d(50, 50), "HELLO WORLD", T4Int(0, 255, 0, 105));
+	M_DrawFont(Vec2d(50, 96), "HELLO WORLD", T4Int(0, 255, 0, 105));
 
 	RenderGame();
 
@@ -131,6 +131,7 @@ void CGraphics::M_DrawPolygon(Vec2d p, double r, int bump, double rotate, T4Int 
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 {
 	//CAUTION : Font size does not get influenced by screen size
+	//Font position is world coordinate
 	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
 	glRasterPos2d(p[0], p[1]);
 	for (int i=0; i < str.length(); i++)
