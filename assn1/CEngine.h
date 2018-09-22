@@ -14,7 +14,7 @@ class CEngine : public CHandler
 {
 	
 
-	double M_Grid_Size;
+	double V_Grid_Size;
 	friend CGraphics;
 
 	shared_ptr<CCharacter> V_Player;

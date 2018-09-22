@@ -4,12 +4,6 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{cc69111b-59a7-48c5-a370-1b8d80d2bd63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{75334f49-91f5-4865-856d-d57c85ed5953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Texture">
-      <UniqueIdentifier>{262517c3-cf85-4256-a12b-edbd4f220aca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Something">
       <UniqueIdentifier>{31cecfaf-c069-43dc-b3a8-6a80776ea383}</UniqueIdentifier>
     </Filter>
@@ -37,17 +31,23 @@
     <Filter Include="Helper\CError">
       <UniqueIdentifier>{8140ad51-3f74-45f1-af41-2ed13a32b818}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{75334f49-91f5-4865-856d-d57c85ed5953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Texture">
+      <UniqueIdentifier>{262517c3-cf85-4256-a12b-edbd4f220aca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="CGraphics.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CTexture.cpp">
-      <Filter>Graphics\Texture</Filter>
+      <Filter>Engine\Graphics\Texture</Filter>
     </ClCompile>
     <ClCompile Include="CEnemy.cpp">
       <Filter>Engine\Something\Enemy</Filter>
@@ -79,10 +79,10 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="CGraphics.h">
-      <Filter>Graphics</Filter>
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="CTexture.h">
-      <Filter>Graphics\Texture</Filter>
+      <Filter>Engine\Graphics\Texture</Filter>
     </ClInclude>
     <ClInclude Include="CSomething.h">
       <Filter>Engine\Something</Filter>

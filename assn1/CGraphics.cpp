@@ -12,7 +12,7 @@ CGraphics::~CGraphics()
 
 void CGraphics::RenderGame(void)
 {
-	double gsize = V_PEngine->M_Grid_Size;
+	double gsize = V_PEngine->V_Grid_Size;
 	auto s = V_PEngine->V_Map.size;
 	for (int i = 0; i < s[0]; i++)
 	{
@@ -22,7 +22,7 @@ void CGraphics::RenderGame(void)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
 				cen[0] += gsize * 0.5; cen[1] += gsize * 0.5;
-				M_DrawPolygon(cen.convert_gl(), gsize * PI / 2, 4, 0);
+				M_DrawPolygon(cen.convert_gl(), gsize * PI / 2, 4, DTR(45), T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -55,7 +55,6 @@ void CGraphics::M_CallbackDisplay()
 
 	M_DrawLine(Vec2d(0, 50), Vec2d(100, 50), T4Int(255, 0, 0, 255));
 	M_DrawLine(Vec2d(50, 0), Vec2d(50, 100), T4Int(255, 0, 0, 255));
-
 	M_DrawFont(Vec2d(50, 50), "HELLO WORLD", T4Int(0, 255, 0, 105));
 
 	RenderGame();

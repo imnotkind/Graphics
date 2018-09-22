@@ -25,7 +25,7 @@ void CEngine::M_ReadMap(string path)
 		if (s.size() != w) CError("Invliad map data format", true);
 		for (int j = 0; j < w; j++)
 		{
-			V_Map[T2Int(j, i)] = s[j];
+			V_Map[T2Int(j, i)] = s[j] - '0';
 		}
 	}
 }
@@ -52,9 +52,9 @@ void CEngine::M_MoveRequest(T2Double d)
 		{
 			if (V_Map[T2Int(x, y)] == 1) // wall
 			{
-				T2Double cen = T2Double(x, y)*M_Grid_Size;
-				cen[0] += M_Grid_Size * 0.5; cen[1] += M_Grid_Size * 0.5;
-				T2Double wh = T2Double(M_Grid_Size, M_Grid_Size);
+				T2Double cen = T2Double(x, y)*V_Grid_Size;
+				cen[0] += V_Grid_Size * 0.5; cen[1] += V_Grid_Size * 0.5;
+				T2Double wh = T2Double(V_Grid_Size, V_Grid_Size);
 
 				if (V_Math->M_CircleRectCollisionTest(p, r, cen, wh)) //if the request is onto not movable place
 				{
@@ -81,10 +81,10 @@ void CEngine::M_Event_KeyPress(int key, bool special)
 {
 	if (special)
 	{
-		if (key == GLUT_KEY_DOWN) M_MoveRequest(T2Double(0, -M_Grid_Size * 0.1));
-		if (key == GLUT_KEY_UP) M_MoveRequest(T2Double(0, M_Grid_Size * 0.1));
-		if (key == GLUT_KEY_LEFT) M_MoveRequest(T2Double(-M_Grid_Size * 0.1, 0));
-		if (key == GLUT_KEY_RIGHT) M_MoveRequest(T2Double(M_Grid_Size * 0.1, 0));
+		if (key == GLUT_KEY_DOWN) M_MoveRequest(T2Double(0, -V_Grid_Size * 0.1));
+		if (key == GLUT_KEY_UP) M_MoveRequest(T2Double(0, V_Grid_Size * 0.1));
+		if (key == GLUT_KEY_LEFT) M_MoveRequest(T2Double(-V_Grid_Size * 0.1, 0));
+		if (key == GLUT_KEY_RIGHT) M_MoveRequest(T2Double(V_Grid_Size * 0.1, 0));
 	}
 	else
 	{
@@ -106,6 +106,8 @@ T2Int CEngine::M_GetEmptyPlace(void)
 }
 void CEngine::M_Initialize(void)
 {
+
+	V_Grid_Size = 6.0;
 	
 	M_ReadMap("map.txt");
 

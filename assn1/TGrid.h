@@ -17,8 +17,9 @@ public:
 
 	void resize(TVector<int, n> s, T v = T())
 	{
-		//for (i = 0; i < n; i++) n *= s[i];
-		arr.resize(n, v);
+		int ff = 1;
+		for (int i = 0; i < n; i++) ff *= s[i];
+		arr.resize(ff, v);
 		size = s;
 
 		// making offset table
