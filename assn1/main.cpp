@@ -32,7 +32,6 @@ void cb_idle()
 void cb_key(unsigned char key, int x, int y)
 {
 	//cout << key << endl;
-	Graphics.M_ChangeCamera(Vec2d(-100, -100), Vec2d(200, 200));
 	auto iq = CUserInput::getInstance();
 	iq->M_PressDown(key, false);
 }

@@ -41,8 +41,9 @@ void CGraphics::RenderGame(void)
 void CGraphics::M_Initialize(CEngine * P)
 {
 	V_PEngine = P;
-	V_Camera_p1 = Vec2d(0, 0);
-	V_Camera_p2 = Vec2d(100, 100);
+	V_Camera_Pos = T2Double(0, 0);
+	V_Camera_Height = 80;
+	V_Camera_Speed.set(0.0, 0.0);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
@@ -54,10 +55,30 @@ void CGraphics::M_Initialize(CEngine * P)
 	glEnable(GL_BLEND);
 }
 
+void CGraphics::M_MoveCamera(void)
+{
+	auto p = V_PEngine->V_Player->M_GetPosition();
+	auto c = V_Camera_Pos;
+	
+	auto a = p - c;
+	a = V_Math->M_2TV_Normalize(a);
+	auto d = V_Math->M_2TV_Angle(p, c);
+	a *=  + d[1];
+	a *= 0.001;
+
+	V_Camera_Speed *= 0.9;
+	V_Camera_Speed += a;
+	V_Camera_Pos += V_Camera_Speed;
+
+}
 void CGraphics::M_CallbackDisplay()
 {
+	M_MoveCamera();
+
 	glLoadIdentity();
-	gluOrtho2D(V_Camera_p1[0], V_Camera_p2[0], V_Camera_p1[1], V_Camera_p2[1]);
+
+	gluOrtho2D(V_Camera_Pos[0] - V_Camera_Height, V_Camera_Pos[0] + V_Camera_Height,
+		V_Camera_Pos[1] - V_Camera_Height, V_Camera_Pos[1] + V_Camera_Height);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -140,13 +161,4 @@ void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 	{
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str.at(i));
 	}
-}
-
-
-void CGraphics::M_ChangeCamera(Vec2d p1, Vec2d p2)
-{
-	cout << "changecam" << endl;
-	V_Camera_p1 = p1;
-	V_Camera_p2 = p2;
-
 }

@@ -66,6 +66,15 @@ public:
 		}
 		return K;
 	}
+	TVector<T, n> operator-(const TVector<T, n>& P)
+	{
+		TVector<T, n> K;
+		for (int i = 0; i < n; i++)
+		{
+			K[i] = (*this)[i] - P[i];
+		}
+		return K;
+	}
 	TVector<T, n> operator*(double t)
 	{
 		TVector<T, n> K;
