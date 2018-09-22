@@ -56,6 +56,9 @@ void CGraphics::M_Initialize(CEngine * P)
 
 void CGraphics::M_CallbackDisplay()
 {
+	glLoadIdentity();
+	gluOrtho2D(V_Camera_p1[0], V_Camera_p2[0], V_Camera_p1[1], V_Camera_p2[1]);
+
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	M_DrawPolygon(Vec2d(25,25), 50, 3, 0.25*PI, T4Int(0, 0, 0, 205));
@@ -78,8 +81,7 @@ void CGraphics::M_CallbackReshape(int w, int h)
 
 void CGraphics::M_CallbackIdle()
 {
-	glLoadIdentity();
-	gluOrtho2D(V_Camera_p1[0], V_Camera_p2[0], V_Camera_p1[1], V_Camera_p2[1]);
+	
 	glutPostRedisplay();
 }
 
