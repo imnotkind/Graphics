@@ -17,7 +17,7 @@ public:
 
 	void resize(TVector<int, n> s, T v = T())
 	{
-		for (i = 0; i < n; i++) n *= s[i];
+		//for (i = 0; i < n; i++) n *= s[i];
 		arr.resize(n, v);
 		size = s;
 

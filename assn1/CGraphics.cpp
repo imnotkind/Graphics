@@ -12,8 +12,9 @@ CGraphics::~CGraphics()
 
 void CGraphics::M_Initialize(CEngine * P)
 {
-	V_PEngine = P;
-
+	this->V_PEngine = P;
+	this->V_Camera_p1 = Vec2d(-20, -20);
+	this->V_Camera_p2 = Vec2d(80, 80);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(400, 400);
@@ -46,7 +47,7 @@ void CGraphics::M_CallbackReshape(int w, int h)
 {
 	glViewport(0, 0, w, h);
 	glLoadIdentity();
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+	gluOrtho2D(V_Camera_p1[0], V_Camera_p2[0], V_Camera_p1[1], V_Camera_p2[1]);
 }
 
 void CGraphics::M_CallbackIdle()
@@ -92,4 +93,13 @@ void CGraphics::M_DrawFont(Vec2d p, const char *string)
 	{
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
 	}
+}
+
+
+void CGraphics::M_ChangeCamera(Vec2d p1, Vec2d p2)
+{
+	cout << "changecam" << endl;
+	this->V_Camera_p1 = p1;
+	this->V_Camera_p2 = p2;
+
 }
