@@ -16,8 +16,10 @@ void CGraphics::M_Initialize()
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(400, 400);
 	glutCreateWindow("Hello OpenGL");
-	glClearColor(1, 1, 1, 1);
+	glClearColor(1, 1, 1, 1); //background white
 	glShadeModel(GL_FLAT);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 }
 
 void CGraphics::M_CallbackDisplay()
@@ -25,14 +27,13 @@ void CGraphics::M_CallbackDisplay()
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glColor3ub(0, 0, 0);
-	this->M_DrawPolygon(Vec2d(25,25), 25, 3, 0.5*PI);
-	this->M_DrawPolygon(Vec2d(25, 75), 25, 4, 0);
-	this->M_DrawPolygon(Vec2d(75, 25), 25, 5, 0.5*PI);
-	this->M_DrawPolygon(Vec2d(75, 75), 25, 100, 0);
+	glColor4ub(0, 0, 0, 205);
+	this->M_DrawPolygon(Vec2d(25,25), 50, 3, 0.25*PI);
+	this->M_DrawPolygon(Vec2d(25, 75), 50, 4, 0);
+	//this->M_DrawPolygon(Vec2d(75, 25), 25, 5, 0.5*PI);
+	//this->M_DrawPolygon(Vec2d(75, 75), 25, 100, 0);
 
-	glColor3ub(255, 0, 0);
-	
+	glColor4ub(255, 0, 0 , 205);
 	this->M_DrawLine(Vec2d(0, 50), Vec2d(100, 50));
 	this->M_DrawLine(Vec2d(50, 0), Vec2d(50, 100));
 
