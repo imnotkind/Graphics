@@ -10,6 +10,12 @@ CGraphics::~CGraphics()
 {
 }
 
+void CGraphics::RenderGame(void)
+{
+	
+}
+
+
 void CGraphics::M_Initialize(CEngine * P)
 {
 	this->V_PEngine = P;
@@ -39,6 +45,8 @@ void CGraphics::M_CallbackDisplay()
 	glColor4ub(255, 0, 0 , 205);
 	this->M_DrawLine(Vec2d(0, 50), Vec2d(100, 50));
 	this->M_DrawLine(Vec2d(50, 0), Vec2d(50, 100));
+
+	RenderGame();
 
 	glutSwapBuffers();
 }

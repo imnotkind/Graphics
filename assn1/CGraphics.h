@@ -8,6 +8,9 @@ class CGraphics
 	CEngine * V_PEngine;
 	Vec2d V_Camera_p1; //bottom left point of rect
 	Vec2d V_Camera_p2; //top right point of rect
+
+	void RenderGame(void);
+
 public:
 	void M_CallbackDisplay();
 	void M_CallbackReshape(int w, int h);
