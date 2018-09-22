@@ -46,7 +46,7 @@ void CGraphics::M_Initialize(CEngine * P)
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(1024, 768);
+	glutInitWindowSize(1080, 1080);
 	glutCreateWindow("Hello OpenGL");
 	glClearColor(1, 1, 1, 1); //background white
 	glShadeModel(GL_FLAT);
