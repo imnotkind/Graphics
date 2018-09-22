@@ -11,11 +11,21 @@ struct SScriptMessage
 };
 typedef CMessageQueue<SScriptMessage> SMQueue;
 
+struct SDrawData
+{
+	T2Double pos;
+	int img;
+	T4Int color;
+	double rotate;
+	double size;
+};
+
+
 class CSomething
 {
 protected:
 	T2Double V_Position;
-	Type_Not_Determined V_Image;
+	int V_Image;
 	T4Int V_Color;
 
 	double V_Rotate;
@@ -29,7 +39,9 @@ public:
 	T2Double M_GetPosition(void) { return V_Position; }
 	double M_GetRadius(void) { return V_Radius; }
 
-	CSomething(T2Double p, Type_Not_Determined i, T4Int c, double r) : V_Position(p), V_Image(i), V_Color(c), V_Radius(r) {}
+	SDrawData M_GetDrawData(void);
+
+	CSomething(T2Double p, int i, T4Int c, double r, double rot) : V_Position(p), V_Image(i), V_Color(c), V_Radius(r), V_Rotate(rot) { }
 
 	~CSomething();
 };

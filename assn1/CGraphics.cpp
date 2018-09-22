@@ -12,6 +12,7 @@ CGraphics::~CGraphics()
 
 void CGraphics::RenderGame(void)
 {
+	//render map
 	double gsize = V_PEngine->V_Grid_Size;
 	auto s = V_PEngine->V_Map.size;
 	for (int i = 0; i < s[0]; i++)
@@ -21,11 +22,19 @@ void CGraphics::RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				cen[0] += gsize * 0.5; cen[1] += gsize * 0.5;
-				M_DrawPolygon(cen.convert_gl(), gsize * PI / 2, 4, DTR(45), T4Int(125, 30, 255, 255));
+				M_DrawPolygon(cen.convert_gl(), gsize * sqrt(2) / 2, 4, DTR(45), T4Int(125, 30, 255, 255));
 			}
 		}
 	}
+
+	//render player
+	for (auto x : V_PEngine->V_Objects)
+	{
+		auto d = x->M_GetDrawData();
+		M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
+	}
+	auto d = V_PEngine->V_Player->M_GetDrawData();
+	M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
 }
 
 

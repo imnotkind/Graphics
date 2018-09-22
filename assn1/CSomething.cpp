@@ -13,3 +13,14 @@ void CSomething::M_Move(T2Double d)
 	V_Position += d;
 	
 }
+
+SDrawData CSomething::M_GetDrawData(void)
+{
+	SDrawData S;
+	S.pos = V_Position;
+	S.color = V_Color;
+	S.img = V_Image;
+	S.rotate = V_Rotate;
+	S.size = V_Radius * 1.5;
+	return S;
+}

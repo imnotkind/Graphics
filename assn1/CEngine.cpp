@@ -53,7 +53,6 @@ void CEngine::M_MoveRequest(T2Double d)
 			if (V_Map[T2Int(x, y)] == 1) // wall
 			{
 				T2Double cen = T2Double(x, y)*V_Grid_Size;
-				cen[0] += V_Grid_Size * 0.5; cen[1] += V_Grid_Size * 0.5;
 				T2Double wh = T2Double(V_Grid_Size, V_Grid_Size);
 
 				if (V_Math->M_CircleRectCollisionTest(p, r, cen, wh)) //if the request is onto not movable place
@@ -114,19 +113,20 @@ void CEngine::M_Initialize(void)
 	int n_enm = V_Max_Enemies;
 	int n_itm = V_Max_Items;
 
+	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 2, T4Int(255, 0, 0, 255), V_Grid_Size * 0.3));
 
 	//place items
 	for (int i = 0; i < n_itm; i++)
 	{
 		auto p = M_GetEmptyPlace();
 		V_Map[p] = 2;
-		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]), 0, T4Int(255,255,255,255), 0.0)));
+		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 0, T4Int(0,255,255,255), V_Grid_Size * 0.3)));
 	}
 	//place enemies
 	for (int i = 0; i < n_enm; i++)
 	{
 		auto p = M_GetEmptyPlace();
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]), 1, T4Int(255, 255, 255, 255), 0.0)));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3)));
 		//p.first->get()->~~ : some initialization
 	}
 
