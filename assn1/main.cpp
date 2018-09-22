@@ -25,8 +25,8 @@ void cb_reshape(int w, int h)
 
 void cb_idle()
 {
-	auto iq = CUserInput::getInstance();
 	/*
+	auto iq = CUserInput::getInstance();
 	for (auto i = iq->V_pressingkeys.begin(); i != iq->V_pressingkeys.end(); i++)
 		cout << i->first << i->second ;
 	cout << endl;

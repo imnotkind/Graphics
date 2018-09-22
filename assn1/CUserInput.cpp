@@ -13,7 +13,7 @@ CUserInput::~CUserInput()
 
 void CUserInput::M_PressDown(int key, bool special)
 {
-	if (V_pressingkeys.find(make_pair(key, special)) != V_pressingkeys.end())
+	if (M_IfPressed(key, special))
 	{
 		return;
 	}
