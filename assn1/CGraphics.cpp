@@ -12,7 +12,20 @@ CGraphics::~CGraphics()
 
 void CGraphics::RenderGame(void)
 {
-	
+	double gsize = V_PEngine->M_Grid_Size;
+	auto s = V_PEngine->V_Map.size;
+	for (int i = 0; i < s[0]; i++)
+	{
+		for (int j = 0; j < s[1]; j++)
+		{
+			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
+			{
+				T2Double cen = T2Double(i, j)*gsize;
+				cen[0] += gsize * 0.5; cen[1] += gsize * 0.5;
+				M_DrawPolygon(cen.convert_gl(), gsize * PI / 2, 4, 0);
+			}
+		}
+	}
 }
 
 

@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
 	glewInit();
 
 	
-	//Engine.M_Initialize();
+	Engine.M_Initialize();
 
 	glutMainLoop();
 

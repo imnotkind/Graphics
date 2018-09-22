@@ -64,14 +64,14 @@
     <ClCompile Include="CBullet.cpp">
       <Filter>Engine\Something\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="CSomething.cpp">
-      <Filter>Engine\Something\Item</Filter>
-    </ClCompile>
     <ClCompile Include="CHandler.cpp">
       <Filter>Handler</Filter>
     </ClCompile>
     <ClCompile Include="CError.cpp">
       <Filter>Helper\CError</Filter>
+    </ClCompile>
+    <ClCompile Include="CSomething.cpp">
+      <Filter>Engine\Something</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
