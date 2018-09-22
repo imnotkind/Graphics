@@ -13,10 +13,10 @@ typedef CMessageQueue<SInputMessage> SIQueue;
 class CUserInput : public CHandler
 {
 	static CUserInput* Instance;
-	
+	set<pair<int, bool>> V_pressingkeys;
 	CUserInput();
 public:
-	set<pair<int,bool>> V_pressingkeys;
+	
 
 	static CUserInput* getInstance(void)
 	{
