@@ -37,6 +37,9 @@
     <Filter Include="Engine\Graphics\Texture">
       <UniqueIdentifier>{262517c3-cf85-4256-a12b-edbd4f220aca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\UserInput">
+      <UniqueIdentifier>{b40f2e8c-bf1d-4b7a-909c-efbedbe82687}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -72,6 +75,9 @@
     </ClCompile>
     <ClCompile Include="CSomething.cpp">
       <Filter>Engine\Something</Filter>
+    </ClCompile>
+    <ClCompile Include="CUserInput.cpp">
+      <Filter>Engine\UserInput</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="CSomething.h">
       <Filter>Engine\Something</Filter>
+    </ClInclude>
+    <ClInclude Include="CUserInput.h">
+      <Filter>Engine\UserInput</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

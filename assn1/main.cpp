@@ -7,8 +7,10 @@ CGraphics Graphics;
 CEngine Engine;
 
 CMath* CMath::Instance = NULL;
-map<int, CMessageQueue<SScriptMessage>*> CMessageQueue<SScriptMessage>::V_Multiton = map<int, CMessageQueue<SScriptMessage>*>();
+CUserInput* CUserInput::Instance = NULL;
 
+map<int, CMessageQueue<SScriptMessage>*> CMessageQueue<SScriptMessage>::V_Multiton = map<int, CMessageQueue<SScriptMessage>*>();
+map<int, CMessageQueue<SInputMessage>*> CMessageQueue<SInputMessage>::V_Multiton = map<int, CMessageQueue<SInputMessage>*>();
 
 void cb_display()
 {
@@ -24,18 +26,20 @@ void cb_reshape(int w, int h)
 void cb_idle()
 {
 	Graphics.M_CallbackIdle();
+	Engine.M_Loop();
 }
 
 void cb_key(unsigned char key, int x, int y)
 {
 	cout << key << endl;
-	Graphics.M_ChangeCamera(Vec2d(-50, -50), Vec2d(200, 200));
-	Engine.M_Event_KeyPress(key, false);
+	auto iq = CUserInput::getInstance();
+	//TODO
 }
 void cb_skey(int key, int x, int y)
 {
 	cout << key << endl;
-	Engine.M_Event_KeyPress(key, true);
+	auto iq = CUserInput::getInstance();
+	//TODO
 }
 
 

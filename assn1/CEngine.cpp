@@ -32,7 +32,7 @@ void CEngine::M_ReadMap(string path)
 void CEngine::M_ListenMessages(void)
 {
 	auto mq = SMQueue::M_GetSingletone(0);
-	while (mq->M_Empty()) 
+	while (!mq->M_Empty()) 
 	{
 		auto m = mq->M_Pop();
 		if (m.type == "creation") // object creation request
@@ -63,6 +63,8 @@ void CEngine::M_MoveRequest(T2Double d)
 		}
 	}
 	V_Player->M_Move(d);
+
+	
 }
 void CEngine::M_Loop(void)
 {
@@ -74,6 +76,7 @@ void CEngine::M_Loop(void)
 		p->M_Loop(t);
 	}
 	V_Player->M_Loop(t);
+	M_ListenMessages();
 
 }
 void CEngine::M_Event_KeyPress(int key, bool special)
@@ -87,7 +90,7 @@ void CEngine::M_Event_KeyPress(int key, bool special)
 	}
 	else
 	{
-		if (key == 20) V_Player->M_Fire(); // Space bar
+		if (key == 32) V_Player->M_Fire(); // Space bar
 	}
 }
 T2Int CEngine::M_GetEmptyPlace(void)

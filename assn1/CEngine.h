@@ -4,6 +4,8 @@
 #include "CEnemy.h"
 #include "TGrid.h"
 #include "CHandler.h"
+
+#include "CUserInput.h"
 #include <fstream>
 
 #include <set>

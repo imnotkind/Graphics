@@ -158,6 +158,7 @@
     <ClCompile Include="CMath.cpp" />
     <ClCompile Include="CSomething.cpp" />
     <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CUserInput.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="CMath.h" />
     <ClInclude Include="CSomething.h" />
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CUserInput.h" />
     <ClInclude Include="MainHeader.h" />
     <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="TGrid.h" />
