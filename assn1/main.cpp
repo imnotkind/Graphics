@@ -30,7 +30,7 @@ void cb_idle()
 void cb_key(unsigned char key, int x, int y)
 {
 	cout << key << endl;
-	Graphics.M_ChangeCamera(Vec2d(-20, -20), Vec2d(80, 80));
+	Graphics.M_ChangeCamera(Vec2d(-50, -50), Vec2d(200, 200));
 	Engine.M_Event_KeyPress(key, false);
 }
 void cb_skey(int key, int x, int y)
