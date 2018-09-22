@@ -86,6 +86,10 @@ void CEngine::M_Event_KeyPress(int key, bool special)
 		if (key == GLUT_KEY_LEFT) M_MoveRequest(T2Double(-M_Grid_Size * 0.1, 0));
 		if (key == GLUT_KEY_RIGHT) M_MoveRequest(T2Double(M_Grid_Size * 0.1, 0));
 	}
+	else
+	{
+		if (key == 20) V_Player->M_Fire(); // Space bar
+	}
 }
 T2Int CEngine::M_GetEmptyPlace(void)
 {

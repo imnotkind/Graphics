@@ -10,8 +10,10 @@ CGraphics::~CGraphics()
 {
 }
 
-void CGraphics::M_Initialize()
+void CGraphics::M_Initialize(CEngine * P)
 {
+	V_PEngine = P;
+
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(400, 400);

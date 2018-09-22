@@ -1,8 +1,11 @@
 #pragma once
 #include "MainHeader.h"
 #include "CGraphics.h"
+#include "CEngine.h"
+
 class CGraphics
 {
+	CEngine * V_PEngine;
 public:
 	void M_CallbackDisplay();
 	void M_CallbackReshape(int w, int h);
@@ -15,7 +18,7 @@ public:
 	CGraphics();
 	~CGraphics();
 
-	void M_Initialize();
+	void M_Initialize(CEngine * P);
 
 	
 };

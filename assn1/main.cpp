@@ -37,7 +37,7 @@ void cb_skey(int key, int x, int y)
 int main(int argc, char **argv) {
 
 	glutInit(&argc, argv);
-	Graphics.M_Initialize();
+	Graphics.M_Initialize(&Engine);
 
 	glutDisplayFunc(cb_display);
 	glutReshapeFunc(cb_reshape);
