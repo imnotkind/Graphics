@@ -80,8 +80,9 @@ void CGraphics::M_CallbackReshape(int w, int h)
 
 void CGraphics::M_CallbackIdle()
 {
-
-	//glutPostRedisplay();
+	glLoadIdentity();
+	gluOrtho2D(V_Camera_p1[0], V_Camera_p2[0], V_Camera_p1[1], V_Camera_p2[1]);
+	glutPostRedisplay();
 }
 
 void CGraphics::M_DrawLine(Vec2d p1, Vec2d p2, T4Int rgba)
@@ -147,7 +148,4 @@ void CGraphics::M_ChangeCamera(Vec2d p1, Vec2d p2)
 	V_Camera_p1 = p1;
 	V_Camera_p2 = p2;
 
-	glLoadIdentity();
-	gluOrtho2D(V_Camera_p1[0], V_Camera_p2[0], V_Camera_p1[1], V_Camera_p2[1]);
-	glutPostRedisplay();
 }
