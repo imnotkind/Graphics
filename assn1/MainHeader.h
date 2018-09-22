@@ -26,6 +26,7 @@ using namespace std;
 using namespace glm;
 
 typedef TVector<int, 2> T2Int;
+typedef TVector<int, 3> T3Int;
 typedef TVector<int, 4> T4Int;
 
 typedef glm::ivec2 Vec2i;

@@ -7,6 +7,6 @@ CError::CError(string message, bool critical)
 	cout << "ERROR! : " << message << endl;
 	if (critical)
 	{
-		Sleep(10000000000);
+		Sleep(1000000);
 	}
 }
