@@ -1,5 +1,6 @@
 #pragma once
 #include "CMath.h"
+#include "CError.h"
 class CHandler
 {
 protected:

@@ -4,6 +4,7 @@
 #include "CEnemy.h"
 #include "TGrid.h"
 #include "CHandler.h"
+#include <fstream>
 
 #include <set>
 
@@ -11,7 +12,7 @@ class CGraphics;
 
 class CEngine : public CHandler
 {
-	TGrid<int, 2> V_Map;
+	
 
 	double M_Grid_Size;
 	friend CGraphics;
@@ -23,6 +24,12 @@ class CEngine : public CHandler
 	T2Int M_GetEmptyPlace(void);
 	void M_MoveRequest(T2Double d); //request for move character
 
+	void M_ReadMap(string path);
+
+	//map parameter
+	int V_Max_Enemies;
+	int V_Max_Items;
+	TGrid<int, 2> V_Map;
 
 public:
 

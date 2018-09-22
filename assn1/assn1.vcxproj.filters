@@ -34,6 +34,9 @@
     <Filter Include="Handler">
       <UniqueIdentifier>{b67628ca-033c-4304-907c-857e28039833}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper\CError">
+      <UniqueIdentifier>{8140ad51-3f74-45f1-af41-2ed13a32b818}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -66,6 +69,9 @@
     </ClCompile>
     <ClCompile Include="CHandler.cpp">
       <Filter>Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="CError.cpp">
+      <Filter>Helper\CError</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="CHandler.h">
       <Filter>Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="CError.h">
+      <Filter>Helper\CError</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

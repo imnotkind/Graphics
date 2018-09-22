@@ -10,7 +10,25 @@ CEngine::CEngine()
 CEngine::~CEngine()
 {
 }
+void CEngine::M_ReadMap(string path)
+{
+	ifstream fs;
+	fs.open(path);
 
+	int w, h;
+	fs >> w >> h >> V_Max_Items >> V_Max_Enemies;
+	string s;
+	V_Map.resize(T2Int(w, h), -1);
+	for (int i = 0; i < h; i++)
+	{
+		fs >> s;
+		if (s.size() != w) CError("Invliad map data format", true);
+		for (int j = 0; j < w; j++)
+		{
+			V_Map[T2Int(j, i)] = s[j];
+		}
+	}
+}
 void CEngine::M_ListenMessages(void)
 {
 	auto mq = SMQueue::M_GetSingletone(0);
@@ -85,10 +103,10 @@ T2Int CEngine::M_GetEmptyPlace(void)
 void CEngine::M_Initialize(void)
 {
 	
-	//TODO: load the map
+	M_ReadMap("map.txt");
 
-	int n_enm = 50;
-	int n_itm = 10;
+	int n_enm = V_Max_Enemies;
+	int n_itm = V_Max_Items;
 
 
 	//place items
@@ -102,7 +120,7 @@ void CEngine::M_Initialize(void)
 	for (int i = 0; i < n_enm; i++)
 	{
 		auto p = M_GetEmptyPlace();
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]), 0, T4Int(255, 255, 255, 255), 0.0)));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]), 1, T4Int(255, 255, 255, 255), 0.0)));
 		//p.first->get()->~~ : some initialization
 	}
 

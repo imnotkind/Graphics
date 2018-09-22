@@ -151,6 +151,7 @@
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CEnemy.cpp" />
     <ClCompile Include="CEngine.cpp" />
+    <ClCompile Include="CError.cpp" />
     <ClCompile Include="CGraphics.cpp" />
     <ClCompile Include="CHandler.cpp" />
     <ClCompile Include="CItem.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="CCharacter.h" />
     <ClInclude Include="CEnemy.h" />
     <ClInclude Include="CEngine.h" />
+    <ClInclude Include="CError.h" />
     <ClInclude Include="CGraphics.h" />
     <ClInclude Include="CHandler.h" />
     <ClInclude Include="CItem.h" />
