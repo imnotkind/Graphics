@@ -27,7 +27,7 @@ void CGraphics::M_CallbackDisplay()
 
 	glColor3ub(0, 0, 0);
 	this->M_DrawPolygon(Vec2d(25,25), 25, 3, 0.5*PI);
-	this->M_DrawPolygon(Vec2d(25, 75), 25, 4, 1.25*PI);
+	this->M_DrawPolygon(Vec2d(25, 75), 25, 4, 0);
 	this->M_DrawPolygon(Vec2d(75, 25), 25, 5, 0.5*PI);
 	this->M_DrawPolygon(Vec2d(75, 75), 25, 100, 0);
 
@@ -41,7 +41,6 @@ void CGraphics::M_CallbackDisplay()
 
 void CGraphics::M_CallbackReshape(int w, int h)
 {
-	cout << "reshape" << endl;
 
 	glViewport(0, 0, w, h);
 	glLoadIdentity();
@@ -49,22 +48,18 @@ void CGraphics::M_CallbackReshape(int w, int h)
 }
 
 
-//every shape is based on square block unit : (x : left coord of block, y : bottom coord of block, size : length of square block's edge)
-
-
-
-void CGraphics::M_DrawStar(Vec2d p, double size)
-{
-	double r = size * 0.52;
-	//this->M_DrawPolygon(x + size / 2.0, y + size / 2.4, r, 5, 0.5);
-}
-
 void CGraphics::M_DrawLine(Vec2d p1, Vec2d p2)
 {
 	glBegin(GL_LINES);
 	glVertex2d(p1[0], p1[1]);
 	glVertex2d(p2[0], p2[1]);
 	glEnd();
+}
+
+
+void CGraphics::M_DrawStar(Vec2d p, double size)
+{
+	//TODO
 }
 
 
@@ -81,3 +76,13 @@ void CGraphics::M_DrawPolygon(Vec2d p, double r, int bump, double rotate)
 	glEnd();
 }
 
+
+void CGraphics::M_DrawFont(Vec2d p, const char *string)
+{
+	const char *c;
+	glRasterPos2d(p[0], p[1]);
+	for (c = string; *c != '\0'; c++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
+	}
+}
