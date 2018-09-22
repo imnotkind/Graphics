@@ -39,4 +39,4 @@ typedef int Type_Not_Determined;
 #define MC_R(x) ((int)((x)+0.5))
 #define CR_(x) const x&
 
-#define PI glm::pi<double>()
+#define PI 3.141592
