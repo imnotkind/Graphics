@@ -40,6 +40,8 @@ void CGraphics::RenderGame(void)
 
 void CGraphics::M_Initialize(CEngine * P)
 {
+	count = 0;
+
 	V_PEngine = P;
 	V_Camera_Pos = T2Double(0, 0);
 	V_Camera_Height = 80;
@@ -57,9 +59,13 @@ void CGraphics::M_Initialize(CEngine * P)
 
 void CGraphics::M_MoveCamera(void)
 {
+	count += 0.01;
+
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
+	V_Camera_Height = 80 + 10 * sin(count);
+
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
 	auto d = V_Math->M_2TV_Angle(p, c);

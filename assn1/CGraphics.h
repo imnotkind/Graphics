@@ -12,6 +12,8 @@ class CGraphics : public CHandler
 	double V_Camera_Height;
 	T2Double V_Camera_Speed;
 
+	double count;
+
 	void RenderGame(void);
 	void M_MoveCamera(void);
 
