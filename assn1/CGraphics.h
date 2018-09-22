@@ -7,9 +7,10 @@ public:
 	void M_CallbackDisplay();
 	void M_CallbackReshape(int w, int h);
 
-	void M_DrawPolygon(double cx, double cy, double r, int bump, double rotate);
-	void M_DrawStar(double x, double y, double size);
-	void M_DrawLine(double x1, double y1, double x2, double y2);
+	void M_DrawStar(Vec2d p, double size);
+	void M_DrawLine(Vec2d p1, Vec2d p2);
+
+	void M_DrawPolygon(Vec2d p, double r, int bump, double rotate);
 	
 	CGraphics();
 	~CGraphics();

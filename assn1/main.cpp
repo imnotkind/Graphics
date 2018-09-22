@@ -24,10 +24,12 @@ void cb_reshape(int w, int h)
 
 void cb_key(unsigned char key, int x, int y)
 {
+	cout << key << endl;
 	Engine.M_Event_KeyPress(key, false);
 }
 void cb_skey(int key, int x, int y)
 {
+	cout << key << endl;
 	Engine.M_Event_KeyPress(key, true);
 }
 

@@ -28,8 +28,13 @@ using namespace glm;
 typedef TVector<int, 2> T2Int;
 typedef TVector<int, 4> T4Int;
 
-typedef glm::vec2 Vec2f;
 typedef glm::ivec2 Vec2i;
+typedef glm::ivec3 Vec3i;
+typedef glm::ivec4 Vec4i;
+typedef glm::dvec2 Vec2d;
+typedef glm::dvec3 Vec3d;
+typedef glm::dvec4 Vec4d;
+
 
 typedef int Type_Not_Determined;
 
