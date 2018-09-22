@@ -34,7 +34,7 @@ void CGraphics::RenderGame(void)
 		M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
 	}
 	auto d = V_PEngine->V_Player->M_GetDrawData();
-	M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
+	M_DrawPolygon(d.pos.convert_gl(), d.size, 3, d.rotate, d.color);
 }
 
 

@@ -50,15 +50,15 @@ bool CMath::M_CircleRectCollisionTest(T2Double CirCen, double CirRad, T2Double R
 	RWH *= 0.5;
 	l1 = T2Double(RCen[0] - RWH[0], RCen[0] + RWH[0]);
 	l2 = T2Double(CirCen[0] - CirRad, CirCen[0] + CirRad);
-	
 	if (l1[1] < l2[0] || l1[0] > l2[1])
 	{
-		l1 = T2Double(RCen[1] - RWH[1], RCen[1] + RWH[1]);
-		l2 = T2Double(CirCen[1] - CirRad, CirCen[1] + CirRad);
-		if (l1[1] < l2[0] || l1[0] > l2[1])
-		{
-			return true;
-		}
+		return false;
 	}
-	return false;
+	l1 = T2Double(RCen[1] - RWH[1], RCen[1] + RWH[1]);
+	l2 = T2Double(CirCen[1] - CirRad, CirCen[1] + CirRad);
+	if (l1[1] < l2[0] || l1[0] > l2[1])
+	{
+		return false;
+	}
+	return true;
 }

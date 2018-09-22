@@ -12,7 +12,6 @@ map<int, CMessageQueue<SScriptMessage>*> CMessageQueue<SScriptMessage>::V_Multit
 
 void cb_display()
 {
-	cout << "display" << endl;
 	Graphics.M_CallbackDisplay();
 }
 
