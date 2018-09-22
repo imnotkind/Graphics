@@ -14,30 +14,38 @@ CEngine::~CEngine()
 void CEngine::M_ListenMessages(void)
 {
 	auto mq = SMQueue::M_GetSingletone(0);
-	auto m = mq->M_Pop();
-	if (m.type == "creation")
+	while (mq->M_Empty()) 
 	{
-		V_Objects.insert(shared_ptr<CSomething>((CSomething*)m.content));
+		auto m = mq->M_Pop();
+		if (m.type == "creation") // object creation request
+		{
+			V_Objects.insert(shared_ptr<CSomething>((CSomething*)m.content));
+		}
 	}
 }
-void CEngine::M_MoveRequest(Vec2f d)
+void CEngine::M_MoveRequest(T2Double d)
 {
+	auto p = V_Player->M_GetPosition() + d;
+	double r = V_Player->M_GetRadius();
+
 	for (int x = 0; x < V_Map.size[0]; x++)
 	{
 		for (int y = 0; y < V_Map.size[1]; y++)
 		{
-			//TODO : implement collision test between character and block
-			if (true)
+			if (V_Map[T2Int(x, y)] == 1) // wall
 			{
-				V_Player->M_Move(d);
-			}
-			else
-			{
-				//just ignore
-				return;
+				T2Double cen = T2Double(x, y)*M_Grid_Size;
+				cen[0] += M_Grid_Size * 0.5; cen[1] += M_Grid_Size * 0.5;
+				T2Double wh = T2Double(M_Grid_Size, M_Grid_Size);
+
+				if (V_Math->M_CircleRectCollisionTest(p, r, cen, wh)) //if the request is onto not movable place
+				{
+					return;
+				}
 			}
 		}
 	}
+	V_Player->M_Move(d);
 }
 void CEngine::M_Loop(void)
 {
@@ -53,15 +61,14 @@ void CEngine::M_Loop(void)
 }
 void CEngine::M_Event_KeyPress(int key, bool special)
 {
-
+	
 }
 T2Int CEngine::M_GetEmptyPlace(void)
 {
-	auto math = CMath::getInstance();
 	while (true) // random try
 	{
-		int x = math->M_Num_iRandom(0, V_Map.size[0] - 1);
-		int y = math->M_Num_iRandom(0, V_Map.size[1] - 1);
+		int x = V_Math->M_Num_iRandom(0, V_Map.size[0] - 1);
+		int y = V_Math->M_Num_iRandom(0, V_Map.size[1] - 1);
 
 		if (V_Map[T2Int(x, y)] == 0)
 		{
@@ -77,7 +84,6 @@ void CEngine::M_Initialize(void)
 	int n_enm = 50;
 	int n_itm = 10;
 
-	auto math = CMath::getInstance();
 
 	//place items
 	for (int i = 0; i < n_itm; i++)

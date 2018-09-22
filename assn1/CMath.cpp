@@ -44,3 +44,21 @@ T2Double CMath::M_2TV_Angle(T2Double Start, T2Double End)
 	End -= Start;
 	return T2Double(atan2(End[1], End[0]), sqrt(End[0] * End[0] + End[1] * End[1]));
 }
+bool CMath::M_CircleRectCollisionTest(T2Double CirCen, double CirRad, T2Double RCen, T2Double RWH)
+{
+	T2Double l1, l2;
+	RWH *= 0.5;
+	l1 = T2Double(RCen[0] - RWH[0], RCen[0] + RWH[0]);
+	l2 = T2Double(CirCen[0] - CirRad, CirCen[0] + CirRad);
+	
+	if (l1[1] < l2[0] || l1[0] > l2[1])
+	{
+		l1 = T2Double(RCen[1] - RWH[1], RCen[1] + RWH[1]);
+		l2 = T2Double(CirCen[1] - CirRad, CirCen[1] + CirRad);
+		if (l1[1] < l2[0] || l1[0] > l2[1])
+		{
+			return true;
+		}
+	}
+	return false;
+}

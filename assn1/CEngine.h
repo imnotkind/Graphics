@@ -3,13 +3,13 @@
 #include "CItem.h"
 #include "CEnemy.h"
 #include "TGrid.h"
-#include "CMath.h"
+#include "CHandler.h"
 
 #include <set>
 
 class CGraphics;
 
-class CEngine
+class CEngine : public CHandler
 {
 	TGrid<int, 2> V_Map;
 
@@ -21,7 +21,7 @@ class CEngine
 	
 
 	T2Int M_GetEmptyPlace(void);
-	void M_MoveRequest(Vec2f d); //request for move character
+	void M_MoveRequest(T2Double d); //request for move character
 
 
 public:

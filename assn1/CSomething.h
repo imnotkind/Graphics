@@ -25,6 +25,8 @@ public:
 	virtual void M_Loop(double t) {}
 
 	void M_Move(T2Double d);
+
+	T2Double M_GetPosition(void) { return V_Position; }
 	double M_GetRadius(void) { return V_Radius; }
 
 	CSomething(T2Double p, Type_Not_Determined i, T4Int c, double r) : V_Position(p), V_Image(i), V_Color(c), V_Radius(r) {}

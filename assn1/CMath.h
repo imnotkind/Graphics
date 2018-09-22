@@ -35,6 +35,8 @@ public:
 
 	T2Double M_2TV_Normalize(T2Double P);
 	T2Double M_2TV_Angle(T2Double Start, T2Double End); ///angle and distance
+
+	bool M_CircleRectCollisionTest(T2Double CirCen, double CirRad, T2Double RCen, T2Double RWH ); //line overlay test
 };
 
 

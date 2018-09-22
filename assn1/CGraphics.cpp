@@ -20,7 +20,7 @@ void CGraphics::M_RenderGame()
 {
 
 	glColor3ub(0, 0, 0);
-	this->M_DrawCircle(50, 50, 50);
+	this->M_DrawCircle(20, 20, 50);
 	this->M_DrawSquare(50, 0, 50);
 	this->M_DrawTriangle(0, 0, 50);
 	this->M_DrawPentagon(0, 50, 50);
