@@ -276,7 +276,8 @@ int main(int argc, char **argv) {
 	glutCreateWindow("Hello OpenGL");
 	glClearColor(1, 1, 1, 1); //only needed once actually if you're going to clear with the same color
 	glShadeModel(GL_FLAT);
-
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
 	glutReshapeFunc(reshape1);
 	glutDisplayFunc(display1);
