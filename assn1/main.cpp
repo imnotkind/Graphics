@@ -33,17 +33,21 @@ void cb_key(unsigned char key, int x, int y)
 {
 	cout << key << endl;
 	auto iq = CUserInput::getInstance();
+	iq->M_PressDown(key, false);
 	//TODO
 }
 void cb_skey(int key, int x, int y)
 {
 	cout << key << endl;
 	auto iq = CUserInput::getInstance();
+	iq->M_PressDown(key, true);
 	//TODO
 }
 
 
 int main(int argc, char **argv) {
+
+
 
 	glutInit(&argc, argv);
 	Graphics.M_Initialize(&Engine);

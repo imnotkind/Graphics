@@ -62,3 +62,10 @@ bool CMath::M_CircleRectCollisionTest(T2Double CirCen, double CirRad, T2Double R
 	}
 	return true;
 }
+
+bool CMath::M_2CirclesCollsionTest(T2Double c1, double r1, T2Double c2, double r2)
+{
+	T2Double x = M_2TV_Angle(c1, c2);
+	if (x[1] < r1 + r2) return true;
+	return false;
+}

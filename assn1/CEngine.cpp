@@ -51,11 +51,8 @@ void CEngine::M_ListenMessages(void)
 	}
 
 }
-void CEngine::M_MoveRequest(T2Double d)
+bool CEngine::M_CheckWallCollision(shared_ptr<CSomething> p)
 {
-	auto p = V_Player->M_GetPosition() + d;
-	double r = V_Player->M_GetRadius();
-
 	for (int x = 0; x < V_Map.size[0]; x++)
 	{
 		for (int y = 0; y < V_Map.size[1]; y++)
@@ -65,19 +62,126 @@ void CEngine::M_MoveRequest(T2Double d)
 				T2Double cen = T2Double(x, y)*V_Grid_Size;
 				T2Double wh = T2Double(V_Grid_Size, V_Grid_Size);
 
-				if (V_Math->M_CircleRectCollisionTest(p, r, cen, wh)) //if the request is onto not movable place
+				if (V_Math->M_CircleRectCollisionTest(p->M_GetPosition(), p->M_GetRadius(), cen, wh)) 
 				{
-					return;
+					return true;
 				}
 			}
 		}
 	}
+	return false;
+}
+void CEngine::M_ObjectIndexing(void)
+{
+	V_PBullets.clear();
+	V_PEnemies.clear();
+	V_PItems.clear();
+
+	for (auto p = V_Objects.begin(); p != V_Objects.end(); p++)
+	{
+		if (dynamic_cast<CBullet*> (p->get()) != NULL)
+		{
+			V_PBullets.emplace_back(p);
+			continue;
+		}
+		if (dynamic_cast<CEnemy*> (p->get()) != NULL)
+		{
+			V_PEnemies.emplace_back(p);
+			continue;
+		}
+		if (dynamic_cast<CItem*> (p->get()) != NULL)
+		{
+			V_PItems.emplace_back(p);
+			continue;
+		}
+	}
+}
+void CEngine::M_CollisionTest(void)
+{
+	set<int> remove_list_bullet;
+	set<int> remove_list_enemy;
+	set<int> remove_list_item;
+
+	//bullet - wall
+	for (int i = 0; i < V_PBullets.size(); i++)
+	{
+		auto b = V_PBullets[i];
+		if (M_CheckWallCollision(*b))
+		{
+			remove_list_bullet.insert(i);
+		}
+	}
+	//bullet - enemy
+	for (int i = 0; i < V_PBullets.size(); i++)
+	{
+		auto b = V_PBullets[i];
+		for (int j = 0; j < V_PEnemies.size(); j++)
+		{
+			auto e = V_PEnemies[j];
+			auto c1 = (*b)->M_GetPosition();
+			auto c2 = (*e)->M_GetPosition();
+			auto r1 = (*b)->M_GetRadius();
+			auto r2 = (*e)->M_GetRadius();
+
+			if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
+			{
+				remove_list_enemy.insert(j);
+				remove_list_bullet.insert(i);
+			}
+		}	
+	}
+
+	//item - character
+	for (int i = 0; i < V_PItems.size(); i++)
+	{
+		auto t = V_PItems[i];
+		auto c1 = V_Player->M_GetPosition();
+		auto c2 = (*t)->M_GetPosition();
+		auto r1 = V_Player->M_GetRadius();
+		auto r2 = (*t)->M_GetRadius();
+
+		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
+		{
+			remove_list_item.insert(i);
+		}
+	}
+
+	//enemy - character
+	for (auto e : V_PEnemies)
+	{
+		auto c1 = V_Player->M_GetPosition();
+		auto c2 = (*e)->M_GetPosition();
+		auto r1 = V_Player->M_GetRadius();
+		auto r2 = (*e)->M_GetRadius();
+
+		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
+		{
+			M_Defeat();
+			return;
+		}
+	}
+
+	for (auto i : remove_list_bullet) V_Objects.erase(V_PBullets[i]);
+	for (auto i : remove_list_enemy) V_Objects.erase(V_PEnemies[i]);
+	for (auto i : remove_list_item) V_Objects.erase(V_PItems[i]);
+
+}
+
+void CEngine::M_Defeat(void)
+{
+	cout << "you Lose!" << endl;
+}
+void CEngine::M_MoveRequest(T2Double d)
+{
 	V_Player->M_Move(d);
 
-	
+	if(M_CheckWallCollision(V_Player))
+		V_Player->M_Move(d *(-1));
 }
 void CEngine::M_Loop(void)
 {
+	M_ObjectIndexing();
+
 	//TODO : caculate time elapsed
 	double t = 1.0;
 
@@ -86,6 +190,8 @@ void CEngine::M_Loop(void)
 		p->M_Loop(t);
 	}
 	V_Player->M_Loop(t);
+	M_CollisionTest();
+	
 	M_ListenMessages();
 
 }
