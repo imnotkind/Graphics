@@ -193,10 +193,31 @@ void CEngine::M_Loop(void)
 	M_CollisionTest();
 	
 	M_ListenMessages();
-
+	M_CheckKeyPress();
+}
+void CEngine::M_CheckKeyPress()
+{
+	auto iq = CUserInput::getInstance();
+	if (iq->M_IfPressed(GLUT_KEY_DOWN, true))
+	{
+		M_MoveRequest(T2Double(0, -V_Grid_Size * 0.1));
+	}
+	if (iq->M_IfPressed(GLUT_KEY_UP, true))
+	{
+		M_MoveRequest(T2Double(0, V_Grid_Size * 0.1));
+	}
+	if (iq->M_IfPressed(GLUT_KEY_LEFT, true))
+	{
+		M_MoveRequest(T2Double(-V_Grid_Size * 0.1, 0));
+	}
+	if (iq->M_IfPressed(GLUT_KEY_RIGHT, true))
+	{
+		M_MoveRequest(T2Double(V_Grid_Size * 0.1, 0));
+	}
 }
 void CEngine::M_Event_KeyPress(int key, bool special)
 {
+	/*
 	if (special)
 	{
 		if (key == GLUT_KEY_DOWN) M_MoveRequest(T2Double(0, -V_Grid_Size * 0.1));
@@ -204,7 +225,7 @@ void CEngine::M_Event_KeyPress(int key, bool special)
 		if (key == GLUT_KEY_LEFT) M_MoveRequest(T2Double(-V_Grid_Size * 0.1, 0));
 		if (key == GLUT_KEY_RIGHT) M_MoveRequest(T2Double(V_Grid_Size * 0.1, 0));
 	}
-	else
+	else*/
 	{
 		if (key == 32) V_Player->M_Fire(); // Space bar
 	}

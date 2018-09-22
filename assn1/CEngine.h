@@ -52,6 +52,7 @@ public:
 
 	
 	void M_Loop(void);
+	void M_CheckKeyPress();
 	void M_Initialize(void);
 	
 
