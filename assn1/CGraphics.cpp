@@ -12,9 +12,10 @@ CGraphics::~CGraphics()
 
 void CGraphics::M_Initialize(CEngine * P)
 {
-	this->V_PEngine = P;
-	this->V_Camera_p1 = Vec2d(-20, -20);
-	this->V_Camera_p2 = Vec2d(80, 80);
+	V_PEngine = P;
+	V_Camera_p1 = Vec2d(0, 0);
+	V_Camera_p2 = Vec2d(100, 100);
+
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(400, 400);
@@ -31,14 +32,14 @@ void CGraphics::M_CallbackDisplay()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glColor4ub(0, 0, 0, 205);
-	this->M_DrawPolygon(Vec2d(25,25), 50, 3, 0.25*PI);
-	this->M_DrawPolygon(Vec2d(25, 75), 50, 4, 0);
-	//this->M_DrawPolygon(Vec2d(75, 25), 25, 5, 0.5*PI);
-	//this->M_DrawPolygon(Vec2d(75, 75), 25, 100, 0);
+	M_DrawPolygon(Vec2d(25,25), 50, 3, 0.25*PI);
+	M_DrawPolygon(Vec2d(25, 75), 50, 4, 0);
+	//M_DrawPolygon(Vec2d(75, 25), 25, 5, 0.5*PI);
+	//M_DrawPolygon(Vec2d(75, 75), 25, 100, 0);
 
 	glColor4ub(255, 0, 0 , 205);
-	this->M_DrawLine(Vec2d(0, 50), Vec2d(100, 50));
-	this->M_DrawLine(Vec2d(50, 0), Vec2d(50, 100));
+	M_DrawLine(Vec2d(0, 50), Vec2d(100, 50));
+	M_DrawLine(Vec2d(50, 0), Vec2d(50, 100));
 
 	glutSwapBuffers();
 }
@@ -53,7 +54,7 @@ void CGraphics::M_CallbackReshape(int w, int h)
 void CGraphics::M_CallbackIdle()
 {
 
-	glutPostRedisplay();
+	//glutPostRedisplay();
 }
 
 void CGraphics::M_DrawLine(Vec2d p1, Vec2d p2)
@@ -99,7 +100,10 @@ void CGraphics::M_DrawFont(Vec2d p, const char *string)
 void CGraphics::M_ChangeCamera(Vec2d p1, Vec2d p2)
 {
 	cout << "changecam" << endl;
-	this->V_Camera_p1 = p1;
-	this->V_Camera_p2 = p2;
+	V_Camera_p1 = p1;
+	V_Camera_p2 = p2;
 
+	glLoadIdentity();
+	gluOrtho2D(V_Camera_p1[0], V_Camera_p2[0], V_Camera_p1[1], V_Camera_p2[1]);
+	glutPostRedisplay();
 }
