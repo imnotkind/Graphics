@@ -78,6 +78,14 @@ special key ref : https://www.opengl.org/resources/libraries/glut/spec3/node54.h
 
 
 
+## clippling
+
+`gluOrtho2D`로 카메라 위치 바꾸기 가능, 
+
+컴퓨터가 렌더링하는 가상좌표는 무한이고 `gluOrtho2D`로 우리가 보는 세계를 자른다고 생각하면 됨
+
+
+
 ## multiple viewport 에 관한 고찰
 
 viewport여러개를 관리하려면

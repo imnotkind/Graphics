@@ -65,8 +65,6 @@ void CGraphics::M_CallbackDisplay()
 void CGraphics::M_CallbackReshape(int w, int h)
 {
 	glViewport(0, 0, w, h);
-	glLoadIdentity();
-	gluOrtho2D(V_Camera_p1[0], V_Camera_p2[0], V_Camera_p1[1], V_Camera_p2[1]);
 }
 
 void CGraphics::M_CallbackIdle()
