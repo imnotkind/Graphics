@@ -10,7 +10,7 @@ public:
 
 	void M_Fire(void); //fire a bullet
 
-	CCharacter(T2Double p, Type_Not_Determined i, T4Int c, double r) : CSomething(p, i, c, r) {}
+	CCharacter(T2Double p, int i, T4Int c, double r) : CSomething(p, i, c, r, 0.0) {}
 	virtual ~CCharacter() {}
 };
 

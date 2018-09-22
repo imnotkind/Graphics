@@ -84,9 +84,6 @@
     <ClInclude Include="CTexture.h">
       <Filter>Engine\Graphics\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="CSomething.h">
-      <Filter>Engine\Something</Filter>
-    </ClInclude>
     <ClInclude Include="CEnemy.h">
       <Filter>Engine\Something\Enemy</Filter>
     </ClInclude>
@@ -122,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="CError.h">
       <Filter>Helper\CError</Filter>
+    </ClInclude>
+    <ClInclude Include="CSomething.h">
+      <Filter>Engine\Something</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
