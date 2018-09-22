@@ -31,6 +31,7 @@ void CEngine::M_ReadMap(string path)
 }
 void CEngine::M_ListenMessages(void)
 {
+	//Script Messages
 	auto mq = SMQueue::M_GetSingletone(0);
 	while (!mq->M_Empty()) 
 	{
@@ -40,6 +41,15 @@ void CEngine::M_ListenMessages(void)
 			V_Objects.insert(shared_ptr<CSomething>((CSomething*)m.content));
 		}
 	}
+
+	//Input Messages;
+	auto iq = SIQueue::M_GetSingletone(0);
+	while (!iq->M_Empty())
+	{
+		auto m = iq->M_Pop();
+		if(m.type == "down") M_Event_KeyPress(m.key, m.special);
+	}
+
 }
 void CEngine::M_MoveRequest(T2Double d)
 {

@@ -13,6 +13,7 @@ typedef CMessageQueue<SInputMessage> SIQueue;
 class CUserInput : public CHandler
 {
 	static CUserInput* Instance;
+	CUserInput();
 public:
 
 	static CUserInput* getInstance(void)
@@ -32,7 +33,7 @@ public:
 	bool M_IfPressed(int key, bool special);
 
 
-	CUserInput();
+	
 	~CUserInput();
 };
 

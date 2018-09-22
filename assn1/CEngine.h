@@ -33,15 +33,18 @@ class CEngine : public CHandler
 	int V_Max_Items;
 	TGrid<int, 2> V_Map;
 
+	void M_Event_KeyPress(int key, bool special);
+
 public:
 
 	void M_CollisionTest(void);
 
 	void M_Loop(void);
+
 	void M_ListenMessages(void);
 
 	void M_Initialize(void);
-	void M_Event_KeyPress(int key, bool special);
+	
 
 	CEngine();
 	~CEngine();
