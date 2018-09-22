@@ -142,7 +142,7 @@ void display1() {
 	glVertex2d(rectangle.x + rectangle.width, rectangle.y);
 	glEnd();
 
-	renderBitmapCharacter(50, 50, GLUT_BITMAP_HELVETICA_18, "HELLO WORLD");
+	renderBitmapCharacter(50, 50, GLUT_BITMAP_HELVETICA_18, "PRESS ANY KEY");
 
 	glutSwapBuffers();
 }
@@ -259,6 +259,11 @@ void mouse1(int button, int state, int x, int y) {
 void key1(unsigned char key, int x, int y)
 {
 	cout << "key : " << key << "// mousepos : (" << x << "," << y << ")" << endl;
+
+	glLoadIdentity();
+	gluOrtho2D(-10, 100.0, -10, 200.0); //coordinate in virtual world
+	glutPostRedisplay();
+
 }
 void skey1(int key, int x, int y)
 {
@@ -276,7 +281,8 @@ int main(int argc, char **argv) {
 	glutCreateWindow("Hello OpenGL");
 	glClearColor(1, 1, 1, 1); //only needed once actually if you're going to clear with the same color
 	glShadeModel(GL_FLAT);
-
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
 	glutReshapeFunc(reshape1);
 	glutDisplayFunc(display1);

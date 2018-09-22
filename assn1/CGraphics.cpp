@@ -44,12 +44,16 @@ void CGraphics::M_CallbackDisplay()
 
 void CGraphics::M_CallbackReshape(int w, int h)
 {
-
 	glViewport(0, 0, w, h);
 	glLoadIdentity();
 	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
 }
 
+void CGraphics::M_CallbackIdle()
+{
+
+	glutPostRedisplay();
+}
 
 void CGraphics::M_DrawLine(Vec2d p1, Vec2d p2)
 {

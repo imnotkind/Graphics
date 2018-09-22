@@ -22,6 +22,11 @@ void cb_reshape(int w, int h)
 	Graphics.M_CallbackReshape(w,h);
 }
 
+void cb_idle()
+{
+	Graphics.M_CallbackIdle();
+}
+
 void cb_key(unsigned char key, int x, int y)
 {
 	cout << key << endl;
@@ -41,6 +46,7 @@ int main(int argc, char **argv) {
 
 	glutDisplayFunc(cb_display);
 	glutReshapeFunc(cb_reshape);
+	glutIdleFunc(cb_idle);
 	glutKeyboardFunc(cb_key);
 	glutSpecialFunc(cb_skey);
 
