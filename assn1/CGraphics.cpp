@@ -41,6 +41,8 @@ void CGraphics::RenderGame(void)
 void CGraphics::M_Initialize(CEngine * P)
 {
 	count = 0;
+	fps = 0.0;
+	old = GetTickCount();
 
 	V_PEngine = P;
 	V_Camera_Pos = T2Double(0, 0);
@@ -59,6 +61,15 @@ void CGraphics::M_Initialize(CEngine * P)
 
 void CGraphics::M_MoveCamera(void)
 {
+	auto elapse = GetTickCount() - old;
+	old = GetTickCount();
+
+	double q = std::min((1.0 / (0.001*elapse)), 1000.0);
+	
+	fps = fps * 0.9 + q *0.1;
+
+
+
 	count += 0.01;
 
 	auto p = V_PEngine->V_Player->M_GetPosition();
@@ -80,9 +91,7 @@ void CGraphics::M_MoveCamera(void)
 void CGraphics::M_CallbackDisplay()
 {
 	M_MoveCamera();
-
 	glLoadIdentity();
-
 	gluOrtho2D(V_Camera_Pos[0] - V_Camera_Height, V_Camera_Pos[0] + V_Camera_Height,
 		V_Camera_Pos[1] - V_Camera_Height, V_Camera_Pos[1] + V_Camera_Height);
 
@@ -94,7 +103,10 @@ void CGraphics::M_CallbackDisplay()
 
 	M_DrawLine(Vec2d(0, 50), Vec2d(100, 50), T4Int(255, 0, 0, 255));
 	M_DrawLine(Vec2d(50, 0), Vec2d(50, 100), T4Int(255, 0, 0, 255));
-	M_DrawFont(Vec2d(50, 96), "HELLO WORLD", T4Int(0, 255, 0, 105));
+
+	ostringstream s;
+	s << fps;
+	M_DrawFont(Vec2d(40, 76), s.str(), T4Int(0, 255, 0, 105));
 
 	RenderGame();
 

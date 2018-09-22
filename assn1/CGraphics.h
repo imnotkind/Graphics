@@ -4,6 +4,8 @@
 #include "CEngine.h"
 #include "CHandler.h"
 
+#include <ctime>
+
 class CGraphics : public CHandler
 {
 	CEngine * V_PEngine;
@@ -12,6 +14,8 @@ class CGraphics : public CHandler
 	double V_Camera_Height;
 	T2Double V_Camera_Speed;
 
+	double fps;
+	unsigned long old;
 	double count;
 
 	void RenderGame(void);

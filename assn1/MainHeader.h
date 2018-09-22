@@ -14,7 +14,8 @@
 #include <string>
 #include <set>
 
-
+#include <ctime>
+#include <sstream>
 
 #pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "freeglut.lib")
