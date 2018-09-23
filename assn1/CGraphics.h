@@ -19,6 +19,7 @@ class CGraphics : public CHandler
 	double count;
 
 	void RenderGame(void);
+	void RenderUI(void);
 	void M_MoveCamera(void);
 
 	void M_DrawLine(Vec2d p1, Vec2d p2, T4Int rgba);

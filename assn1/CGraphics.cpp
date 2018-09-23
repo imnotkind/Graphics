@@ -37,6 +37,12 @@ void CGraphics::RenderGame(void)
 	M_DrawPolygon(d.pos.convert_gl(), d.size, 3, d.rotate, d.color);
 }
 
+void CGraphics::RenderUI(void)
+{
+	glViewport(0, 0, 200, 40);
+	//GLSubwindow
+}
+
 
 void CGraphics::M_Initialize(CEngine * P)
 {
@@ -109,6 +115,7 @@ void CGraphics::M_CallbackDisplay()
 	M_DrawFont(Vec2d(40, 76), s.str(), T4Int(0, 255, 0, 105));
 
 	RenderGame();
+	RenderUI();
 
 	glutSwapBuffers();
 }
