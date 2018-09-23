@@ -39,8 +39,8 @@ void CGraphics::RenderGame(void)
 
 void CGraphics::RenderUI(void)
 {
-	glViewport(0, 0, 200, 40);
-	//GLSubwindow
+	//glViewport(0, 0, 200, 40);
+	glutCreateSubWindow(1, 10, 10, 100, 100);
 }
 
 
@@ -58,7 +58,8 @@ void CGraphics::M_Initialize(CEngine * P)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1080, 1080);
-	glutCreateWindow("Hello OpenGL");
+	int id = glutCreateWindow("Hello OpenGL");
+	cout << id << endl;
 	glClearColor(1, 1, 1, 1); //background white
 	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

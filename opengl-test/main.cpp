@@ -271,6 +271,23 @@ void skey1(int key, int x, int y)
 }
 
 
+void display_sub() {
+	glClearColor(0, 0, 1, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+	glColor3ub(0, 0, 0);
+	glBegin(GL_LINES);
+	glVertex2d(0, 50);
+	glVertex2d(100, 50);
+	glVertex2d(50, 0);
+	glVertex2d(50, 100);
+	glEnd();
+	glutSwapBuffers();
+
+}
+
+
 
 int main(int argc, char **argv) {
 
@@ -292,12 +309,17 @@ int main(int argc, char **argv) {
 	glutMouseFunc(mouse1);
 	glutTimerFunc(3000, timer1, 444);
 
-	GLenum err = glewInit();
-	if (GLEW_OK != err)
-		fprintf(stderr, "Glewinit Error: %s\n", glewGetErrorString(err));
+	//glewInit();
 
+
+	glutCreateSubWindow(1, 10, 10, 100, 100);
+	glutDisplayFunc(display_sub);
+
+	//glewInit();
 
 	glutMainLoop();
+
+
 
 	return 0;
 }
