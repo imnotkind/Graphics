@@ -111,15 +111,22 @@ void reshape1(int w, int h) {
 
 	//ordering essential
 	glViewport(0, 0, w, h);
-	glLoadIdentity(); //essential for reload
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0); //coordinate in virtual world
 }
 
 void display1() {
 	cout << "displayfunc1" << endl;
 
-
+	glutSetWindow(1);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	glLoadIdentity(); //essential for reload
+
+	glColor3d(0, 0, 1);
+	glRectd(0, 0, 25, 100);
+
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0); //coordinate in virtual world
+
+	
 
 	glColor3d(0, 1, 1);
 	glRectd(50, 0, 75, 100);
@@ -229,11 +236,15 @@ void display2() {
 
 
 void idle1() {
+	
 	rectangle.x += 0.1;
 	rectangle.y += 0.1;
-
+	glutSetWindow(1);
 	glutPostRedisplay();
+	//glutSetWindow(2);
+	//glutPostRedisplay();
 }
+
 
 void timer1(int value) { //auxiliary value, pass when registering callback
 	cout << "3 sec elapsed, aux value : " << value << endl;
@@ -258,7 +269,7 @@ void mouse1(int button, int state, int x, int y) {
 
 void key1(unsigned char key, int x, int y)
 {
-	cout << "key : " << key << "// mousepos : (" << x << "," << y << ")" << endl;
+	cout << "key : " << key << " | mousepos : (" << x << "," << y << ")" << endl;
 
 	glLoadIdentity();
 	gluOrtho2D(-10, 100.0, -10, 200.0); //coordinate in virtual world
@@ -267,24 +278,25 @@ void key1(unsigned char key, int x, int y)
 }
 void skey1(int key, int x, int y)
 {
-	cout << "specialkey : " << key << "// mousepos : (" << x << "," << y << ")" << endl;
+	cout << "specialkey : " << key << " | mousepos : (" << x << "," << y << ")" << endl;
 }
 
 
 void display_sub() {
+	cout << "display sub func" << endl;
+	glutSetWindow(2);
 	glClearColor(0, 0, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
 	glColor3ub(0, 0, 0);
 	glBegin(GL_LINES);
-	glVertex2d(0, 50);
-	glVertex2d(100, 50);
-	glVertex2d(50, 0);
-	glVertex2d(50, 100);
+	glVertex2d(0, rectangle.y);
+	glVertex2d(100, rectangle.y);
+	glVertex2d(rectangle.x, 0);
+	glVertex2d(rectangle.x, 100);
 	glEnd();
 	glutSwapBuffers();
-
 }
 
 
@@ -295,7 +307,7 @@ int main(int argc, char **argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); //GLUT_DEPTH for 3D
 	glutInitWindowPosition(400, 400);
 	glutInitWindowSize(800, 800);
-	glutCreateWindow("Hello OpenGL");
+	cout << glutCreateWindow("Hello OpenGL") << endl;
 	glClearColor(1, 1, 1, 1); //only needed once actually if you're going to clear with the same color
 	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -309,11 +321,10 @@ int main(int argc, char **argv) {
 	glutMouseFunc(mouse1);
 	glutTimerFunc(3000, timer1, 444);
 
-	//glewInit();
+	glewInit();
 
-
-	glutCreateSubWindow(1, 10, 10, 100, 100);
-	glutDisplayFunc(display_sub);
+	//cout << glutCreateSubWindow(1, 100, 100, 100, 100) << endl;
+	//glutDisplayFunc(display_sub);
 
 	//glewInit();
 
