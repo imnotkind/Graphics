@@ -27,12 +27,22 @@ void CGraphics::RenderGame(void)
 		}
 	}
 
-	//render player
+	//render objects
 	for (auto x : V_PEngine->V_Objects)
 	{
 		auto d = x->M_GetDrawData();
-		M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
+		
+		if (d.img == 2) //item
+		{
+			M_DrawStar(d.pos.convert_gl(), d.size, d.rotate, d.color);
+		}
+		else //bullet, enemy
+		{
+			M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
+		}
+		
 	}
+	//render player
 	auto d = V_PEngine->V_Player->M_GetDrawData();
 	M_DrawPolygon(d.pos.convert_gl(), d.size, 3, d.rotate, d.color);
 }
@@ -43,8 +53,35 @@ void CGraphics::RenderUI(void)
 	s << "Enemies : " << V_PEngine->V_PEnemies.size();
 	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
 
-	//glRectd(0, V_Screen_Size[1] - 100, 300, V_Screen_Size[1]);
+
+
+	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
+	M_DrawPolygon(Vec2d(160, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
+	M_DrawPolygon(Vec2d(230, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
+	M_DrawPolygon(Vec2d(300, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
+
 	auto l = V_PEngine->V_Player->M_GetItemList();
+
+
+	
+	auto n = std::min(4, (int)l.size());
+	auto it = l.begin();
+
+	switch (n)
+	{
+		case 4:
+			M_DrawStar(Vec2d(300, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, DTR(45), V_General->M_Pallete(*next(it, 3)));
+		case 3:
+			M_DrawStar(Vec2d(230, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, DTR(45), V_General->M_Pallete(*next(it, 2)));
+		case 2:
+			M_DrawStar(Vec2d(160, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, DTR(45), V_General->M_Pallete(*next(it,1)));
+		case 1:
+			M_DrawStar(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2) / 1.5, DTR(45), V_General->M_Pallete(*it));
+		case 0:
+			break;
+	}
+
+
 }
 
 
@@ -64,14 +101,13 @@ void CGraphics::M_Initialize(CEngine * P)
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1080, 1080);
 
-	glEnable(GL_MULTISAMPLE);
-
 	int id = glutCreateWindow("Hello OpenGL");
 	cout << id << endl;
 	glClearColor(1, 1, 1, 1); //background white
 	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+	glEnable(GL_MULTISAMPLE);
 }
 
 void CGraphics::M_MoveCamera(void)
