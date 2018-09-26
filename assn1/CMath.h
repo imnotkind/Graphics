@@ -38,6 +38,8 @@ public:
 
 	bool M_CircleRectCollisionTest(T2Double CirCen, double CirRad, T2Double RCen, T2Double RWH );
 	bool M_2CirclesCollsionTest(T2Double c1, double r1, T2Double c2, double r2);
+
+	vector<int> M_Permutation(int n);
 };
 
 

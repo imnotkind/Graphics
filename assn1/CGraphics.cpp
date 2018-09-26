@@ -79,7 +79,7 @@ void CGraphics::M_MoveCamera(void)
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 80;
+	V_Camera_Height = 120;
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
@@ -87,8 +87,9 @@ void CGraphics::M_MoveCamera(void)
 	a *=  + d[1];
 	a *= 0.001;
 
-	V_Camera_Speed *= 0.9;
 	V_Camera_Speed += a;
+	V_Camera_Speed *= 0.9;
+	
 	V_Camera_Pos += V_Camera_Speed;
 
 }

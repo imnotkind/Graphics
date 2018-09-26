@@ -69,3 +69,21 @@ bool CMath::M_2CirclesCollsionTest(T2Double c1, double r1, T2Double c2, double r
 	if (x[1] < r1 + r2) return true;
 	return false;
 }
+
+
+vector<int> CMath::M_Permutation(int n)
+{
+	//NOT IMPLEMENTED YET
+	vector<int> r;
+	r.resize(n, -1);
+	for (int i = 0; i < n; i++)
+	{
+		while (true)
+		{
+			int x = M_Num_iRandom(0, n - 1);
+			break;
+		}
+	
+	}
+	return r;
+}

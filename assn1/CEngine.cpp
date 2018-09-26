@@ -229,7 +229,7 @@ void CEngine::M_ItemUse(list<int>& x)
 	{
 		V_Player->M_MegaFire();
 	}
-	if (z == 0)
+	if (z == 1)
 	{
 		V_Player->M_MegaFire();
 	}
@@ -283,14 +283,14 @@ void CEngine::M_Initialize(void)
 	{
 		auto p = M_GetEmptyPlace();
 		V_Map[p] = 2;
-		int type = V_Math->M_Num_iRandom(0, 2);
+		int type = V_Math->M_Num_iRandom(0, 1);
 		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 0, V_General->M_Pallete(type), V_Grid_Size * 0.3, type)));
 	}
 	//place enemies
 	for (int i = 0; i < n_enm; i++)
 	{
 		auto p = M_GetEmptyPlace();
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.1, 0.5))));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.1, 0.6))));
 		//p.first->get()->~~ : some initialization
 	}
 
@@ -314,11 +314,15 @@ void CEngine::M_EnemyNavigation(void)
 	//if (count < 1) return;
 	count = 0;
 
-	int test = 0;
-	for (auto e : V_PEnemies)
+	int off = 0;
+
+	T2Int q = M_DiscretePos(V_Player->M_GetPosition());
+
+	for (auto e : V_PEnemies) 
 	{
 		if (V_Math->M_Num_iRandom(0, 20) != 0) continue;
-		test++;
+
+		off = V_Math->M_Num_iRandom(0, 3);
 		auto enemy = dynamic_cast<CEnemy*>(e->get());
 		enemy->M_ClearMove();
 
@@ -327,52 +331,73 @@ void CEngine::M_EnemyNavigation(void)
 		path.resize(V_Map.size, -1);
 		check.resize(V_Map.size, 0);
 
-		T2Int q = M_DiscretePos(V_Player->M_GetPosition());
 		T2Int p = M_DiscretePos(enemy->M_GetPosition());
 
 		if (p == q) continue;
-		if (V_Map[p] == 1 || V_Map[q] == 1) continue;
 
-		priority_queue<mp, vector<mp>, function<bool(mp, mp)>> pq(mycomp);
-		pq.push(mp(0, q));
+		T2Int diff = p - q;
 
-		while (true)
+		if (diff[0] * diff[0] + diff[1] * diff[1] > 100) //too far to detect player
 		{
-			if (pq.empty()) break;
-			auto x = pq.top(); pq.pop();
-			if (check[x.second]) continue;
-
-			dis[x.second] = x.first;
-			check[x.second] = 1;
-
-			for (int d = 0; d < 4; d++)
+			for (int d = off; d < 4 + off; d++) //for variety of path, order of visiting is random
 			{
-				T2Int np = x.second + dis.dir(d);
+				T2Int np = p + dis.dir(d);
 				if (V_Map[np] != 1)
 				{
-					if (dis[np] > dis[x.second] + 1)
-					{
-						pq.push(mp(dis[x.second] + 1, np));
-						path[np] = (d + 2) % 4;
-						dis[np] = dis[x.second] + 1;
-					}
+					T2Double temp(np[0], np[1]);
+					temp *= V_Grid_Size;
+					enemy->M_PushMove(temp);
+					break;
 				}
 			}
 		}
-
-		T2Int Cur = p;
-		
-
-		while (true)
+		else
 		{
-			Cur = Cur + dis.dir(path[Cur]);
-			
-			T2Double temp(Cur[0], Cur[1]);
-			temp *= V_Grid_Size;
-			enemy->M_PushMove(temp);
+			if (V_Map[p] == 1 || V_Map[q] == 1) continue;
 
-			if (Cur == q) break;
+			priority_queue<mp, vector<mp>, function<bool(mp, mp)>> pq(mycomp);
+			pq.push(mp(0, q));
+
+			while (true)//DIJKSTRA!
+			{
+				if (pq.empty()) break;
+				auto x = pq.top(); pq.pop();
+				if (check[x.second]) continue;
+
+				dis[x.second] = x.first;
+				check[x.second] = 1;
+
+				for (int d = off; d < 4 + off; d++) //for variety of path, order of visiting is random
+				{
+					int dd = d % 4;
+					T2Int np = x.second + dis.dir(dd);
+					if (V_Map[np] != 1)
+					{
+						if (dis[np] > dis[x.second] + 1)
+						{
+							pq.push(mp(dis[x.second] + 1, np));
+							path[np] = (dd + 2) % 4;
+							dis[np] = dis[x.second] + 1;
+						}
+					}
+				}
+			}
+
+			T2Int Cur = p;
+
+			while (true) //recover path
+			{
+				Cur = Cur + dis.dir(path[Cur]);
+
+				T2Double temp(Cur[0], Cur[1]);
+				temp *= V_Grid_Size;
+				enemy->M_PushMove(temp);
+
+				if (Cur == q) break;
+			}
 		}
+			
+		
 	}
 
 

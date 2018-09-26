@@ -6,6 +6,7 @@ class CEnemy :
 	queue<T2Double> V_MoveQueue;
 	double V_Speed;
 
+
 public:
 	virtual void M_Loop(double t);
 

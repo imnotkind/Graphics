@@ -4,6 +4,7 @@
 
 void CEnemy::M_ClearMove(void)
 {
+
 	while (!V_MoveQueue.empty())V_MoveQueue.pop();
 }
 void CEnemy::M_Loop(double t)
@@ -16,10 +17,11 @@ void CEnemy::M_Loop(double t)
 	auto math = CMath::getInstance();
 	auto des = V_MoveQueue.front();
 
-	if (math->M_2TV_Angle(V_Position, des)[1] < 0.01)
+	double asp = std::min(V_Speed, math->M_2TV_Angle(V_Position, des)[1]);
+
+	M_Move(math->M_2TV_Normalize(des - V_Position) * asp); //move by speed
+	if (math->M_2TV_Angle(V_Position, des)[1] < 0.1)
 	{
-		M_ClearMove();
-		return;
+		V_MoveQueue.pop();
 	}
-	M_Move(math->M_2TV_Normalize(des - V_Position) * V_Speed); //move by speed
 }
