@@ -121,18 +121,16 @@ void display1() {
 
 	glLoadIdentity(); //essential for reload
 
-	glColor3d(0, 0, 1);
-	glRectd(0, 0, 25, 100);
-
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0); //coordinate in virtual world
+	glColor3d(0, 0.5, 1);
+	glBegin(GL_TRIANGLES);
+	glVertex2d(0, 0);
+	glVertex2d(1, 7);
+	glVertex2d(7, 1);
+	glEnd();
 
 	
+	gluOrtho2D(0.0, 100.0 + rectangle.x, 0.0, 100.0); //coordinate in virtual world
 
-	glColor3d(0, 1, 1);
-	glRectd(50, 0, 75, 100);
-
-	glColor3d(1, 1, 0);
-	glRectd(75, 0, 100, 100);
 
 	glColor3d(0, 0, 0);
 	glBegin(GL_TRIANGLES);
@@ -167,71 +165,7 @@ void reshape2(int w, int h) {
 
 }
 
-void display2() {
-	cout << "displayfunc1" << endl;
 
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	glViewport(0, 0, width / 2, height / 2);
-	glLoadIdentity();
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
-	glColor3ub(0, 0, 255);
-	glRectd(0, 0, 33.3, 100);
-	glColor3ub(255, 255, 255);
-	glRectd(33.3, 0, 66.6, 100);
-	glColor3ub(255, 0, 0);
-	glRectd(66.6, 0, 99.9, 100);
-
-	glViewport(width / 2, 0, width / 2, height / 2);
-	glLoadIdentity();
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
-	glColor3ub(255, 204, 0);
-	glRectd(0, 0, 100, 33.3);
-	glColor3ub(255, 0, 0);
-	glRectd(0, 33.3, 100, 66.6);
-	glColor3ub(0, 0, 0);
-	glRectd(0, 66.6, 100, 99.9);
-
-	glViewport(0, height / 2, width / 2, height / 2);
-	glLoadIdentity();
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
-	glColor3ub(0, 255, 0);
-	glRectd(0, 0, 33.3, 100);
-	glColor3ub(255, 255, 255);
-	glRectd(33.3, 0, 66.6, 100);
-	glColor3ub(255, 0, 0);
-	glRectd(66.6, 0, 99.9, 100);
-
-	glViewport(width / 2, height / 2, width / 2, height / 2);
-	glLoadIdentity();
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
-	glColor3ub(255, 255, 255);
-	glRectd(0, 0, 100, 100);
-	glColor3ub(255, 0, 0);
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < 50; i++) {
-		double theta = 2.0f * 3.1415926f * double(i) / double(50);//get the current angle 
-		double x = 30 * cosl(theta);//calculate the x component 
-		double y = 30 * sinl(theta);//calculate the y component 
-		glVertex2d(x + 50, y + 50);//output vertex 
-	}
-	glEnd();
-
-	glViewport(0, 0, width, height);
-	glLoadIdentity();
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0);
-	glColor3ub(0, 0, 0);
-	glBegin(GL_LINES);
-	glVertex2d(0, 50);
-	glVertex2d(100, 50);
-	glVertex2d(50, 0);
-	glVertex2d(50, 100);
-	glEnd();
-
-	renderBitmapCharacter(50, 50, GLUT_BITMAP_HELVETICA_18, "HELLO WORLD");
-
-	glutSwapBuffers();
-}
 
 
 
