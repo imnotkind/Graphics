@@ -97,6 +97,8 @@ typedef struct rect {
 } rect;
 rect rectangle = { 50,50,10,20 };
 
+int ww = 10;
+int hh = 10;
 void reshape1(int w, int h) {
 	cout << "reshapefunc1" << endl;
 
@@ -110,6 +112,8 @@ void reshape1(int w, int h) {
 	*/
 
 	//ordering essential
+	ww = w;
+	hh = h;
 	glViewport(0, 0, w, h);
 }
 
@@ -121,23 +125,25 @@ void display1() {
 
 	glLoadIdentity(); //essential for reload
 
+	gluOrtho2D(0.0, ww, 0.0, hh);
+
 	glColor3d(0, 0.5, 1);
 	glBegin(GL_TRIANGLES);
 	glVertex2d(0, 0);
-	glVertex2d(1, 7);
-	glVertex2d(7, 1);
+	glVertex2d(10, 70);
+	glVertex2d(70, 10);
 	glEnd();
 
-	
-	gluOrtho2D(0.0, 100.0 + rectangle.x, 0.0, 100.0); //coordinate in virtual world
+	glLoadIdentity(); //essential for reload
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0); //coordinate in virtual world
 
 
-	glColor3d(0, 0, 0);
+	/*glColor3d(0, 1, 0);
 	glBegin(GL_TRIANGLES);
 	glVertex2d(-10, -10);
 	glVertex2d(10, 70);
 	glVertex2d(70, 10);
-	glEnd();
+	glEnd();*/
 
 	glColor3d(0, 0, 0);
 	glBegin(GL_LINE_LOOP);
