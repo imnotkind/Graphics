@@ -18,7 +18,7 @@ void CEnemy::M_Loop(double t)
 
 	if (math->M_2TV_Angle(V_Position, des)[1] < 0.01)
 	{
-		V_MoveQueue.pop();
+		M_ClearMove();
 		return;
 	}
 	M_Move(math->M_2TV_Normalize(des - V_Position) * V_Speed); //move by speed

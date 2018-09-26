@@ -263,6 +263,9 @@ T2Int CEngine::M_GetEmptyPlace(void)
 		}
 	}
 }
+
+
+
 void CEngine::M_Initialize(void)
 {
 
@@ -287,10 +290,16 @@ void CEngine::M_Initialize(void)
 	for (int i = 0; i < n_enm; i++)
 	{
 		auto p = M_GetEmptyPlace();
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3)));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.1, 0.5))));
 		//p.first->get()->~~ : some initialization
 	}
 
+}
+
+T2Int CEngine::M_DiscretePos(T2Double p)
+{
+	p *= (1.0 / V_Grid_Size);
+	return T2Int(int(p[0] + 0.5), int(p[1] + 0.5));
 }
 typedef pair<int, T2Int> mp;
 bool mycomp(const mp& a, const mp& b)
@@ -300,28 +309,32 @@ bool mycomp(const mp& a, const mp& b)
 
 void CEngine::M_EnemyNavigation(void)
 {
-	return;
 	static int count = 0;
 	count++;
-	if (count < 10) return;
+	//if (count < 1) return;
 	count = 0;
 
+	int test = 0;
 	for (auto e : V_PEnemies)
 	{
+		if (V_Math->M_Num_iRandom(0, 20) != 0) continue;
+		test++;
 		auto enemy = dynamic_cast<CEnemy*>(e->get());
+		enemy->M_ClearMove();
 
 		TGrid<int, 2> dis, path, check;
 		dis.resize(V_Map.size, 1000000);
 		path.resize(V_Map.size, -1);
 		check.resize(V_Map.size, 0);
 
-		T2Int q = T2Int(V_Player->M_GetPosition() * (1.0 / V_Grid_Size));
-		T2Int p = T2Int((*e)->M_GetPosition() * (1.0 / V_Grid_Size));
+		T2Int q = M_DiscretePos(V_Player->M_GetPosition());
+		T2Int p = M_DiscretePos(enemy->M_GetPosition());
 
-		dis[q] = 0;
+		if (p == q) continue;
+		if (V_Map[p] == 1 || V_Map[q] == 1) continue;
 
 		priority_queue<mp, vector<mp>, function<bool(mp, mp)>> pq(mycomp);
-		pq.push(mp(0, p));
+		pq.push(mp(0, q));
 
 		while (true)
 		{
@@ -348,15 +361,17 @@ void CEngine::M_EnemyNavigation(void)
 		}
 
 		T2Int Cur = p;
+		
 
 		while (true)
 		{
 			Cur = Cur + dis.dir(path[Cur]);
-			if (Cur == q) break;
-			enemy->M_ClearMove();
-			T2Double temp(dis.dir(path[Cur])[0], dis.dir(path[Cur])[1]);
+			
+			T2Double temp(Cur[0], Cur[1]);
 			temp *= V_Grid_Size;
 			enemy->M_PushMove(temp);
+
+			if (Cur == q) break;
 		}
 	}
 

@@ -52,6 +52,8 @@ class CEngine : public CHandler
 
 	void M_EnemyNavigation(void);
 
+	T2Int M_DiscretePos(T2Double p);
+
 public:
 
 	

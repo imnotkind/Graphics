@@ -74,15 +74,12 @@ void CGraphics::M_MoveCamera(void)
 	double q = std::min((1.0 / (0.001*elapse)), 1000.0);
 	
 	fps = fps * 0.9 + q *0.1;
-
-
-
 	count += 0.01;
 
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 80 + 10 * sin(count);
+	V_Camera_Height = 80;
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
