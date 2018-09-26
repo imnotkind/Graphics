@@ -13,7 +13,8 @@ class CGraphics : public CHandler
 	T2Double V_Screen_Size;
 
 	T2Double V_Camera_Pos;
-	double V_Camera_Height;
+	double V_Camera_Size;
+	double V_Camera_Size_Acc;
 	T2Double V_Camera_Speed;
 
 	double fps;

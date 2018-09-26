@@ -94,7 +94,8 @@ void CGraphics::M_Initialize(CEngine * P)
 	V_PEngine = P;
 	V_Screen_Size = T2Double(1080, 1080);
 	V_Camera_Pos = T2Double(0, 0);
-	V_Camera_Height = 80;
+	V_Camera_Size = 80;
+	V_Camera_Size_Acc = 0;
 	V_Camera_Speed.set(0.0, 0.0);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
@@ -123,11 +124,27 @@ void CGraphics::M_MoveCamera(void)
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 80;
+	
 	if (V_PEngine->V_IS_Camera > 0)
 	{
-		double u = V_PEngine->V_IS_Camera / 600.0 * PI;
-		V_Camera_Height += 50 * pow(sin(u), 1);
+		double u = V_PEngine->V_IS_Camera / 600.0 * 2 * PI;
+		V_Camera_Size_Acc = 0.5 * pow(-sin(u), 1);
+	}
+	else
+	{
+		//V_Camera_Size_Acc = -0.1;
+	}
+
+	V_Camera_Size += V_Camera_Size_Acc;
+
+	if (V_Camera_Size < 80)
+	{
+		V_Camera_Size = 80;
+		V_Camera_Size_Acc = 0;
+	}
+	if (V_Camera_Size > 130)
+	{
+		V_Camera_Size = 130;
 	}
 
 	auto a = p - c;
@@ -148,8 +165,8 @@ void CGraphics::M_CallbackDisplay()
 
 	M_MoveCamera();
 	glLoadIdentity();
-	gluOrtho2D(V_Camera_Pos[0] - V_Camera_Height, V_Camera_Pos[0] + V_Camera_Height,
-		V_Camera_Pos[1] - V_Camera_Height, V_Camera_Pos[1] + V_Camera_Height);
+	gluOrtho2D(V_Camera_Pos[0] - V_Camera_Size, V_Camera_Pos[0] + V_Camera_Size,
+		V_Camera_Pos[1] - V_Camera_Size, V_Camera_Pos[1] + V_Camera_Size);
 
 	RenderGame();
 
