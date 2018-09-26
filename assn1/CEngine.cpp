@@ -300,6 +300,7 @@ bool mycomp(const mp& a, const mp& b)
 
 void CEngine::M_EnemyNavigation(void)
 {
+	return;
 	static int count = 0;
 	count++;
 	if (count < 10) return;
