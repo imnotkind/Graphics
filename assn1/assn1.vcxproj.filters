@@ -40,6 +40,9 @@
     <Filter Include="Engine\UserInput">
       <UniqueIdentifier>{b40f2e8c-bf1d-4b7a-909c-efbedbe82687}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper\General">
+      <UniqueIdentifier>{b091d0fb-62bb-479a-98b1-797dd269c507}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -78,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="CUserInput.cpp">
       <Filter>Engine\UserInput</Filter>
+    </ClCompile>
+    <ClCompile Include="CGeneral.cpp">
+      <Filter>Helper\General</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="CUserInput.h">
       <Filter>Engine\UserInput</Filter>
+    </ClInclude>
+    <ClInclude Include="CGeneral.h">
+      <Filter>Helper\General</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

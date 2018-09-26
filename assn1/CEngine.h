@@ -48,6 +48,10 @@ class CEngine : public CHandler
 
 	void M_ObjectIndexing(void);
 
+	void M_ItemUse(list<int>& x);
+
+	void M_EnemyNavigation(void);
+
 public:
 
 	

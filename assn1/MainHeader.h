@@ -13,6 +13,7 @@
 #include <map>
 #include <string>
 #include <set>
+#include <list>
 
 #include <ctime>
 #include <sstream>

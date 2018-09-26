@@ -8,8 +8,8 @@
 class CMath
 {
 	mt19937 M_Random;
-	CMath() { M_Random.seed((unsigned int)time(NULL)); }
-	~CMath() {}
+	CMath() { Instance = NULL; M_Random.seed((unsigned int)time(NULL)); }
+	~CMath() { freeInstance(); }
 	static CMath* Instance;
 
 public:

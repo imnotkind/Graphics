@@ -142,6 +142,7 @@ void CEngine::M_CollisionTest(void)
 
 		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
 		{
+			V_Player->M_GetItemList().push_front((dynamic_cast<CItem*>(t->get()))->M_GetType());
 			remove_list_item.insert(i);
 		}
 	}
@@ -215,6 +216,22 @@ void CEngine::M_CheckKeyPress()
 		M_MoveRequest(T2Double(V_Grid_Size * 0.1, 0));
 	}
 }
+void CEngine::M_ItemUse(list<int>& x)
+{
+	if (x.empty()) return;
+
+	int z = x.front();
+	x.pop_front();
+
+	if (z == 0)
+	{
+		V_Player->M_MegaFire();
+	}
+	if (z == 0)
+	{
+		V_Player->M_MegaFire();
+	}
+}
 void CEngine::M_Event_KeyPress(int key, bool special)
 {
 	/*
@@ -228,6 +245,7 @@ void CEngine::M_Event_KeyPress(int key, bool special)
 	else*/
 	{
 		if (key == 32) V_Player->M_Fire(); // Space bar
+		if (key == 'q') M_ItemUse(V_Player->M_GetItemList());
 	}
 }
 T2Int CEngine::M_GetEmptyPlace(void)
@@ -260,7 +278,8 @@ void CEngine::M_Initialize(void)
 	{
 		auto p = M_GetEmptyPlace();
 		V_Map[p] = 2;
-		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 0, T4Int(0,255,255,255), V_Grid_Size * 0.3)));
+		int type = V_Math->M_Num_iRandom(0, 2);
+		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 0, V_General->M_Pallete(type), V_Grid_Size * 0.3, type)));
 	}
 	//place enemies
 	for (int i = 0; i < n_enm; i++)
@@ -269,5 +288,39 @@ void CEngine::M_Initialize(void)
 		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3)));
 		//p.first->get()->~~ : some initialization
 	}
+
+}
+
+
+
+void CEngine::M_EnemyNavigation(void)
+{
+	static int count = 0;
+	count++;
+	if (count < 10) return;
+	count = 0;
+
+	
+
+
+	for (auto e : V_PEnemies)
+	{
+		typedef pair<int, T2Int> mp;
+		TGrid<int, 2> dis;
+		dis.resize(V_Map.size, 1000000);
+		T2Int p((*e)->M_GetPosition());
+		dis[p] = 0;
+
+		priority_queue<mp> pq;
+		for (int x = 0; x < V_Map.size[0]; x++)
+		{
+			for (int y = 0; y < V_Map.size[1]; y++)
+			{
+				T2Int z(x, y);
+				if (V_Map[z] != 1) pq.push(mp(dis[z], z));
+			}
+		}
+	}
+
 
 }

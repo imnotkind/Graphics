@@ -8,6 +8,7 @@ CEngine Engine;
 
 CMath* CMath::Instance = NULL;
 CUserInput* CUserInput::Instance = NULL;
+CGeneral* CGeneral::Instance = NULL;
 
 map<int, CMessageQueue<SScriptMessage>*> CMessageQueue<SScriptMessage>::V_Multiton = map<int, CMessageQueue<SScriptMessage>*>();
 map<int, CMessageQueue<SInputMessage>*> CMessageQueue<SInputMessage>::V_Multiton = map<int, CMessageQueue<SInputMessage>*>();
