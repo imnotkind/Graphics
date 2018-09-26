@@ -2,9 +2,20 @@
 
 
 
+
+void CCharacter::M_GetInvincible(int t)
+{
+	V_InvTime = t;
+	V_Color.set(200, 200, 0, 100);
+}
 void CCharacter::M_Loop(double t)
 {
 	if (V_Power < 25) V_Power += 1;
+	if (V_InvTime > 0)
+	{
+		V_InvTime--;
+		if(V_InvTime == 0) V_Color.set(255, 0, 0, 255);
+	}
 }
 void CCharacter::M_MegaFire(void)
 {

@@ -150,6 +150,8 @@ void CEngine::M_CollisionTest(void)
 	//enemy - character
 	for (auto e : V_PEnemies)
 	{
+		if (V_IS_Invincible > 0) break; //yeah!
+
 		auto c1 = V_Player->M_GetPosition();
 		auto c2 = (*e)->M_GetPosition();
 		auto r1 = V_Player->M_GetRadius();
@@ -178,7 +180,12 @@ void CEngine::M_CollisionTest(void)
 	
 
 }
-
+void CEngine::M_ItemState(void)
+{
+	if (V_IS_Camera > 0) V_IS_Camera -= 1.0;
+	if (V_IS_Invincible > 0) V_IS_Invincible -= 1.0;
+	if (V_IS_Speed > 0) V_IS_Speed -= 1.0;
+}
 void CEngine::M_Defeat(void)
 {
 	cout << "you Lose!" << endl;
@@ -193,7 +200,7 @@ void CEngine::M_MoveRequest(T2Double d)
 void CEngine::M_Loop(void)
 {
 	M_ObjectIndexing();
-
+	M_ItemState();
 	M_EnemyNavigation();
 
 	//TODO : caculate time elapsed
@@ -212,21 +219,24 @@ void CEngine::M_Loop(void)
 void CEngine::M_CheckKeyPress()
 {
 	auto iq = CUserInput::getInstance();
+	double speed = 0.1;
+	if (V_IS_Speed > 0.0) speed += sin(V_IS_Speed / 240.0 * PI) *0.15;
+
 	if (iq->M_IfPressed(GLUT_KEY_DOWN, true))
 	{
-		M_MoveRequest(T2Double(0, -V_Grid_Size * 0.1));
+		M_MoveRequest(T2Double(0, -V_Grid_Size * speed));
 	}
 	if (iq->M_IfPressed(GLUT_KEY_UP, true))
 	{
-		M_MoveRequest(T2Double(0, V_Grid_Size * 0.1));
+		M_MoveRequest(T2Double(0, V_Grid_Size * speed));
 	}
 	if (iq->M_IfPressed(GLUT_KEY_LEFT, true))
 	{
-		M_MoveRequest(T2Double(-V_Grid_Size * 0.1, 0));
+		M_MoveRequest(T2Double(-V_Grid_Size * speed, 0));
 	}
 	if (iq->M_IfPressed(GLUT_KEY_RIGHT, true))
 	{
-		M_MoveRequest(T2Double(V_Grid_Size * 0.1, 0));
+		M_MoveRequest(T2Double(V_Grid_Size * speed, 0));
 	}
 }
 void CEngine::M_ItemUse(list<int>& x)
@@ -236,18 +246,26 @@ void CEngine::M_ItemUse(list<int>& x)
 	int z = x.front();
 	x.pop_front();
 
-	if (z == 0)
+	if (z == 0) // Mega fire
 	{
 		V_Player->M_MegaFire();
 	}
-	if (z == 1)
+	if (z == 1) // Camera up
 	{
-		V_Player->M_MegaFire();
+		V_IS_Camera = 60 * 10;
+	}
+	if (z == 2) // Invincible
+	{
+		V_IS_Invincible = 60 * 2;
+		V_Player->M_GetInvincible(60 * 2);
+	}
+	if (z == 3) // Sppeed up
+	{
+		V_IS_Speed = 60 * 4;
 	}
 }
 void CEngine::M_Event_KeyPress(int key, bool special)
 {
-
 	if (key == 32) V_Player->M_Fire(); // Space bar
 	if (key == 'q') M_ItemUse(V_Player->M_GetItemList());
 }
@@ -269,6 +287,10 @@ T2Int CEngine::M_GetEmptyPlace(void)
 
 void CEngine::M_Initialize(void)
 {
+	V_IS_Camera = -1.0;
+	V_IS_Invincible = -1.0;
+	V_IS_Speed = -1.0;
+
 
 	V_Grid_Size = 6.0;
 	
@@ -284,7 +306,7 @@ void CEngine::M_Initialize(void)
 	{
 		auto p = M_GetEmptyPlace();
 		V_Map[p] = 2;
-		int type = V_Math->M_Num_iRandom(0, 1);
+		int type = V_Math->M_Num_iRandom(0, 3);
 		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 2, V_General->M_Pallete(type), V_Grid_Size * 0.3, type)));
 	}
 	//place enemies

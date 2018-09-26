@@ -47,12 +47,19 @@ class CEngine : public CHandler
 	void M_Event_KeyPress(int key, bool special);
 
 	void M_ObjectIndexing(void);
+	void M_ItemState(void);
 
 	void M_ItemUse(list<int>& x);
 
 	void M_EnemyNavigation(void);
 
 	T2Int M_DiscretePos(T2Double p);
+
+
+	//item state
+	double V_IS_Camera;
+	double V_IS_Invincible;
+	double V_IS_Speed;
 
 public:
 

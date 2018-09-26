@@ -88,6 +88,11 @@ void CGraphics::M_MoveCamera(void)
 	auto c = V_Camera_Pos;
 	
 	V_Camera_Height = 80;
+	if (V_PEngine->V_IS_Camera > 0)
+	{
+		double u = V_PEngine->V_IS_Camera / 600.0 * PI;
+		V_Camera_Height += 50 * pow(sin(u), 1);
+	}
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
