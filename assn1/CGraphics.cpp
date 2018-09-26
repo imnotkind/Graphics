@@ -116,7 +116,7 @@ void CGraphics::M_CallbackDisplay()
 	M_DrawFont(Vec2d(40, 76), s.str(), T4Int(0, 255, 0, 105));
 
 	RenderGame();
-	RenderUI();
+	//RenderUI();
 
 	glutSwapBuffers();
 }
