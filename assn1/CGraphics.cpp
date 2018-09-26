@@ -70,13 +70,13 @@ void CGraphics::RenderUI(void)
 	switch (n)
 	{
 		case 4:
-			M_DrawItem(Vec2d(300, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, *next(it, 3));
+			M_DrawItem(Vec2d(300, V_Screen_Size[1] - 40), 60 / 2, *next(it, 3));
 		case 3:
-			M_DrawItem(Vec2d(230, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, *next(it, 2));
+			M_DrawItem(Vec2d(230, V_Screen_Size[1] - 40), 60 / 2, *next(it, 2));
 		case 2:
-			M_DrawItem(Vec2d(160, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, *next(it, 1));
+			M_DrawItem(Vec2d(160, V_Screen_Size[1] - 40), 60 / 2, *next(it, 1));
 		case 1:
-			M_DrawItem(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2) / 1.5,*it);
+			M_DrawItem(Vec2d(70, V_Screen_Size[1] - 60), 100 / 2,*it);
 		case 0:
 			break;
 	}
@@ -235,15 +235,54 @@ void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 {
 	if (z == 0) // Mega fire
 	{
-		M_DrawStar(p, r, DTR(45), V_General->M_Pallete(z));
+		double c = r / (sqrt(650)); //most far point : (30,-10)
+		glColor4ub(255, 0, 0, 255);
+		glBegin(GL_POLYGON);
+		glVertex2d(p[0] - 25 * c, p[1] + 5 * c);
+		glVertex2d(p[0] - 5 * c, p[1] + 25 * c);
+		glVertex2d(p[0] + 25 * c, p[1] - 5 * c);
+		glVertex2d(p[0] + 15 * c, p[1] - 5 * c);
+		glVertex2d(p[0] + 15 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 5 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
+		glEnd();
+
+		c = c * 0.5;
+		glColor4ub(255, 255, 0, 255);
+		glBegin(GL_POLYGON);
+		glVertex2d(p[0] - 25 * c, p[1] + 5 * c);
+		glVertex2d(p[0] - 5 * c, p[1] + 25 * c);
+		glVertex2d(p[0] + 25 * c, p[1] - 5 * c);
+		glVertex2d(p[0] + 15 * c, p[1] - 5 * c);
+		glVertex2d(p[0] + 15 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 5 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
+		glEnd();
 	}
 	if (z == 1) // Camera up
 	{
-		M_DrawStar(p, r, DTR(45), V_General->M_Pallete(z));
+		double c = r / (25); //most far point : (20,15)
+
+		glColor4ub(40, 40, 40, 255);
+		glBegin(GL_POLYGON);
+		glVertex2d(p[0] - 20 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 20 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 20 * c, p[1] + 15 * c);
+		glVertex2d(p[0] - 20 * c, p[1] + 15 * c);
+		glEnd();
+		glBegin(GL_POLYGON);
+		glVertex2d(p[0] + 6 * c, p[1] + 18 * c);
+		glVertex2d(p[0] + 16 * c, p[1] + 18 * c);
+		glVertex2d(p[0] + 16 * c, p[1] + 15 * c);
+		glVertex2d(p[0] + 6 * c, p[1] + 15 * c);
+		glEnd();
+
+		M_DrawPolygon(p, r * 0.35, 100, 0, T4Int(255, 255, 255, 255));
 	}
 	if (z == 2) // Invincible
 	{
-		M_DrawStar(p, r, DTR(45), V_General->M_Pallete(z));
+		M_DrawStar(p, r, DTR(54), T4Int(255, 204, 0, 255));
+		M_DrawStar(p, r * 0.8, DTR(54), T4Int(255, 255, 0, 255));
 	}
 	if (z == 3) // Speed up
 	{
@@ -263,10 +302,10 @@ void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 		
 		glColor4ub(240, 248, 255, 255);
 		glBegin(GL_POLYGON);
-			glVertex2d(p[0] + 10*c, p[1]);
-			glVertex2d(p[0] + 10*c, p[1] + 30*c);
-			glVertex2d(p[0] + 40*c, p[1] + 60*c);
-			glVertex2d(p[0] + 40*c, p[1] + 30*c);
+		glVertex2d(p[0] + 10 * c, p[1]);
+		glVertex2d(p[0] + 10 * c, p[1] + 30 * c);
+		glVertex2d(p[0] + 40 * c, p[1] + 60 * c);
+		glVertex2d(p[0] + 40 * c, p[1] + 30 * c);
 		glEnd();
 		
 	}
