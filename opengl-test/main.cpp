@@ -111,8 +111,6 @@ void reshape1(int w, int h) {
 
 	//ordering essential
 	glViewport(0, 0, w, h);
-	glLoadIdentity(); //essential for reload
-	gluOrtho2D(0.0, 100.0, 0.0, 100.0); //coordinate in virtual world
 }
 
 void display1() {
@@ -120,6 +118,15 @@ void display1() {
 
 	glutSetWindow(1);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	glLoadIdentity(); //essential for reload
+
+	glColor3d(0, 0, 1);
+	glRectd(0, 0, 25, 100);
+
+	gluOrtho2D(0.0, 100.0, 0.0, 100.0); //coordinate in virtual world
+
+	
 
 	glColor3d(0, 1, 1);
 	glRectd(50, 0, 75, 100);
@@ -234,8 +241,8 @@ void idle1() {
 	rectangle.y += 0.1;
 	glutSetWindow(1);
 	glutPostRedisplay();
-	glutSetWindow(2);
-	glutPostRedisplay();
+	//glutSetWindow(2);
+	//glutPostRedisplay();
 }
 
 
@@ -316,10 +323,10 @@ int main(int argc, char **argv) {
 
 	glewInit();
 
-	cout << glutCreateSubWindow(1, 100, 100, 100, 100) << endl;
-	glutDisplayFunc(display_sub);
+	//cout << glutCreateSubWindow(1, 100, 100, 100, 100) << endl;
+	//glutDisplayFunc(display_sub);
 
-	glewInit();
+	//glewInit();
 
 	glutMainLoop();
 
