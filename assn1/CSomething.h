@@ -14,7 +14,7 @@ typedef CMessageQueue<SScriptMessage> SMQueue;
 struct SDrawData
 {
 	T2Double pos;
-	int img;
+	int img; //0 : player, 1 : enemy, 2 : item, 3 : fire, 4 : megafire
 	T4Int color;
 	double rotate;
 	double size;
