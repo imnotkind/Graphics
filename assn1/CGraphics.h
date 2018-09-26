@@ -10,6 +10,8 @@ class CGraphics : public CHandler
 {
 	CEngine * V_PEngine;
 
+	T2Double V_Screen_Size;
+
 	T2Double V_Camera_Pos;
 	double V_Camera_Height;
 	T2Double V_Camera_Speed;

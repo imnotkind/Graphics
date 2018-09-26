@@ -39,8 +39,13 @@ void CGraphics::RenderGame(void)
 
 void CGraphics::RenderUI(void)
 {
-	//glViewport(0, 0, 200, 40);
-	glutCreateSubWindow(1, 10, 10, 100, 100);
+	glRectd(0, V_Screen_Size[1] - 100, 300, V_Screen_Size[1]);
+	auto l = V_PEngine->V_Player->M_GetItemList();
+	for (auto p : l)
+	{
+		cout << p;
+	}
+	cout << endl;
 }
 
 
@@ -51,6 +56,7 @@ void CGraphics::M_Initialize(CEngine * P)
 	old = GetTickCount();
 
 	V_PEngine = P;
+	V_Screen_Size = T2Double(1080, 1080);
 	V_Camera_Pos = T2Double(0, 0);
 	V_Camera_Height = 80;
 	V_Camera_Speed.set(0.0, 0.0);
@@ -98,12 +104,14 @@ void CGraphics::M_MoveCamera(void)
 }
 void CGraphics::M_CallbackDisplay()
 {
+	glClear(GL_COLOR_BUFFER_BIT);
+
 	M_MoveCamera();
 	glLoadIdentity();
 	gluOrtho2D(V_Camera_Pos[0] - V_Camera_Height, V_Camera_Pos[0] + V_Camera_Height,
 		V_Camera_Pos[1] - V_Camera_Height, V_Camera_Pos[1] + V_Camera_Height);
 
-	glClear(GL_COLOR_BUFFER_BIT);
+	
 
 	M_DrawPolygon(Vec2d(25,25), 50, 3, 0.25*PI, T4Int(0, 0, 0, 205));
 	M_DrawPolygon(Vec2d(25, 75), 50, 4, 0, T4Int(0, 0, 0, 205));
@@ -114,16 +122,22 @@ void CGraphics::M_CallbackDisplay()
 
 	ostringstream s;
 	s << fps;
-	M_DrawFont(Vec2d(40, 76), s.str(), T4Int(0, 255, 0, 105));
+	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 255, 0, 105));
+	
 
 	RenderGame();
-	//RenderUI();
+
+	glLoadIdentity();
+	gluOrtho2D(0,V_Screen_Size[0],0,V_Screen_Size[1]);
+	RenderUI();
 
 	glutSwapBuffers();
 }
 
 void CGraphics::M_CallbackReshape(int w, int h)
 {
+	V_Screen_Size[0] = w;
+	V_Screen_Size[1] = h;
 	glViewport(0, 0, w, h);
 }
 
