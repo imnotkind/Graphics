@@ -55,9 +55,12 @@ void CGraphics::M_Initialize(CEngine * P)
 	V_Camera_Height = 80;
 	V_Camera_Speed.set(0.0, 0.0);
 
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1080, 1080);
+
+	glEnable(GL_MULTISAMPLE);
+
 	int id = glutCreateWindow("Hello OpenGL");
 	cout << id << endl;
 	glClearColor(1, 1, 1, 1); //background white
@@ -79,7 +82,7 @@ void CGraphics::M_MoveCamera(void)
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 120;
+	V_Camera_Height = 80;
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
