@@ -4,14 +4,14 @@
 
 void CCharacter::M_Loop(double t)
 {
-
+	if (V_Power < 25) V_Power += 1;
 }
 void CCharacter::M_MegaFire(void)
 {
 	auto mq = SMQueue::M_GetSingletone(0);
 	SScriptMessage message;
 	auto math = CMath::getInstance();
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 30; i++)
 	{
 		double theta = DTR(math->M_Num_dRandom(0, 360));
 		double speed = math->M_Num_dRandom(0.5, 3);
@@ -25,12 +25,19 @@ void CCharacter::M_MegaFire(void)
 }
 void CCharacter::M_Fire(void)
 {
+	if (V_Power < 25) return;
 	auto mq = SMQueue::M_GetSingletone(0);
 
 	SScriptMessage message;
 
-	message.type = "creation";
-	message.content = (void*) new CBullet(V_Position, 3, T4Int(255, 0, 0, 255), 0.3, T2Double(cos(V_Rotate), sin(V_Rotate)) * 1);
-	mq->M_Push(message);
+	for (int i = -1; i <= 1; i++)
+	{
+		double theta = V_Rotate + DTR(10) * i;
+		double speed = 1;
 
+		message.type = "creation";
+		message.content = (void*) new CBullet(V_Position, 4, T4Int(255, 0, 0, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
+		mq->M_Push(message);
+	}
+	V_Power = 0;
 }

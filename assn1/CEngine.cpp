@@ -158,13 +158,24 @@ void CEngine::M_CollisionTest(void)
 		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
 		{
 			M_Defeat();
-			return;
+			//return;
+		}
+	}
+
+	if (!remove_list_enemy.empty()) //get angry
+	{
+		double factor = (double)V_PEnemies.size() / (double)V_Max_Enemies;
+		for (auto e : V_PEnemies)
+		{
+			dynamic_cast<CEnemy*>(e->get())->M_SetSpeed(V_Math->M_Num_dRandom(0.4, 0.6) + (1 - factor) * 0.5);
 		}
 	}
 
 	for (auto i : remove_list_bullet) V_Objects.erase(V_PBullets[i]);
 	for (auto i : remove_list_enemy) V_Objects.erase(V_PEnemies[i]);
 	for (auto i : remove_list_item) V_Objects.erase(V_PItems[i]);
+
+	
 
 }
 
@@ -236,19 +247,9 @@ void CEngine::M_ItemUse(list<int>& x)
 }
 void CEngine::M_Event_KeyPress(int key, bool special)
 {
-	/*
-	if (special)
-	{
-		if (key == GLUT_KEY_DOWN) M_MoveRequest(T2Double(0, -V_Grid_Size * 0.1));
-		if (key == GLUT_KEY_UP) M_MoveRequest(T2Double(0, V_Grid_Size * 0.1));
-		if (key == GLUT_KEY_LEFT) M_MoveRequest(T2Double(-V_Grid_Size * 0.1, 0));
-		if (key == GLUT_KEY_RIGHT) M_MoveRequest(T2Double(V_Grid_Size * 0.1, 0));
-	}
-	else*/
-	{
-		if (key == 32) V_Player->M_Fire(); // Space bar
-		if (key == 'q') M_ItemUse(V_Player->M_GetItemList());
-	}
+
+	if (key == 32) V_Player->M_Fire(); // Space bar
+	if (key == 'q') M_ItemUse(V_Player->M_GetItemList());
 }
 T2Int CEngine::M_GetEmptyPlace(void)
 {
@@ -290,7 +291,7 @@ void CEngine::M_Initialize(void)
 	for (int i = 0; i < n_enm; i++)
 	{
 		auto p = M_GetEmptyPlace();
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.1, 0.6))));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
 		//p.first->get()->~~ : some initialization
 	}
 
@@ -318,13 +319,15 @@ void CEngine::M_EnemyNavigation(void)
 
 	T2Int q = M_DiscretePos(V_Player->M_GetPosition());
 
+	double factor = (double)V_PEnemies.size() / (double)V_Max_Enemies; //fewer enemy leads to more aggresiveness
+
 	for (auto e : V_PEnemies) 
 	{
-		if (V_Math->M_Num_iRandom(0, 20) != 0) continue;
+		if (V_Math->M_St_Frequency(0.9)) continue;
 
 		off = V_Math->M_Num_iRandom(0, 3);
 		auto enemy = dynamic_cast<CEnemy*>(e->get());
-		enemy->M_ClearMove();
+		
 
 		TGrid<int, 2> dis, path, check;
 		dis.resize(V_Map.size, 1000000);
@@ -337,23 +340,31 @@ void CEngine::M_EnemyNavigation(void)
 
 		T2Int diff = p - q;
 
-		if (diff[0] * diff[0] + diff[1] * diff[1] > 100) //too far to detect player
+		double detection = 5 + log(2 - factor) * 100;
+		if (diff[0] * diff[0] + diff[1] * diff[1] > detection * detection ) //too far to detect player
 		{
-			for (int d = off; d < 4 + off; d++) //for variety of path, order of visiting is random
+			if (enemy->M_MoveEmpty())
 			{
-				T2Int np = p + dis.dir(d);
-				if (V_Map[np] != 1)
+				for (int d = off; d < 4 + off; d++) //for variety of path, order of visiting is random
 				{
-					T2Double temp(np[0], np[1]);
-					temp *= V_Grid_Size;
-					enemy->M_PushMove(temp);
-					break;
+					T2Int np = p + dis.dir(d);
+					if (V_Map[np] != 1)
+					{
+						T2Double temp(np[0], np[1]);
+						temp *= V_Grid_Size;
+						enemy->M_PushMove(temp);
+						break;
+					}
 				}
 			}
+			
 		}
 		else
 		{
 			if (V_Map[p] == 1 || V_Map[q] == 1) continue;
+
+			enemy->M_ClearMove();
+			
 
 			priority_queue<mp, vector<mp>, function<bool(mp, mp)>> pq(mycomp);
 			pq.push(mp(0, q));
@@ -362,6 +373,8 @@ void CEngine::M_EnemyNavigation(void)
 			{
 				if (pq.empty()) break;
 				auto x = pq.top(); pq.pop();
+
+				if (x.second == p) break;
 				if (check[x.second]) continue;
 
 				dis[x.second] = x.first;

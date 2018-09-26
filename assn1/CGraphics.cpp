@@ -39,13 +39,12 @@ void CGraphics::RenderGame(void)
 
 void CGraphics::RenderUI(void)
 {
-	glRectd(0, V_Screen_Size[1] - 100, 300, V_Screen_Size[1]);
+	ostringstream s;
+	s << "Enemies : " << V_PEngine->V_PEnemies.size();
+	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
+
+	//glRectd(0, V_Screen_Size[1] - 100, 300, V_Screen_Size[1]);
 	auto l = V_PEngine->V_Player->M_GetItemList();
-	for (auto p : l)
-	{
-		cout << p;
-	}
-	cout << endl;
 }
 
 
@@ -93,8 +92,8 @@ void CGraphics::M_MoveCamera(void)
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
 	auto d = V_Math->M_2TV_Angle(p, c);
-	a *=  + d[1];
-	a *= 0.001;
+	a *=  d[1];
+	a *= 0.003;
 
 	V_Camera_Speed += a;
 	V_Camera_Speed *= 0.9;
@@ -120,9 +119,7 @@ void CGraphics::M_CallbackDisplay()
 	M_DrawLine(Vec2d(0, 50), Vec2d(100, 50), T4Int(255, 0, 0, 255));
 	M_DrawLine(Vec2d(50, 0), Vec2d(50, 100), T4Int(255, 0, 0, 255));
 
-	ostringstream s;
-	s << fps;
-	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 255, 0, 105));
+	
 	
 
 	RenderGame();
