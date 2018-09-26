@@ -183,6 +183,8 @@ void CEngine::M_Loop(void)
 {
 	M_ObjectIndexing();
 
+	M_EnemyNavigation();
+
 	//TODO : caculate time elapsed
 	double t = 1.0;
 
@@ -290,8 +292,11 @@ void CEngine::M_Initialize(void)
 	}
 
 }
-
-
+typedef pair<int, T2Int> mp;
+bool mycomp(const mp& a, const mp& b)
+{
+	return a.first > b.first;
+}
 
 void CEngine::M_EnemyNavigation(void)
 {
@@ -300,27 +305,60 @@ void CEngine::M_EnemyNavigation(void)
 	if (count < 10) return;
 	count = 0;
 
-	
-
-
 	for (auto e : V_PEnemies)
 	{
-		typedef pair<int, T2Int> mp;
-		TGrid<int, 2> dis;
-		dis.resize(V_Map.size, 1000000);
-		T2Int p((*e)->M_GetPosition());
-		dis[p] = 0;
+		auto enemy = dynamic_cast<CEnemy*>(e->get());
 
-		priority_queue<mp> pq;
-		for (int x = 0; x < V_Map.size[0]; x++)
+		TGrid<int, 2> dis, path, check;
+		dis.resize(V_Map.size, 1000000);
+		path.resize(V_Map.size, -1);
+		check.resize(V_Map.size, 0);
+
+		T2Int q = T2Int(V_Player->M_GetPosition() * (1.0 / V_Grid_Size));
+		T2Int p = T2Int((*e)->M_GetPosition() * (1.0 / V_Grid_Size));
+
+		dis[q] = 0;
+
+		priority_queue<mp, vector<mp>, function<bool(mp, mp)>> pq(mycomp);
+		pq.push(mp(0, p));
+
+		while (true)
 		{
-			for (int y = 0; y < V_Map.size[1]; y++)
+			if (pq.empty()) break;
+			auto x = pq.top(); pq.pop();
+			if (check[x.second]) continue;
+
+			dis[x.second] = x.first;
+			check[x.second] = 1;
+
+			for (int d = 0; d < 4; d++)
 			{
-				T2Int z(x, y);
-				if (V_Map[z] != 1) pq.push(mp(dis[z], z));
+				T2Int np = x.second + dis.dir(d);
+				if (V_Map[np] != 1)
+				{
+					if (dis[np] > dis[x.second] + 1)
+					{
+						pq.push(mp(dis[x.second] + 1, np));
+						path[np] = (d + 2) % 4;
+						dis[np] = dis[x.second] + 1;
+					}
+				}
 			}
 		}
+
+		T2Int Cur = p;
+
+		while (true)
+		{
+			Cur = Cur + dis.dir(path[Cur]);
+			if (Cur == q) break;
+			enemy->M_ClearMove();
+			T2Double temp(dis.dir(path[Cur])[0], dis.dir(path[Cur])[1]);
+			temp *= V_Grid_Size;
+			enemy->M_PushMove(temp);
+		}
 	}
+
 
 
 }

@@ -14,6 +14,7 @@
 #include <string>
 #include <set>
 #include <list>
+#include <functional>
 
 #include <ctime>
 #include <sstream>

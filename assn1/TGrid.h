@@ -65,6 +65,22 @@ public:
 		return arr[f];
 	}
 
+	TVector<int, n> dir(int k) const
+	{
+		//only for 2d
+		TVector<int, n> x(0, 0);
+		if (k == 0) x[0] = -1;
+		if (k == 1) x[1] = -1;
+		if (k == 2) x[0] = 1;
+		if (k == 3) x[1] = 1;
+
+		return x;
+
+		TVector<int, n> r(0);
+		r[int(k / 2)] = (k % 2) * 2 - 1;
+		return r;
+	}
+
 
 
 
