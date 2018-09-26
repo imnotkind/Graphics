@@ -142,7 +142,7 @@ void CEngine::M_CollisionTest(void)
 
 		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
 		{
-			V_Player->M_GetItemList().push_front((dynamic_cast<CItem*>(t->get()))->M_GetType());
+			V_Player->M_GetItemList().push_back((dynamic_cast<CItem*>(t->get()))->M_GetType());
 			remove_list_item.insert(i);
 		}
 	}
