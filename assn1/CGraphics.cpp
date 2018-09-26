@@ -32,9 +32,9 @@ void CGraphics::RenderGame(void)
 	{
 		auto d = x->M_GetDrawData();
 		
-		if (d.img == 2) //item
+		if (3 <= d.img && d.img <= 6 ) //item
 		{
-			M_DrawStar(d.pos.convert_gl(), d.size, d.rotate, d.color);
+			M_DrawItem(d.pos.convert_gl(), d.size, d.img - 3);
 		}
 		else //bullet, enemy
 		{
@@ -70,13 +70,13 @@ void CGraphics::RenderUI(void)
 	switch (n)
 	{
 		case 4:
-			M_DrawStar(Vec2d(300, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, DTR(45), V_General->M_Pallete(*next(it, 3)));
+			M_DrawItem(Vec2d(300, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, *next(it, 3));
 		case 3:
-			M_DrawStar(Vec2d(230, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, DTR(45), V_General->M_Pallete(*next(it, 2)));
+			M_DrawItem(Vec2d(230, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, *next(it, 2));
 		case 2:
-			M_DrawStar(Vec2d(160, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, DTR(45), V_General->M_Pallete(*next(it,1)));
+			M_DrawItem(Vec2d(160, V_Screen_Size[1] - 40), 60 / sqrt(2) / 1.5, *next(it, 1));
 		case 1:
-			M_DrawStar(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2) / 1.5, DTR(45), V_General->M_Pallete(*it));
+			M_DrawItem(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2) / 1.5,*it);
 		case 0:
 			break;
 	}
@@ -151,18 +151,6 @@ void CGraphics::M_CallbackDisplay()
 	gluOrtho2D(V_Camera_Pos[0] - V_Camera_Height, V_Camera_Pos[0] + V_Camera_Height,
 		V_Camera_Pos[1] - V_Camera_Height, V_Camera_Pos[1] + V_Camera_Height);
 
-	
-
-	M_DrawPolygon(Vec2d(25,25), 50, 3, 0.25*PI, T4Int(0, 0, 0, 205));
-	M_DrawPolygon(Vec2d(25, 75), 50, 4, 0, T4Int(0, 0, 0, 205));
-	M_DrawStar(Vec2d(70, 30), 20, 0, T4Int(0, 0, 0, 205));
-
-	M_DrawLine(Vec2d(0, 50), Vec2d(100, 50), T4Int(255, 0, 0, 255));
-	M_DrawLine(Vec2d(50, 0), Vec2d(50, 100), T4Int(255, 0, 0, 255));
-
-	
-	
-
 	RenderGame();
 
 	glLoadIdentity();
@@ -181,7 +169,6 @@ void CGraphics::M_CallbackReshape(int w, int h)
 
 void CGraphics::M_CallbackIdle()
 {
-	
 	glutPostRedisplay();
 }
 
@@ -238,6 +225,51 @@ void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 	glRasterPos2d(p[0], p[1]);
 	for (int i=0; i < str.length(); i++)
 	{
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str.at(i));
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str.at(i));
 	}
 }
+
+
+
+void CGraphics::M_DrawItem(Vec2d p, double r, int z)
+{
+	if (z == 0) // Mega fire
+	{
+		M_DrawStar(p, r, DTR(45), V_General->M_Pallete(z));
+	}
+	if (z == 1) // Camera up
+	{
+		M_DrawStar(p, r, DTR(45), V_General->M_Pallete(z));
+	}
+	if (z == 2) // Invincible
+	{
+		M_DrawStar(p, r, DTR(45), V_General->M_Pallete(z));
+	}
+	if (z == 3) // Speed up
+	{
+		double c = r / (20 * sqrt(13)); //most far point : (40,60)
+
+		glColor4ub(150, 75, 0, 255);
+		glBegin(GL_POLYGON);
+		glVertex2d(p[0] - 15 * c, p[1] - 5 * c);
+		glVertex2d(p[0] - 40 * c, p[1] + 20 * c);
+		glVertex2d(p[0], p[1] + 60 * c);
+		glVertex2d(p[0] + 50 * c, p[1] + 10 * c);
+		glVertex2d(p[0] - 20 * c, p[1] - 60 * c);
+		glVertex2d(p[0] - 40 * c, p[1] - 60 * c);
+		glVertex2d(p[0] - 45 * c, p[1] - 50 * c);
+		glVertex2d(p[0] - 40 * c, p[1] - 20 * c);
+		glEnd();
+		
+		glColor4ub(240, 248, 255, 255);
+		glBegin(GL_POLYGON);
+			glVertex2d(p[0] + 10*c, p[1]);
+			glVertex2d(p[0] + 10*c, p[1] + 30*c);
+			glVertex2d(p[0] + 40*c, p[1] + 60*c);
+			glVertex2d(p[0] + 40*c, p[1] + 30*c);
+		glEnd();
+		
+	}
+	
+}
+

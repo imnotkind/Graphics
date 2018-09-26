@@ -307,7 +307,7 @@ void CEngine::M_Initialize(void)
 		auto p = M_GetEmptyPlace();
 		V_Map[p] = 2;
 		int type = V_Math->M_Num_iRandom(0, 3);
-		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 2, V_General->M_Pallete(type), V_Grid_Size * 0.3, type)));
+		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 3+type, V_General->M_Pallete(type), V_Grid_Size * 0.3, type)));
 	}
 	//place enemies
 	for (int i = 0; i < n_enm; i++)

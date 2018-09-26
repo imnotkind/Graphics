@@ -28,7 +28,7 @@ void CCharacter::M_MegaFire(void)
 		double speed = math->M_Num_dRandom(0.5, 3);
 
 		message.type = "creation";
-		message.content = (void*) new CBullet(V_Position, 4, T4Int(255, 0, 0, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
+		message.content = (void*) new CBullet(V_Position, 2, T4Int(255, 0, 0, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
 		mq->M_Push(message);
 	}
 
@@ -47,7 +47,7 @@ void CCharacter::M_Fire(void)
 		double speed = 1;
 
 		message.type = "creation";
-		message.content = (void*) new CBullet(V_Position, 4, T4Int(255, 0, 0, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
+		message.content = (void*) new CBullet(V_Position, 2, T4Int(255, 0, 0, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
 		mq->M_Push(message);
 	}
 	V_Power = 0;

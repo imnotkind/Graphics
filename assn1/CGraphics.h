@@ -28,6 +28,7 @@ class CGraphics : public CHandler
 	void M_DrawStar(Vec2d p, double r, double rotate, T4Int rgba);
 	void M_DrawPolygon(Vec2d p, double r, int bump, double rotate, T4Int rgba);
 	void M_DrawFont(Vec2d p, string str, T4Int rgba);
+	void M_DrawItem(Vec2d p, double r, int z);
 
 public:
 
