@@ -17,8 +17,7 @@ class CGraphics : public CHandler
 	double V_Camera_Size_Acc;
 	T2Double V_Camera_Speed;
 
-	double fps;
-	unsigned long old;
+	
 	double count;
 
 	void RenderGame(void);

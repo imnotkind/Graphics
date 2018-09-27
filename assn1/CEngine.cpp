@@ -215,6 +215,13 @@ void CEngine::M_Loop(void)
 	
 	M_ListenMessages();
 	M_CheckKeyPress();
+
+
+	auto elapse = GetTickCount() - old;
+	old = GetTickCount();
+	double q = std::min((1.0 / (0.001*elapse)), 1000.0);
+	fps = fps * 0.99 + q * 0.01;
+
 }
 void CEngine::M_CheckKeyPress()
 {
@@ -287,6 +294,8 @@ T2Int CEngine::M_GetEmptyPlace(void)
 
 void CEngine::M_Initialize(void)
 {
+	old = GetTickCount();
+
 	V_IS_Camera = -1.0;
 	V_IS_Invincible = -1.0;
 	V_IS_Speed = -1.0;

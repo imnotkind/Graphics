@@ -53,6 +53,10 @@ void CGraphics::RenderUI(void)
 	s << "Enemies : " << V_PEngine->V_PEnemies.size();
 	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
 
+	s.str("");
+	s << "FPS : " << V_PEngine->fps;
+	M_DrawFont(Vec2d(100, 180), s.str(), T4Int(0, 0, 0, 255));
+
 
 
 	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
@@ -88,8 +92,7 @@ void CGraphics::RenderUI(void)
 void CGraphics::M_Initialize(CEngine * P)
 {
 	count = 0;
-	fps = 0.0;
-	old = GetTickCount();
+	
 
 	V_PEngine = P;
 	V_Screen_Size = T2Double(1080, 1080);
@@ -113,12 +116,8 @@ void CGraphics::M_Initialize(CEngine * P)
 
 void CGraphics::M_MoveCamera(void)
 {
-	auto elapse = GetTickCount() - old;
-	old = GetTickCount();
-
-	double q = std::min((1.0 / (0.001*elapse)), 1000.0);
 	
-	fps = fps * 0.9 + q *0.1;
+
 	count += 0.01;
 
 	auto p = V_PEngine->V_Player->M_GetPosition();

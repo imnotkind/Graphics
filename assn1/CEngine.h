@@ -21,6 +21,9 @@ class CEngine : public CHandler
 	vector<set<shared_ptr<CSomething>>::iterator> V_PItems;
 
 	//
+	double fps = 0;
+	unsigned long old;
+
 
 	double V_Grid_Size;
 	friend CGraphics;
