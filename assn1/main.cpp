@@ -26,7 +26,14 @@ void cb_reshape(int w, int h)
 
 void cb_idle()
 {
-	Graphics.M_CallbackIdle();
+	static int c = 0;
+	c++;
+	if (c == 5)
+	{
+		c = 0;
+		Graphics.M_CallbackIdle();
+	}
+	
 	Engine.M_Loop();
 }
 
@@ -64,9 +71,12 @@ int main(int argc, char **argv) {
 
 	glutDisplayFunc(cb_display);
 	glutReshapeFunc(cb_reshape);
+
 	glutIdleFunc(cb_idle);
+
 	glutKeyboardFunc(cb_key);
 	glutSpecialFunc(cb_skey);
+
 	glutKeyboardUpFunc(cb_keyup);
 	glutSpecialUpFunc(cb_skeyup);
 	
