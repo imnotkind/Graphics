@@ -54,8 +54,12 @@ void CGraphics::RenderUI(void)
 	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
 
 	s.str("");
-	s << "FPS : " << V_PEngine->fps;
+	s << "FPS of Engine : " << V_PEngine->fps;
 	M_DrawFont(Vec2d(100, 180), s.str(), T4Int(0, 0, 0, 255));
+
+	s.str("");
+	s << "FPS of Graphic : " << this->fps;
+	M_DrawFont(Vec2d(100, 230), s.str(), T4Int(0, 0, 0, 255));
 
 
 
@@ -91,7 +95,7 @@ void CGraphics::RenderUI(void)
 
 void CGraphics::M_Initialize(CEngine * P)
 {
-	count = 0;
+	old = GetTickCount();
 	
 
 	V_PEngine = P;
@@ -116,9 +120,7 @@ void CGraphics::M_Initialize(CEngine * P)
 
 void CGraphics::M_MoveCamera(void)
 {
-	
 
-	count += 0.01;
 
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
@@ -160,6 +162,12 @@ void CGraphics::M_MoveCamera(void)
 }
 void CGraphics::M_CallbackDisplay()
 {
+
+	auto elapse = GetTickCount() - old;
+	old = GetTickCount();
+	double q = std::min((1.0 / (0.001*elapse)), 1000.0);
+	fps = fps * 0.9 + q * 0.1;
+
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	M_MoveCamera();
@@ -185,6 +193,7 @@ void CGraphics::M_CallbackReshape(int w, int h)
 
 void CGraphics::M_CallbackIdle()
 {
+	
 	glutPostRedisplay();
 }
 

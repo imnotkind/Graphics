@@ -159,7 +159,7 @@ void CEngine::M_CollisionTest(void)
 
 		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
 		{
-			M_Defeat();
+			//M_Defeat();
 			//return;
 		}
 	}
@@ -220,7 +220,7 @@ void CEngine::M_Loop(void)
 	auto elapse = GetTickCount() - old;
 	old = GetTickCount();
 	double q = std::min((1.0 / (0.001*elapse)), 1000.0);
-	fps = fps * 0.99 + q * 0.01;
+	fps = fps * 0.9 + q * 0.1;
 
 }
 void CEngine::M_CheckKeyPress()
@@ -371,14 +371,14 @@ void CEngine::M_EnemyNavigation(void)
 
 		T2Int diff = p - q;
 
-		double detection = 5 + log(2 - factor) * 100;
+		double detection = 5 + log(2 - factor) * 50;
 		if (diff[0] * diff[0] + diff[1] * diff[1] > detection * detection ) //too far to detect player
 		{
 			if (enemy->M_MoveEmpty())
 			{
 				for (int d = off; d < 4 + off; d++) //for variety of path, order of visiting is random
 				{
-					T2Int np = p + dis.dir(d);
+					T2Int np = p + dis.dir(d % 4);
 					if (V_Map[np] != 1)
 					{
 						T2Double temp(np[0], np[1]);
@@ -387,8 +387,7 @@ void CEngine::M_EnemyNavigation(void)
 						break;
 					}
 				}
-			}
-			
+			}			
 		}
 		else
 		{

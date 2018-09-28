@@ -26,15 +26,17 @@ void cb_reshape(int w, int h)
 
 void cb_idle()
 {
-	static int c = 0;
-	c++;
-	if (c == 5)
-	{
-		c = 0;
-		Graphics.M_CallbackIdle();
-	}
+	static int count = GetTickCount();
+	
+	Graphics.M_CallbackIdle();
+	if (GetTickCount() - count < 1000 * (1 / 80.0)) return;	
+	
+	count = GetTickCount();
+
+	
 	
 	Engine.M_Loop();
+	
 }
 
 void cb_key(unsigned char key, int x, int y)
