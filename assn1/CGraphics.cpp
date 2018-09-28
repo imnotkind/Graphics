@@ -149,7 +149,7 @@ void CGraphics::M_MoveCamera(void)
 	}
 	else
 	{
-		//V_Camera_Size_Acc = -0.1;
+		V_Camera_Size = 80;
 	}
 
 	V_Camera_Size += V_Camera_Size_Acc;
