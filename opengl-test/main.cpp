@@ -145,17 +145,19 @@ void display1() {
 	renderBitmapCharacter(50, 50, GLUT_BITMAP_HELVETICA_18, "PRESS ANY KEY");
 
 	glPushMatrix();
-	glTranslatef(0, 20, 0);
-	glScalef(0.1f, 0.1f, 0.1f);
+	glTranslated(0, 20, 0);
+	glScaled(0.1, 0.1, 0.1);
+	glLineWidth(60);
+	glColor3d(1, 0, 0);
 	glutStrokeString(GLUT_STROKE_ROMAN, (unsigned char*)"HELLO WORLD");
 	glPopMatrix();
 
-	
 	glLoadIdentity(); //essential for reload
 	gluOrtho2D(0.0, ww, 0.0, hh); //absolute
 
 	glColor3d(0, 0.5, 1);
 	glRectd(00, 0, 75, 100);
+
 	
 	glutSwapBuffers();
 }
