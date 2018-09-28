@@ -144,6 +144,12 @@ void display1() {
 
 	renderBitmapCharacter(50, 50, GLUT_BITMAP_HELVETICA_18, "PRESS ANY KEY");
 
+	glPushMatrix();
+	glTranslatef(0, 20, 0);
+	glScalef(0.1f, 0.1f, 0.1f);
+	glutStrokeString(GLUT_STROKE_ROMAN, (unsigned char*)"HELLO WORLD");
+	glPopMatrix();
+
 	
 	glLoadIdentity(); //essential for reload
 	gluOrtho2D(0.0, ww, 0.0, hh); //absolute
@@ -267,10 +273,6 @@ void mouse1(int button, int state, int x, int y) {
 void key1(unsigned char key, int x, int y)
 {
 	cout << "key : " << key << " | mousepos : (" << x << "," << y << ")" << endl;
-
-	glLoadIdentity();
-	gluOrtho2D(-10, 100.0, -10, 200.0); //coordinate in virtual world
-	glutPostRedisplay();
 
 }
 void skey1(int key, int x, int y)
