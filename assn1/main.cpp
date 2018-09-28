@@ -41,13 +41,11 @@ void cb_idle()
 
 void cb_key(unsigned char key, int x, int y)
 {
-	//cout << key << endl;
 	auto iq = CUserInput::getInstance();
 	iq->M_PressDown(key, false);
 }
 void cb_skey(int key, int x, int y)
 {
-	//cout << key << endl;
 	auto iq = CUserInput::getInstance();
 	iq->M_PressDown(key, true);
 }

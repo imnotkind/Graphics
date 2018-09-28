@@ -90,9 +90,19 @@ void CGraphics::RenderUI(void)
 			break;
 	}
 
-	if (V_PEngine->V_GameEnd)
+	if (V_PEngine->V_GameEnd == 1)
 	{
-		M_DrawFontBig(Vec2d(V_Screen_Size[0] / 2.0, V_Screen_Size[1] / 2.0), "FUCK!", 0.1, T4Int(255, 0, 0, 255));
+		Vec2d p = Vec2d(0, V_Screen_Size[1] / 2.0);
+		M_DrawFontBig(p, "Game Over!", 1, T4Int(255, 0, 0, 255));
+		p[1] -= 200;
+		M_DrawFont(p, "Press any button to restard", T4Int(0, 0, 0, 255));
+	}
+	if (V_PEngine->V_GameEnd == 2)
+	{
+		Vec2d p = Vec2d(0, V_Screen_Size[1] / 2.0);
+		M_DrawFontBig(p, "Game Clear!", 1, T4Int(255, 0, 0, 255));
+		p[1] -= 200;
+		M_DrawFont(p, "Press any button to restard", T4Int(0, 0, 0, 255));
 	}
 
 

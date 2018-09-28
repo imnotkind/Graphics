@@ -200,7 +200,16 @@ void CEngine::M_MoveRequest(T2Double d)
 }
 void CEngine::M_Loop(void)
 {
-	if (V_GameEnd) return;
+	if (V_GameEnd)
+	{
+		auto iq = SIQueue::M_GetSingletone(0);
+		if (!iq->M_Empty())
+		{
+			auto x = iq->M_Pop();
+			if(x.type == "down")M_Initialize();
+		}
+		return;
+	}
 
 	M_ObjectIndexing();
 	M_ItemState();
@@ -230,6 +239,7 @@ void CEngine::M_CheckKeyPress()
 {
 	auto iq = CUserInput::getInstance();
 	double speed = 0.1;
+
 	if (V_IS_Speed > 0.0) speed += sin(V_IS_Speed / 240.0 * PI) *0.15;
 
 	if (iq->M_IfPressed(GLUT_KEY_DOWN, true))
@@ -276,8 +286,9 @@ void CEngine::M_ItemUse(list<int>& x)
 }
 void CEngine::M_Event_KeyPress(int key, bool special)
 {
-	if (key == 32) V_Player->M_Fire(); // Space bar
-	if (key == 'q') M_ItemUse(V_Player->M_GetItemList());
+
+	if (key == 32 && special) V_Player->M_Fire(); // Space bar
+	if (key == 'q' && !special) M_ItemUse(V_Player->M_GetItemList());
 }
 T2Int CEngine::M_GetEmptyPlace(void)
 {
@@ -297,12 +308,17 @@ T2Int CEngine::M_GetEmptyPlace(void)
 
 void CEngine::M_Initialize(void)
 {
+	auto mq = SMQueue::M_GetSingletone(0);
+	while (!mq->M_Empty()) { mq->M_Pop(); }
+
+	V_GameEnd = 0;
+	V_Objects.clear();
+
 	old = GetTickCount();
 
 	V_IS_Camera = -1.0;
 	V_IS_Invincible = -1.0;
 	V_IS_Speed = -1.0;
-
 
 	V_Grid_Size = 6.0;
 	

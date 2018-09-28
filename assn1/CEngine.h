@@ -24,7 +24,7 @@ class CEngine : public CHandler
 	double fps = 0;
 	unsigned long old;
 
-	bool V_GameEnd = false; // both gameover and clear
+	int V_GameEnd = 0; // 0 : playing, 1 : gameover, 2: clear
 
 
 	double V_Grid_Size;
@@ -68,6 +68,7 @@ class CEngine : public CHandler
 
 public:
 
+	bool M_GameEnd(void) {return V_GameEnd != 0; }
 	
 	void M_Loop(void);
 	void M_CheckKeyPress();
