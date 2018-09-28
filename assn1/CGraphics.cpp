@@ -244,14 +244,28 @@ void CGraphics::M_DrawPolygon(Vec2d p, double r, int bump, double rotate, T4Int 
 
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 {
-	//CAUTION : Font size does not get influenced by screen size
-	//Font position is world coordinate
+	//CAUTION : Font size does NOT get influenced by screen size
+	//Font position is world coordinate (most recent gluortho2D)
 	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
 	glRasterPos2d(p[0], p[1]);
 	for (int i=0; i < str.length(); i++)
 	{
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str.at(i));
 	}
+}
+
+void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
+{
+	//CAUTION : Font size DOES get influenced by screen size
+	//Font position is world coordinate (most recent gluortho2D)
+	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
+	glLineWidth(60);
+	glPushMatrix();
+	glTranslated(p[0], p[1], 0);
+	glScaled(scale, scale, 0);
+	glutStrokeString(GLUT_STROKE_ROMAN, (unsigned char*)str.c_str());
+	glPopMatrix();
+	glLineWidth(1);
 }
 
 

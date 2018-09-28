@@ -146,11 +146,13 @@ void display1() {
 
 	glPushMatrix();
 	glTranslated(0, 20, 0);
-	glScaled(0.1, 0.1, 0.1);
+	glScaled(0.1, 0.1, 0);
 	glLineWidth(60);
 	glColor3d(1, 0, 0);
 	glutStrokeString(GLUT_STROKE_ROMAN, (unsigned char*)"HELLO WORLD");
+	glLineWidth(1);
 	glPopMatrix();
+
 
 	glLoadIdentity(); //essential for reload
 	gluOrtho2D(0.0, ww, 0.0, hh); //absolute
