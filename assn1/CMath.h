@@ -27,6 +27,8 @@ public:
 	double M_Num_Gaussian(double mean, double sigma);
 	int M_Num_iRandom(int min, int max);
 	int M_Num_Discretization(double src, double s, double e, int d);
+
+	int M_SelectOne(vector<int> weights);
 	//
 	double M_Func_Sigmoid(double r);
 	//

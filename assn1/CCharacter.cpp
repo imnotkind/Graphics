@@ -2,7 +2,10 @@
 
 
 
-
+CCharacter::CCharacter(T2Double p, int i, T4Int c, double r) : CSomething(p, i, c, r, 0.0) 
+{
+	V_Power = 0; V_InvTime = 0; V_SuperTime= 0;
+}
 void CCharacter::M_GetInvincible(int t)
 {
 	V_InvTime = t;
@@ -16,6 +19,31 @@ void CCharacter::M_Loop(double t)
 		V_InvTime--;
 		if(V_InvTime == 0) V_Color.set(255, 0, 0, 255);
 	}
+	if (V_SuperTime > 0)
+	{
+		V_SuperTime--;
+		if (V_SuperTime % 5 == 0)
+		{
+			auto mq = SMQueue::M_GetSingletone(0);
+			SScriptMessage message;
+
+			for (int i = 0; i <= 3; i++)
+			{
+				double theta = V_Rotate + DTR(90) * i;
+				double speed = 1;
+
+				message.type = "creation";
+				message.content = (void*) new CBullet(V_Position, 2, T4Int(0, 0, 0, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
+				mq->M_Push(message);
+			}
+		}
+		
+	}
+}
+
+void CCharacter::M_SuperFire(void)
+{
+	V_SuperTime = 30;
 }
 void CCharacter::M_MegaFire(void)
 {
@@ -38,7 +66,6 @@ void CCharacter::M_Fire(void)
 {
 	if (V_Power < 25) return;
 	auto mq = SMQueue::M_GetSingletone(0);
-
 	SScriptMessage message;
 
 	for (int i = -1; i <= 1; i++)

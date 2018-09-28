@@ -18,6 +18,22 @@ double CMath::M_Num_Gaussian(double mean, double sigma)
 	return distribution(M_Random);
 
 }
+int CMath::M_SelectOne(vector<int> weights)
+{
+	int d = 0;
+	for (int i = 0; i < weights.size(); i++)
+	{
+		d += weights[i];
+	}
+	int t = M_Num_iRandom(0, d - 1);
+	d = 0;
+	for (int i = 0; i < weights.size(); i++)
+	{
+		
+		if (t >= d && t < d + weights[i]) return i;
+		d += weights[i];
+	}
+}
 int CMath::M_Num_Discretization(double src, double s, double e, int d)
 {
 	double R = (src - s) / (e - s) * d;

@@ -283,19 +283,23 @@ void CEngine::M_ItemUse(list<int>& x)
 	{
 		V_IS_Speed = 60 * 4;
 	}
+	if (z == 4) // SuperFire
+	{
+		V_Player->M_SuperFire();
+	}
 }
 void CEngine::M_Event_KeyPress(int key, bool special)
 {
 
-	if (key == 32 && special) V_Player->M_Fire(); // Space bar
+	if (key == 32 && !special) V_Player->M_Fire(); // Space bar
 	if (key == 'q' && !special) M_ItemUse(V_Player->M_GetItemList());
 }
 T2Int CEngine::M_GetEmptyPlace(void)
 {
 	while (true) // random try
 	{
-		int x = V_Math->M_Num_iRandom(0, V_Map.size[0] - 1);
-		int y = V_Math->M_Num_iRandom(0, V_Map.size[1] - 1);
+		int x = V_Math->M_Num_iRandom(10, V_Map.size[0] - 1);
+		int y = V_Math->M_Num_iRandom(10, V_Map.size[1] - 1);
 
 		if (V_Map[T2Int(x, y)] == 0)
 		{
@@ -334,9 +338,12 @@ void CEngine::M_Initialize(void)
 	{
 		auto p = M_GetEmptyPlace();
 		V_Map[p] = 2;
-		int type = V_Math->M_Num_iRandom(0, 3);
+		vector<int> pr; pr.push_back(3); pr.push_back(1); pr.push_back(2); pr.push_back(2); pr.push_back(1);
+		int type = V_Math->M_SelectOne(pr);
 		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 3+type, V_General->M_Pallete(type), V_Grid_Size * 0.3, type)));
 	}
+
+
 	//place enemies
 	for (int i = 0; i < n_enm; i++)
 	{
