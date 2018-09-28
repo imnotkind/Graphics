@@ -32,7 +32,7 @@ void CGraphics::RenderGame(void)
 	{
 		auto d = x->M_GetDrawData();
 		
-		if (3 <= d.img && d.img <= 6 ) //item
+		if (3 <= d.img && d.img <= 7 ) //item
 		{
 			M_DrawItem(d.pos.convert_gl(), d.size, d.img - 3);
 		}
@@ -95,14 +95,14 @@ void CGraphics::RenderUI(void)
 		Vec2d p = Vec2d(0, V_Screen_Size[1] / 2.0);
 		M_DrawFontBig(p, "Game Over!", 1, T4Int(255, 0, 0, 255));
 		p[1] -= 200;
-		M_DrawFont(p, "Press any button to restard", T4Int(0, 0, 0, 255));
+		M_DrawFont(p, "Press any button to restart", T4Int(0, 0, 0, 255));
 	}
 	if (V_PEngine->V_GameEnd == 2)
 	{
 		Vec2d p = Vec2d(0, V_Screen_Size[1] / 2.0);
 		M_DrawFontBig(p, "Game Clear!", 1, T4Int(255, 0, 0, 255));
 		p[1] -= 200;
-		M_DrawFont(p, "Press any button to restard", T4Int(0, 0, 0, 255));
+		M_DrawFont(p, "Press any button to restart", T4Int(0, 0, 0, 255));
 	}
 
 
@@ -363,6 +363,32 @@ void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 		glVertex2d(p[0] + 40 * c, p[1] + 30 * c);
 		glEnd();
 		
+	}
+	if (z == 4) // Super fire
+	{
+		double c = r / (sqrt(650)); //most far point : (30,-10)
+		glColor4ub(100, 100, 100, 255);
+		glBegin(GL_POLYGON);
+		glVertex2d(p[0] - 25 * c, p[1] + 5 * c);
+		glVertex2d(p[0] - 5 * c, p[1] + 25 * c);
+		glVertex2d(p[0] + 25 * c, p[1] - 5 * c);
+		glVertex2d(p[0] + 15 * c, p[1] - 5 * c);
+		glVertex2d(p[0] + 15 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 5 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
+		glEnd();
+
+		c = c * 0.5;
+		glColor4ub(230, 230, 230, 255);
+		glBegin(GL_POLYGON);
+		glVertex2d(p[0] - 25 * c, p[1] + 5 * c);
+		glVertex2d(p[0] - 5 * c, p[1] + 25 * c);
+		glVertex2d(p[0] + 25 * c, p[1] - 5 * c);
+		glVertex2d(p[0] + 15 * c, p[1] - 5 * c);
+		glVertex2d(p[0] + 15 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 5 * c, p[1] - 15 * c);
+		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
+		glEnd();
 	}
 	
 }
