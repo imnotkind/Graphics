@@ -49,6 +49,7 @@ void CGraphics::RenderGame(void)
 
 void CGraphics::RenderUI(void)
 {
+
 	ostringstream s;
 	s << "Enemies : " << V_PEngine->V_PEnemies.size();
 	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
@@ -87,6 +88,11 @@ void CGraphics::RenderUI(void)
 			M_DrawItem(Vec2d(70, V_Screen_Size[1] - 60), 100 / 2,*it);
 		case 0:
 			break;
+	}
+
+	if (V_PEngine->V_GameEnd)
+	{
+		M_DrawFontBig(Vec2d(V_Screen_Size[0] / 2.0, V_Screen_Size[1] / 2.0), "FUCK!", 0.1, T4Int(255, 0, 0, 255));
 	}
 
 

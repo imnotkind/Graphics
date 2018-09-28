@@ -24,6 +24,8 @@ class CEngine : public CHandler
 	double fps = 0;
 	unsigned long old;
 
+	bool V_GameEnd = false; // both gameover and clear
+
 
 	double V_Grid_Size;
 	friend CGraphics;

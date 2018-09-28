@@ -159,8 +159,8 @@ void CEngine::M_CollisionTest(void)
 
 		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
 		{
-			//M_Defeat();
-			//return;
+			M_Defeat();
+			return;
 		}
 	}
 
@@ -188,7 +188,8 @@ void CEngine::M_ItemState(void)
 }
 void CEngine::M_Defeat(void)
 {
-	cout << "you Lose!" << endl;
+	V_GameEnd = true;
+
 }
 void CEngine::M_MoveRequest(T2Double d)
 {
@@ -199,6 +200,8 @@ void CEngine::M_MoveRequest(T2Double d)
 }
 void CEngine::M_Loop(void)
 {
+	if (V_GameEnd) return;
+
 	M_ObjectIndexing();
 	M_ItemState();
 	M_EnemyNavigation();
