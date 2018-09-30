@@ -193,9 +193,9 @@ void CGraphics::M_CallbackDisplay()
 {
 
 	if (QueryPerformanceCounter(&new_count)) {
-		auto elapse_micro = (new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart / 1000000);
+		auto elapse_micro = (new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart / 1000000.0);
 		old_count = new_count;
-		fps = 1.0 / (0.000001*elapse_micro);
+		fps = 1000000.0 / (elapse_micro);
 	}
 	else {
 		cout << "counter fail" << endl;
