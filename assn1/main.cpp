@@ -27,14 +27,13 @@ void cb_reshape(int w, int h)
 void cb_idle()
 {
 	static int count = GetTickCount();
-	
-	Graphics.M_CallbackIdle();
-	if (GetTickCount() - count < 1000 * (1 / 80.0)) return;	
+
+	if (GetTickCount() - count < 1000 * (1 / 160.0)) return;	
 	
 	count = GetTickCount();
 
 	
-	
+	Graphics.M_CallbackIdle();
 	Engine.M_Loop();
 	
 }
