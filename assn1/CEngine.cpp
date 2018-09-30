@@ -229,6 +229,7 @@ void CEngine::M_Loop(void)
 	M_ListenMessages();
 	M_CheckKeyPress();
 
+	/*
 	if (QueryPerformanceCounter(&new_count)) {
 		auto elapse_micro = (new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart / 1000000.0);
 		old_count = new_count;
@@ -237,6 +238,7 @@ void CEngine::M_Loop(void)
 	else {
 		cout << "counter fail" << endl;
 	}
+	*/
 
 }
 void CEngine::M_CheckKeyPress()

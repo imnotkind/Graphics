@@ -32,7 +32,7 @@ void cb_idle()
 {
 	if (QueryPerformanceCounter(&new_count)) {
 
-		if ((new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart/1000000.0) < 1000000.0 * (1 / 144.0)) return;
+		if ((new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart/1000000.0) < 1000000.0 * (1 / 80.0)) return;
 
 		old_count = new_count;
 

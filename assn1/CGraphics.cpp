@@ -191,7 +191,7 @@ void CGraphics::M_MoveCamera(void)
 }
 void CGraphics::M_CallbackDisplay()
 {
-
+	/*
 	if (QueryPerformanceCounter(&new_count)) {
 		auto elapse_micro = (new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart / 1000000.0);
 		old_count = new_count;
@@ -200,6 +200,7 @@ void CGraphics::M_CallbackDisplay()
 	else {
 		cout << "counter fail" << endl;
 	}
+	*/
 
 	
 	
