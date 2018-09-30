@@ -257,7 +257,7 @@ void idle1() {
 
 
 void timer1(int value) { //auxiliary value, pass when registering callback
-	cout << "10 sec elapsed, aux value : " << value << ", idlecnt : " << cnt << endl;
+	cout << "5 sec elapsed, aux value : " << value << ", idlecnt : " << cnt << endl;
 }
 
 void mouse1(int button, int state, int x, int y) {
@@ -325,7 +325,7 @@ int main(int argc, char **argv) {
 	glutKeyboardFunc(key1);
 	glutSpecialFunc(skey1);
 	glutMouseFunc(mouse1);
-	glutTimerFunc(10000, timer1, 444);
+	glutTimerFunc(5000, timer1, 444);
 
 	glewInit();
 
