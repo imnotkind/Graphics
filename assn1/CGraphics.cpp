@@ -54,6 +54,7 @@ void CGraphics::RenderUI(void)
 	s << "Enemies : " << V_PEngine->V_PEnemies.size();
 	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
 
+	/*
 	s.str("");
 	s << "FPS of Engine : " << V_PEngine->fps;
 	M_DrawFont(Vec2d(100, 180), s.str(), T4Int(0, 0, 0, 255));
@@ -61,6 +62,7 @@ void CGraphics::RenderUI(void)
 	s.str("");
 	s << "FPS of Graphic : " << this->fps;
 	M_DrawFont(Vec2d(100, 230), s.str(), T4Int(0, 0, 0, 255));
+	*/
 
 
 
