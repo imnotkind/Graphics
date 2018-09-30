@@ -29,7 +29,6 @@ int CMath::M_SelectOne(vector<int> weights)
 	d = 0;
 	for (int i = 0; i < weights.size(); i++)
 	{
-		
 		if (t >= d && t < d + weights[i]) return i;
 		d += weights[i];
 	}

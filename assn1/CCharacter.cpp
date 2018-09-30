@@ -43,7 +43,7 @@ void CCharacter::M_Loop(double t)
 
 void CCharacter::M_SuperFire(void)
 {
-	V_SuperTime = 30;
+	V_SuperTime = 35;
 }
 void CCharacter::M_MegaFire(void)
 {

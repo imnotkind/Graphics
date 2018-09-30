@@ -167,6 +167,7 @@ void CEngine::M_CollisionTest(void)
 	if (!remove_list_enemy.empty()) //get angry
 	{
 		double factor = (double)V_PEnemies.size() / (double)V_Max_Enemies;
+		if (V_PEnemies.size() < 10) factor -= 0.3;
 		for (auto e : V_PEnemies)
 		{
 			dynamic_cast<CEnemy*>(e->get())->M_SetSpeed(V_Math->M_Num_dRandom(0.4, 0.6) + (1 - factor) * 0.5);
@@ -188,7 +189,7 @@ void CEngine::M_ItemState(void)
 }
 void CEngine::M_Defeat(void)
 {
-	V_GameEnd = true;
+	V_GameEnd = 1;
 
 }
 void CEngine::M_MoveRequest(T2Double d)
@@ -378,6 +379,10 @@ void CEngine::M_EnemyNavigation(void)
 
 	double factor = (double)V_PEnemies.size() / (double)V_Max_Enemies; //fewer enemy leads to more aggresiveness
 
+	if (V_PEnemies.size() == 0)
+	{
+		V_GameEnd = 2; return; //Clear!
+	}
 	for (auto e : V_PEnemies) 
 	{
 		if (V_Math->M_St_Frequency(0.9)) continue;
@@ -397,7 +402,7 @@ void CEngine::M_EnemyNavigation(void)
 
 		T2Int diff = p - q;
 
-		double detection = 5 + log(2 - factor) * 50;
+		double detection = 5 + log(2 - factor) * 60;
 		if (diff[0] * diff[0] + diff[1] * diff[1] > detection * detection ) //too far to detect player
 		{
 			if (enemy->M_MoveEmpty())
