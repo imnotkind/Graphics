@@ -125,7 +125,7 @@ void CGraphics::M_Initialize(CEngine * P)
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1080, 1080);
 
-	int id = glutCreateWindow("Hello OpenGL");
+	int id = glutCreateWindow("Graphics Assn1");
 	cout << id << endl;
 	glClearColor(1, 1, 1, 1); //background white
 	glShadeModel(GL_FLAT);
