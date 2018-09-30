@@ -20,7 +20,9 @@ class CGraphics : public CHandler
 	
 	//
 	double fps = 0;
-	unsigned long old;
+	LARGE_INTEGER old_count;
+	LARGE_INTEGER new_count;
+	LARGE_INTEGER freq;
 
 	void RenderGame(void);
 	void RenderUI(void);

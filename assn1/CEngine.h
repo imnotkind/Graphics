@@ -22,7 +22,9 @@ class CEngine : public CHandler
 
 	//
 	double fps = 0;
-	unsigned long old;
+	LARGE_INTEGER old_count;
+	LARGE_INTEGER new_count;
+	LARGE_INTEGER freq;
 
 	int V_GameEnd = 0; // 0 : playing, 1 : gameover, 2: clear
 

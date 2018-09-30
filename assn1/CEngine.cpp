@@ -229,11 +229,14 @@ void CEngine::M_Loop(void)
 	M_ListenMessages();
 	M_CheckKeyPress();
 
-
-	auto elapse = GetTickCount() - old;
-	old = GetTickCount();
-	double q = std::min((1.0 / (0.001*elapse)), 1000.0);
-	fps = fps * 0.9 + q * 0.1;
+	if (QueryPerformanceCounter(&new_count)) {
+		auto elapse_micro = (new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart / 1000000);
+		old_count = new_count;
+		fps = 1.0 / (0.000001*elapse_micro);
+	}
+	else {
+		cout << "counter fail" << endl;
+	}
 
 }
 void CEngine::M_CheckKeyPress()
@@ -319,7 +322,20 @@ void CEngine::M_Initialize(void)
 	V_GameEnd = 0;
 	V_Objects.clear();
 
-	old = GetTickCount();
+	if (QueryPerformanceFrequency(&freq))
+	{
+		cout << freq.QuadPart << endl;
+		if (!QueryPerformanceCounter(&old_count))
+		{
+			cout << "counter fail" << endl;
+			exit(2);
+		}
+	}
+	else
+	{
+		cout << "counter fail" << endl;
+		exit(1);
+	}
 
 	V_IS_Camera = -1.0;
 	V_IS_Invincible = -1.0;

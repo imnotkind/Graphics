@@ -13,6 +13,10 @@ CGeneral* CGeneral::Instance = NULL;
 map<int, CMessageQueue<SScriptMessage>*> CMessageQueue<SScriptMessage>::V_Multiton = map<int, CMessageQueue<SScriptMessage>*>();
 map<int, CMessageQueue<SInputMessage>*> CMessageQueue<SInputMessage>::V_Multiton = map<int, CMessageQueue<SInputMessage>*>();
 
+LARGE_INTEGER old_count;
+LARGE_INTEGER new_count;
+LARGE_INTEGER freq;
+
 void cb_display()
 {
 	Graphics.M_CallbackDisplay();
@@ -26,15 +30,18 @@ void cb_reshape(int w, int h)
 
 void cb_idle()
 {
-	static int count = GetTickCount();
+	if (QueryPerformanceCounter(&new_count)) {
 
-	if (GetTickCount() - count < 1000 * (1 / 160.0)) return;	
-	
-	count = GetTickCount();
+		if ((new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart/1000000) < 1000000 * (1 / 60.0)) return;
 
-	
-	Graphics.M_CallbackIdle();
-	Engine.M_Loop();
+		old_count = new_count;
+
+		Graphics.M_CallbackIdle();
+		Engine.M_Loop();
+	}
+	else {
+		cout << "counter fail" << endl;
+	}
 	
 }
 
@@ -64,6 +71,25 @@ void cb_skeyup(int key, int x, int y)
 
 
 int main(int argc, char **argv) {
+
+	if (QueryPerformanceFrequency(&freq))
+	{
+		cout << freq.QuadPart << endl;
+		if (QueryPerformanceCounter(&new_count))
+		{
+			old_count = new_count;
+		}
+		else
+		{
+			cout << "counter fail" << endl;
+			exit(2);
+		}
+	}
+	else
+	{
+		cout << "counter fail" << endl;
+		exit(1);
+	}
 
 	glutInit(&argc, argv);
 	Graphics.M_Initialize(&Engine);
