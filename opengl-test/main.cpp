@@ -97,6 +97,8 @@ typedef struct rect {
 } rect;
 rect rectangle = { 50,50,10,20 };
 
+int cnt = 0;
+
 int ww = 10;
 int hh = 10;
 void reshape1(int w, int h) {
@@ -119,7 +121,7 @@ void reshape1(int w, int h) {
 }
 
 void display1() {
-	cout << "displayfunc1" << endl;
+	//cout << "displayfunc1" << endl;
 
 	glutSetWindow(1);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -244,17 +246,18 @@ void display2() {
 
 void idle1() {
 	
-	rectangle.x += 0.1;
-	rectangle.y += 0.1;
-	glutSetWindow(1);
-	glutPostRedisplay();
+	cnt++;
+	//rectangle.x += 0.1;
+	//rectangle.y += 0.1;
+	//glutSetWindow(1);
+	//glutPostRedisplay();
 	//glutSetWindow(2);
 	//glutPostRedisplay();
 }
 
 
 void timer1(int value) { //auxiliary value, pass when registering callback
-	cout << "3 sec elapsed, aux value : " << value << endl;
+	cout << "10 sec elapsed, aux value : " << value << ", idlecnt : " << cnt << endl;
 }
 
 void mouse1(int button, int state, int x, int y) {
@@ -322,7 +325,7 @@ int main(int argc, char **argv) {
 	glutKeyboardFunc(key1);
 	glutSpecialFunc(skey1);
 	glutMouseFunc(mouse1);
-	glutTimerFunc(3000, timer1, 444);
+	glutTimerFunc(10000, timer1, 444);
 
 	glewInit();
 
