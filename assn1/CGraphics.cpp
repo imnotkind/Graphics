@@ -10,7 +10,7 @@ CGraphics::~CGraphics()
 {
 }
 
-void CGraphics::RenderGame(void)
+void CGraphics::M_RenderGame(void)
 {
 	//render map
 	double gsize = V_PEngine->V_Grid_Size;
@@ -47,7 +47,7 @@ void CGraphics::RenderGame(void)
 	M_DrawPolygon(d.pos.convert_gl(), d.size, 3, d.rotate, d.color);
 }
 
-void CGraphics::RenderUI(void)
+void CGraphics::M_RenderUI(void)
 {
 
 	ostringstream s;
@@ -137,7 +137,7 @@ void CGraphics::M_Initialize(CEngine * P)
 	V_Camera_Speed.set(0.0, 0.0);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
-	glutInitWindowPosition(100, 100);
+	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(1080, 1080);
 
 	int id = glutCreateWindow("Graphics Assn1");
@@ -214,11 +214,11 @@ void CGraphics::M_CallbackDisplay()
 	gluOrtho2D(V_Camera_Pos[0] - V_Camera_Size, V_Camera_Pos[0] + V_Camera_Size,
 		V_Camera_Pos[1] - V_Camera_Size, V_Camera_Pos[1] + V_Camera_Size);
 
-	RenderGame();
+	M_RenderGame();
 
 	glLoadIdentity();
 	gluOrtho2D(0,V_Screen_Size[0],0,V_Screen_Size[1]);
-	RenderUI();
+	M_RenderUI();
 
 	glutSwapBuffers();
 }

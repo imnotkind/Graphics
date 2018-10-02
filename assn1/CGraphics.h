@@ -24,8 +24,8 @@ class CGraphics : public CHandler
 	LARGE_INTEGER new_count;
 	LARGE_INTEGER freq;
 
-	void RenderGame(void);
-	void RenderUI(void);
+	void M_RenderGame(void);
+	void M_RenderUI(void);
 	void M_MoveCamera(void);
 
 	void M_DrawLine(Vec2d p1, Vec2d p2, T4Int rgba);
