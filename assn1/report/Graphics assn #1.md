@@ -4,11 +4,13 @@
 
 ## Introduction
 
+이번 과제는 Opengl, 더 구체적으로는 glew와 freeglut를 이용해서 둠을 2D 시점으로 옮겨놓은 게임을 구현하는 과제이다.
+
 ## Background
-### OpenGL
-opengl, glut, glew, opengl frame, fuck, shit bullshit
+### OpenGL, glew, freeglut
+Opengl은 대표적인 크로스 플랫폼 라이브러리이다. opengl은 각 플랫폼이나 언어, 드라이버마다 구현이 다 다르므로 이것을 쉽게 사용할 수 있게 해주기 위해, 또 추가적인 기능을 더 쓸 수 있게 하기 위해 glew라는 extension loading library를 사용한다. freeglut는 순수 그래픽인 opengl에서 키보드 입력, 타이머,  마우스 입력 등등의 유틸리티 기능을 추가한 toolkit이다.
 ### 2D Rendering
-ortho2d...
+우리가 작성하는 opengl 프로그램은 각 프레임마다 새로 화면을 계속 그려내는 식이다. double buffer로 애니메이션을 부드럽게 구현할 수 있으며, glViewport로 화면을 얼마만큼 렌더링할 것인지를 정하고, gluOrtho2D로 virtual world의 얼마만큼을 clipping할 것인지를 정한다. 이 clipping할 구역을 바꾸면서 세계 렌더링을 똑같이 하면 카메라 움직임이 되는 것이다. UI는 사이즈와 위치가 고정되는 것을 원하는데, 그 때는 사용자의 화면 비율과 같은 좌표계를 선언해서 고정 사이즈의 UI를 구현했다.
 
 ### default reshapefunc
 
@@ -16,39 +18,37 @@ ortho2d...
 If a reshape callback is not registered for a window or NULL is passed to glutReshapeFunc (to deregister a previously registered callback), the default reshape callback is used. This default callback will simply call glViewport(0,0,width,height) on the normal plane (and on the overlay if one exists).
 ```
 
-default callback calls `glViewport(0,0,width,height)` : why my glViewport() was being overridden
+reshape func를 지정하지 않았는데도 reshaping이 되는 것을 볼 수 있다. 그 이유는 default reshape callback이 있기 때문이다. `glViewport(0,0,width,height)`
 
 ### reshapefunc, displayfunc
 
-순서 : reshape -> display 한 번씩
+reshape이 실행되고 나서, display가 실행된다.
 
-처음 실행(resizing 없어도) 때도 동일하게 reshape -> display
+첫 시작때도 reshape이 한 번 실행되고 display가 한 번 실행된다.
 
-resizing이 일어나고 있지 않으면 계속 불리지 않는다
+display는 이외에도 키보드 인풋이나 클릭에 반응해서 실행되기도 한다.
 
-클릭하면 display가 불림
+결국 여기서의 포인트는 display가 기본값으로는 지속적으로 실행되지는 않는다는 점이다.
 
 ### glclear, glclearcolor
 
-glclearcolor는 glclear에 쓰일 초기화값을 설정해줌
+glclearcolor는 glclear에 쓰일 초기화값을 설정해준다.
 
-glclearcolor() -> glclear() 의 순서로 써야 한다는 뜻
+glclearcolor() -> glclear() 의 순서로 써야 한다는 뜻이다.
 
-한 번 세팅해놓은 glclearcolor()는 glclear() 여러 번에 계속 적용됨
+한 번 세팅해놓은 glclearcolor()는 glclear() 여러 번에 계속 적용된다.
 
 ### glutPostRedisplay()
 
-glutDisplayFunc에 등록된 함수를 호출시켜준다. 다시 말해서 창을 다시 그려준다.
+glutDisplayFunc에 등록된 함수를 호출시켜준다. 다시 말해서 창을 다시 그려준다. 애니메이션을 구현하려면 지속적으로 display를 불러야하므로 필수다. 
 
 ### glLoadIdentity
 
-새로 display 그릴 때 현재 MatrixMode에 따른 matrix를 identity matrix로 초기화해주는 작업, 필수
-
-위치에 민감함 , 분석 필요
-
-`glGet`으로 현재 MatrixMode알아낼 수 있음
+새로 display를 그릴 때 반드시 필요한 작업으로, 현재 MatrixMode에 따른 matrix를 identity matrix로 초기화해주는 작업이다. 
 
 ### glMatrixMode
+
+MatrixMode에는 4가지가 있는데, 우리는 원시적인 2D 구현이므로 다른 matrix로의 전환을 쓸 일이 아직 없다.
 
 GL_MODELVIEW: 기본값
 
@@ -58,11 +58,15 @@ GL_TEXTURE
 
 GL_COLOR
 
-`glGet`으로 현재 MatrixMode알아낼 수 있음
+### glGet
+
+opengl은 state machine을 표방하고 있어, 각각의 설정들이 ON/OFF 로 되어 있는지의 확인이 필요하다.
+
+`glGet`으로 현재 MatrixMode나, 컬러나, 그런 잡다한 모든 설정 변수들을 확인할 수 있다.
 
 ### key, specialkey
 
-ASCII code에 있는 건 key, 그 외는 specialkey
+ASCII code에 있는 건 key, 그 외는 specialkey이다.
 
 x와 y는 그 키를 눌렀을 때의 mouse location
 
@@ -70,39 +74,7 @@ special key ref : <https://www.opengl.org/resources/libraries/glut/spec3/node54.
 
 ### glShadeModel
 
-`GL_FLAT`과 `GL_SMOOTH`존재, flat shading과 smooth shading
-
-### clippling
-
-`gluOrtho2D`로 카메라 위치 바꾸기 가능,
-
-컴퓨터가 렌더링하는 가상좌표는 무한이고 `gluOrtho2D`로 우리가 보는 세계를 자른다고 생각하면 됨
-
-### multiple viewport 에 관한 고찰
-
-viewport여러개를 관리하려면
-
-```
-glViewport(0, 0, width / 2, height / 2);
-glLoadIdentity();
-gluOrtho2D(0.0, 100.0, 0.0, 100.0);
-glColor3ub(0, 0, 255);
-glRectd(0, 0, 33.3, 100);
-
-glViewport(width / 2, 0, width / 2, height / 2);
-glLoadIdentity();
-gluOrtho2D(0.0, 100.0, 0.0, 100.0);
-glColor3ub(255, 204, 0);
-glRectd(0, 0, 100, 33.3);
-```
-
-이런 식의 코딩이 필요한데, 필연적으로 reshape과 display의 구조 개혁이 필요함(예시에서 나온 대로는 안 됨)
-
-`glutCreateSubWindow`를 이용한 코딩도 가능한듯, 추후 조사
-
-### glewinit의 필요성
-
-??? 아직 모르겠다
+`GL_FLAT`과 `GL_SMOOTH`존재, flat shading과 smooth shading을 관리한다. 2D는 별 차이가 없는듯하다. 
 
 ## Gameplay
 게임은 맵의 왼쪽 아래 모서리에서 시작한다. 
@@ -147,7 +119,7 @@ glRectd(0, 0, 100, 33.3);
 
 ## Reference
 
-OpenGL 사용법에 대해서는 레퍼런스를 참고했으나 순수 게임 Logic 파트는 원본이다.
+OpenGL 사용법에 대해서는 레퍼런스를 참고했으나 순수 게임 Logic 파트는 창작이다.
 
 [The OpenGL Utility Toolkit (GLUT) Programming Interface API Version 3](https://www.opengl.org/resources/libraries/glut/spec3/spec3.html)
 
