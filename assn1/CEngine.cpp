@@ -207,7 +207,7 @@ void CEngine::M_Loop(void)
 		if (!iq->M_Empty())
 		{
 			auto x = iq->M_Pop();
-			if(x.type == "down")M_Initialize();
+			if(x.type == "down" && x.key == 'r' && x.special == false)M_Initialize();
 		}
 		return;
 	}
