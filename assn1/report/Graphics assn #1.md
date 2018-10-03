@@ -136,6 +136,7 @@ KeyboardFunc는 keyboard down일때 불리는데, 꾹 누르고 있으면 지속
 ### Develop Environment
 
 개발환경은 Visual Studio 2017 C++, 주어진 freeglut와 glew, glm 0.9.9.2 , winsdk 10.0.17134 이다. 
+**빌드는 Release로 해야하는데, STL의 사용이 많아 debug로 빌드하면 각종 Assertion들이 난무해서 게임속도가 심각하게 느려져서 정상적인 플레이가 불가능 할 수도 있다.**
 
 ### OpenGL
 
@@ -177,29 +178,55 @@ map과 게임 오브젝트(총알, 플레이어, 적, 아이템) 등을 렌더�
 
 ### Game Logic
 
-게임로직은 CEngine에서 전부 처리 된다. 
+게임로직은 CEngine에서 전부 처리 된다.  
+
+CSomething은 형상, 위치, 크기 등을 가지는 기본적인 게임의 오브젝트를 나타내는 클래스다. CBullet, CCharacter, CEnemy, CItem 모두가 CSomething을  상속한다.
+
+Helper 디렉터리에 있는 각종 클래스들은 게임로직의 연산을 위한 보조클래스들으로, 수학적 벡터, 그리드, 각종 수학연산, 메세지큐 등 다양한 유틸리티를 제공한다. (모두 직접 만든 것이다.) 그 중 일부는 싱글톤 패턴으로 만들어졌으니 염두하여야 한다
+
+#### CEngine
+게임로직의 핵심은 CEngine에서 일어난다. 오브젝트들은
+```c++
+shared_ptr<CCharacter> V_Player;
+set <shared_ptr<CSomething>> V_Objects; //Bullet, Enemy, Item
+```
+로 관리되고 그 외에 맵에 관련된 정보나 게임 파라미터들을 멤버변수로 가지고 있다.
+메서드(private, public 모두)를 간단하게 설명한다.
+
+##### M_Loop
+매 프레임마다 업데이트될 게임의 모든 변동사항을 총괄하는 public 메소드로, main에서 적절히 시간을 재서 호출한다.
+
+##### M_ObjectIndexing
+
+CSomething으로 Polymorphic한 상태에 있는 V_Objects들을 오브젝트 종류별로 인덱싱한다.
+
+##### M_CollisionTest
+충돌 판정이 필요한 오브젝트들 (캐릭터-아이템, 캐릭터-적, 총알-적 등)간 충돌을 검사하고 적절한 행동을 취한다. 만약 여기서 오브젝트가 사라져야한다면 STL set인 V_Objects에서 remove해버린다.
+
+##### M_ListenMessages
+
+다른 클래스(CSomething 혹은 키보드관련)에서 온 메세지를 처리한다.
+
+##### M_EnemyNavigation
+
+적들의 추적능력을 관리한다. 일단 일정거리안에 있는지 확인한 후 너무 멀면 랜덤하게 움직이게, 가까우면 Dijkstra 알고리즘을 이용해 주인공을 추적하게 액션큐에 움직임을 추가한다. 일반적인 Dijkstra와 달리 주인공을 찾으면 바로 알고리즘을 종료하게 하는 최적화와 움직임의 랜덤성을 위해 visit하는 방향의 offset을 랜덤하게 하는 테크닉이 사용되었다.
+
+##### M_CheckKeyPress
+꾹 누르는 것에 해당하는 액션을 오브젝트에게 전달해준다. CUserInput이라는 싱글톤 클래스가 인풋과 관련된 정보를 관리하고, glut에 등록된 콜백함수들을 이용한다
+
+##### M_Event_KeyPress & M_ItemUse
+press down에 해당하는 액션을 처리한다. M_ListenMessages에서 호출된다.
 
 ## Example
-
-```c++
-glm::mat4 transform(glm::vec2 const& Orientation, glm::vec3 const& Translate, glm::vec3 const& Up)
-{
-	glm::mat4 Proj = glm::perspective(glm::radians(45.f), 1.33f, 0.1f, 10.f);
-	glm::mat4 ViewTranslate = glm::translate(glm::mat4(1.f), Translate);
-	glm::mat4 ViewRotateX = glm::rotate(ViewTranslate, Orientation.y, Up);
-	glm::mat4 View = glm::rotate(ViewRotateX, Orientation.x, Up);
-	glm::mat4 Model = glm::mat4(1.0f);
-	return Proj * View * Model;
-}
-```
-
-
+![s1](gamestart.PNG)
+![s2](gameplay.PNG)
+![s3](gameplay2.PNG)
 
 ## Discussion
 
 ### Frame
 
-Idle때 호출되는 함수에서 정확하게 해줘야되는 처리에 대해 더 연구할 필요가 있다. 현재는 시간을 재서 실제 모니터 주사율인 60fps 정도로 redisplay와 engine의 업데이트를 호출을 하는 식으로 해결했으나 ~~
+Idle때 호출되는 함수에서 정확하게 해줘야되는 처리에 대해 더 연구할 필요가 있다. 현재는 시간을 재서 실제 모니터 주사율인 60fps 정도로 redisplay와 engine의 업데이트를 호출을 하는 식으로 해결했으나 어떨때 idle자체가 모니저 주사율에 dependent해지는 이상 행동을 보일때가 있어서 좀더 탐구가 필요하다.
 
 ### Animation
 각 오브젝트들이 어떤 모양으로 출력될지 프레임마다 변화를 주어 달릴 때에 꿈틀거린다든지 하는 효과를 줄 수 있을 것 같다. 현재는 모든 오브젝트를 폴리곤으로 출력하고 있지만 텍스쳐로 출력할 수 있다면 더욱 애니메이션을 잘 활용할 수 있을 것으로 생각한다.
