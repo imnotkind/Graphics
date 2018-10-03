@@ -306,7 +306,7 @@ void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 	//CAUTION : Font size DOES get influenced by screen size
 	//Font position is world coordinate (most recent gluortho2D)
 	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
-	glLineWidth(10);
+	glLineWidth(4);
 	glPushMatrix();
 	glTranslated(p[0], p[1], 0);
 	glScaled(scale, scale, 0);
