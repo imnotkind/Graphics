@@ -3,8 +3,7 @@
 ##### <span style="float:right">20160785 양준하, 20160463 성해빈 </span>
 
 ## Introduction
-
-이번 과제는 Opengl, 더 구체적으로는 glew와 freeglut를 이용해서 둠을 2D 시점으로 옮겨놓은 게임을 구현하는 과제이다.
+이번 과제는 Opengl, 더 구체적으로는 glew와 freeglut를 이용해서 2D게임을 만드는 것을 목표로한다. 과제의 구현을 위해 OpenGL의 기본적인 이해, 카메라 구현을 위한 2D변환, 프레임관리, 키보드입력, 폴리곤과 텍스트의 출력 등 다양한 측면에 대한 실습을 할 수 있었다.
 
 ## Background
 ### OpenGL, glew, freeglut
@@ -92,7 +91,7 @@ KeyboardFunc는 keyboard down일때 불리는데, 꾹 누르고 있으면 지속
 
 ### Enemy
 
-적은 초록색 오각형으로 표시된다. 적은 평소에 랜덤하게 상하좌우로 움직이다가, 플레이어와 일정 거리가 되면 dijkstra 알고리즘을 이용해 플레이어를 추적한다. 이 일정 거리는 게임 진행에 따라 늘어나, 게임이 후반으로 갈 수록 어려워진다. 적은 랜덤으로 생성되지만, 적의 개수는 맵 파일에서 받아온다.  원활한 게임 진행을 위해 플레이어가 스폰되는 주변 구역에는 적을 배치하지 않는다. 왼쪽 아래에 남은 적들의 수가 표시되고, 적들이 다 죽으면 게임 클리어다.
+적은 초록색 오각형으로 표시된다. 적은 평소에 랜덤하게 상하좌우로 움직이다가,  일정거리 내에 플레이어가 감지되면 dijkstra 알고리즘을 이용해 플레이어를 추적한다. 적들의 감지거리와 이동속도는 맵에 남아있는 적들의 수에 반비례하므로 게임이 진행될수록 더욱 난폭해진다. 적은 랜덤으로 생성되지만, 적의 개수는 맵 파일에서 받아온다.  원활한 게임 진행을 위해 플레이어가 스폰되는 주변 구역에는 적을 배치하지 않는다. 왼쪽 아래에 남은 적들의 수가 표시되고, 적들이 다 죽으면 게임이 클리어된다.
 
 ![enemy](enemy.PNG)
 
@@ -139,7 +138,7 @@ KeyboardFunc는 keyboard down일때 불리는데, 꾹 누르고 있으면 지속
 
 ### OpenGL
 
-Graphic Rendering에 관련된 코드는 모두 CGraphics.cpp와 CGraphics.h에 있다. 간략하게 각 메소드에 대한 설명을 첨부한다.
+Graphic Rendering에 관련된 코드는 모두 CGraphics.cpp와 CGraphics.h에 있다. 텍스트를 제외한 모든 게임요소는 Polygon의 조합으로만 표현되어있다. 
 
 ##### M_RenderGame
 
@@ -151,7 +150,7 @@ map과 게임 오브젝트(총알, 플레이어, 적, 아이템) 등을 렌더�
 
 ##### M_MoveCamera
 
-카메라를 움직인다. 카메라를 그냥 움직이는 것이 아닌, 섬세한 가속도 처리로 자연스러운 카메라 워크를 구현했다.
+카메라를 플레이어 쪽으로 이동시켜 게임이 스크롤 될 수 있도록 한다. 이 때 그냥 움직이지 않고 섬세한 가속도 처리로 자연스러운 카메라 워크를 구현했다.
 
 ##### M_Draw~~
 
@@ -177,7 +176,7 @@ map과 게임 오브젝트(총알, 플레이어, 적, 아이템) 등을 렌더�
 
 ### Game Logic
 
-
+게임로직은 CEngine에서 전부 처리 된다. 
 
 ## Example
 
@@ -195,11 +194,22 @@ glm::mat4 transform(glm::vec2 const& Orientation, glm::vec3 const& Translate, gl
 
 
 
-## Discussion and Conclusion
+## Discussion
+
+### Frame
+
+Idle때 호출되는 함수에서 정확하게 해줘야되는 처리에 대해 더 연구할 필요가 있다. 현재는 시간을 재서 실제 모니터 주사율인 60fps 정도로 redisplay와 engine의 업데이트를 호출을 하는 식으로 해결했으나 ~~
+
+### Animation
+각 오브젝트들이 어떤 모양으로 출력될지 프레임마다 변화를 주어 달릴 때에 꿈틀거린다든지 하는 효과를 줄 수 있을 것 같다. 현재는 모든 오브젝트를 폴리곤으로 출력하고 있지만 텍스쳐로 출력할 수 있다면 더욱 애니메이션을 잘 활용할 수 있을 것으로 생각한다.
+
+## Conclusion
+결론적으로 이번 어싸인에서는 OpenGL의 2D드로잉 기술을 사용하면서 기본적인 기능 및 2D 렌더링의 파이프라인에 대해서 알아볼 수 있었다. 
+
 
 ## Reference
 
-OpenGL 사용법에 대해서는 레퍼런스를 참고했으나 순수 게임 Logic 파트는 창작이다.
+OpenGL 사용법에 대해서는 레퍼런스를 참고했으나 게임로직은 100% 원본이다.
 
 [The OpenGL Utility Toolkit (GLUT) Programming Interface API Version 3](https://www.opengl.org/resources/libraries/glut/spec3/spec3.html)
 
