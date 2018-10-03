@@ -14,6 +14,8 @@
 
 ### default reshapefunc
 
+https://www.opengl.org/resources/libraries/glut/spec3/node48.html 에서 보면
+
 ```
 If a reshape callback is not registered for a window or NULL is passed to glutReshapeFunc (to deregister a previously registered callback), the default reshape callback is used. This default callback will simply call glViewport(0,0,width,height) on the normal plane (and on the overlay if one exists).
 ```
@@ -135,7 +137,7 @@ KeyboardFunc는 keyboard down일때 불리는데, 꾹 누르고 있으면 지속
 ## Implementation
 ### Develop Environment
 
-개발환경은 Visual Studio 2017 C++, 주어진 freeglut와 glew, glm 0.9.9.2 , winsdk 10.0.17134 이다. 
+개발환경은 Visual Studio 2017 C++, 주어진 freeglut와 glew, glm 0.9.9.2 , winsdk 10.0.17134, opengl 4.6 이다. 
 
 ### OpenGL
 
