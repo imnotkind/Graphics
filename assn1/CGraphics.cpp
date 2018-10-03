@@ -94,17 +94,25 @@ void CGraphics::M_RenderUI(void)
 
 	if (V_PEngine->V_GameEnd == 1)
 	{
-		Vec2d p = Vec2d(0, V_Screen_Size[1] / 2.0);
+		glColor4ub(200, 200, 200, 200);
+		glRectd(0,0,V_Screen_Size[0], V_Screen_Size[1]);
+
+		Vec2d p = Vec2d(V_Screen_Size[0] / 2 - 400, V_Screen_Size[1] / 2.0);
 		M_DrawFontBig(p, "Game Over!", 1, T4Int(255, 0, 0, 255));
+		p[0] += 300;
 		p[1] -= 200;
-		M_DrawFont(p, "Press any button to restart", T4Int(0, 0, 0, 255));
+		M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
 	}
 	if (V_PEngine->V_GameEnd == 2)
 	{
-		Vec2d p = Vec2d(0, V_Screen_Size[1] / 2.0);
+		glColor4ub(200, 200, 200, 200);
+		glRectd(0, 0, V_Screen_Size[0], V_Screen_Size[1]);
+
+		Vec2d p = Vec2d(V_Screen_Size[0] / 2 - 400, V_Screen_Size[1] / 2.0);
 		M_DrawFontBig(p, "Game Clear!", 1, T4Int(255, 0, 0, 255));
+		p[0] += 300;
 		p[1] -= 200;
-		M_DrawFont(p, "Press any button to restart", T4Int(0, 0, 0, 255));
+		M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
 	}
 
 
@@ -298,7 +306,7 @@ void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 	//CAUTION : Font size DOES get influenced by screen size
 	//Font position is world coordinate (most recent gluortho2D)
 	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
-	glLineWidth(60);
+	glLineWidth(10);
 	glPushMatrix();
 	glTranslated(p[0], p[1], 0);
 	glScaled(scale, scale, 0);
