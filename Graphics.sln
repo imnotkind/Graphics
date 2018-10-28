@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opengl-test", "opengl-test\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "assn1", "assn1\assn1.vcxproj", "{B67E6C10-D26F-4D85-B2AA-9244E8B2E359}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "assn2", "assn2\assn2.vcxproj", "{97571A28-3419-48EF-94D9-111B028F8A33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{B67E6C10-D26F-4D85-B2AA-9244E8B2E359}.Release|x64.Build.0 = Release|x64
 		{B67E6C10-D26F-4D85-B2AA-9244E8B2E359}.Release|x86.ActiveCfg = Release|Win32
 		{B67E6C10-D26F-4D85-B2AA-9244E8B2E359}.Release|x86.Build.0 = Release|Win32
+		{97571A28-3419-48EF-94D9-111B028F8A33}.Debug|x64.ActiveCfg = Debug|x64
+		{97571A28-3419-48EF-94D9-111B028F8A33}.Debug|x64.Build.0 = Debug|x64
+		{97571A28-3419-48EF-94D9-111B028F8A33}.Debug|x86.ActiveCfg = Debug|Win32
+		{97571A28-3419-48EF-94D9-111B028F8A33}.Debug|x86.Build.0 = Debug|Win32
+		{97571A28-3419-48EF-94D9-111B028F8A33}.Release|x64.ActiveCfg = Release|x64
+		{97571A28-3419-48EF-94D9-111B028F8A33}.Release|x64.Build.0 = Release|x64
+		{97571A28-3419-48EF-94D9-111B028F8A33}.Release|x86.ActiveCfg = Release|Win32
+		{97571A28-3419-48EF-94D9-111B028F8A33}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
