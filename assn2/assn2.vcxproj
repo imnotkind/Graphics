@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{97571A28-3419-48EF-94D9-111B028F8A33}</ProjectGuid>
+    <ProjectGuid>{84983608-3D8B-45F2-B63A-C42164BEBF88}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>assn2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
@@ -65,30 +65,36 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\preset_x64.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\preset_x64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)Lib\freeglut\include;$(SolutionDir)Lib\glew-2.1.0\include;$(SolutionDir)Lib\glm-0.9.9.2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Lib\glew-2.1.0\lib\Release\x64;$(SolutionDir)Lib\freeglut\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)\Lib\glew-2.1.0\include;$(SolutionDir)\Lib\freeglut\include;$(SolutionDir)Lib\glm-0.9.9.2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Lib\glew-2.1.0\lib\Release\Win32;$(SolutionDir)\Lib\freeglut\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)\Lib\glew-2.1.0\include;$(SolutionDir)\Lib\freeglut\include;$(SolutionDir)Lib\glm-0.9.9.2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Lib\glew-2.1.0\lib\Release\Win32;$(SolutionDir)\Lib\freeglut\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)Lib\freeglut\include;$(SolutionDir)Lib\glew-2.1.0\include;$(SolutionDir)Lib\glm-0.9.9.2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Lib\glew-2.1.0\lib\Release\x64;$(SolutionDir)Lib\freeglut\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -100,12 +106,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,14 +120,14 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,18 +136,53 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CBullet.cpp" />
+    <ClCompile Include="CCharacter.cpp" />
+    <ClCompile Include="CEnemy.cpp" />
+    <ClCompile Include="CEngine.cpp" />
+    <ClCompile Include="CError.cpp" />
+    <ClCompile Include="CGeneral.cpp" />
+    <ClCompile Include="CGraphics.cpp" />
+    <ClCompile Include="CHandler.cpp" />
+    <ClCompile Include="CItem.cpp" />
+    <ClCompile Include="CMath.cpp" />
+    <ClCompile Include="CSomething.cpp" />
+    <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CUserInput.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CBullet.h" />
+    <ClInclude Include="CCharacter.h" />
+    <ClInclude Include="CEnemy.h" />
+    <ClInclude Include="CEngine.h" />
+    <ClInclude Include="CError.h" />
+    <ClInclude Include="CGeneral.h" />
+    <ClInclude Include="CGraphics.h" />
+    <ClInclude Include="CHandler.h" />
+    <ClInclude Include="CItem.h" />
+    <ClInclude Include="CMath.h" />
+    <ClInclude Include="CSomething.h" />
+    <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CUserInput.h" />
+    <ClInclude Include="MainHeader.h" />
+    <ClInclude Include="MessageQueue.h" />
+    <ClInclude Include="TGrid.h" />
+    <ClInclude Include="TVector.h" />
+    <ClInclude Include="TVector_speical.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

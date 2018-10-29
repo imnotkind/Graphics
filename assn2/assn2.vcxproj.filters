@@ -1,22 +1,145 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{cc69111b-59a7-48c5-a370-1b8d80d2bd63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Engine\Something">
+      <UniqueIdentifier>{31cecfaf-c069-43dc-b3a8-6a80776ea383}</UniqueIdentifier>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Engine\Something\Character">
+      <UniqueIdentifier>{b4949669-84a4-4296-9c24-1d32e4dc9f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Something\Enemy">
+      <UniqueIdentifier>{2f76d61f-cc30-4237-b830-f21ef4cf39bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Something\Item">
+      <UniqueIdentifier>{dd1f180c-d136-4e49-9e89-b63bc13b56ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{ee4f6eb3-8211-471a-a8f6-ac7aa042eb81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper\CMath">
+      <UniqueIdentifier>{aa64264c-f1a5-43ae-be7c-f5d8e4beb375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Something\Bullet">
+      <UniqueIdentifier>{7d033344-f6c7-45f2-88d0-40efa15b2b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Handler">
+      <UniqueIdentifier>{b67628ca-033c-4304-907c-857e28039833}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper\CError">
+      <UniqueIdentifier>{8140ad51-3f74-45f1-af41-2ed13a32b818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{75334f49-91f5-4865-856d-d57c85ed5953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Texture">
+      <UniqueIdentifier>{262517c3-cf85-4256-a12b-edbd4f220aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\UserInput">
+      <UniqueIdentifier>{b40f2e8c-bf1d-4b7a-909c-efbedbe82687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper\General">
+      <UniqueIdentifier>{b091d0fb-62bb-479a-98b1-797dd269c507}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="CEngine.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="CGraphics.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Engine\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnemy.cpp">
+      <Filter>Engine\Something\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CItem.cpp">
+      <Filter>Engine\Something\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CCharacter.cpp">
+      <Filter>Engine\Something\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CMath.cpp">
+      <Filter>Helper\CMath</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>Engine\Something\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CHandler.cpp">
+      <Filter>Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="CError.cpp">
+      <Filter>Helper\CError</Filter>
+    </ClCompile>
+    <ClCompile Include="CSomething.cpp">
+      <Filter>Engine\Something</Filter>
+    </ClCompile>
+    <ClCompile Include="CUserInput.cpp">
+      <Filter>Engine\UserInput</Filter>
+    </ClCompile>
+    <ClCompile Include="CGeneral.cpp">
+      <Filter>Helper\General</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CEngine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphics.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Engine\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnemy.h">
+      <Filter>Engine\Something\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>Engine\Something\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CCharacter.h">
+      <Filter>Engine\Something\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="MainHeader.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="TGrid.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="TVector.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="CMath.h">
+      <Filter>Helper\CMath</Filter>
+    </ClInclude>
+    <ClInclude Include="TVector_speical.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageQueue.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="CBullet.h">
+      <Filter>Engine\Something\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CHandler.h">
+      <Filter>Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="CError.h">
+      <Filter>Helper\CError</Filter>
+    </ClInclude>
+    <ClInclude Include="CSomething.h">
+      <Filter>Engine\Something</Filter>
+    </ClInclude>
+    <ClInclude Include="CUserInput.h">
+      <Filter>Engine\UserInput</Filter>
+    </ClInclude>
+    <ClInclude Include="CGeneral.h">
+      <Filter>Helper\General</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
