@@ -160,6 +160,7 @@
     <ClCompile Include="CHierModel.cpp" />
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CMath.cpp" />
+    <ClCompile Include="CShaderManager.cpp" />
     <ClCompile Include="CSomething.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CUserInput.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="CHierModel.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CMath.h" />
+    <ClInclude Include="CShaderManager.h" />
     <ClInclude Include="CSomething.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CUserInput.h" />

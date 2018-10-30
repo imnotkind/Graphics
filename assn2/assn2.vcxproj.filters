@@ -46,6 +46,9 @@
     <Filter Include="Engine\Graphics\HierModel">
       <UniqueIdentifier>{47badd1c-e1af-40d9-a76c-c6ece40351f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics\ShaderManager">
+      <UniqueIdentifier>{8c820817-96e2-447d-b407-5ff94901d423}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -90,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="CHierModel.cpp">
       <Filter>Engine\Graphics\HierModel</Filter>
+    </ClCompile>
+    <ClCompile Include="CShaderManager.cpp">
+      <Filter>Engine\Graphics\ShaderManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="Pointer.h">
       <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="CShaderManager.h">
+      <Filter>Engine\Graphics\ShaderManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

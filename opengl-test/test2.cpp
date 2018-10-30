@@ -165,9 +165,11 @@ void display1() {
 	
 	
 
-	glBindVertexArray(VertexArrayID2);
+	glBindVertexArray(VertexArrayID);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &iden[0][0]);
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glBindVertexArray(VertexArrayID2);
 
 	Model = glm::mat4(1.0f);
 	Model = glm::rotate(Model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
