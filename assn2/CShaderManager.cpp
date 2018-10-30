@@ -235,16 +235,19 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 		pos = data.find(",", pos + 1);
 	}
 
-	int n = positions.size();
+	int n = positions.size()+1;
 
 	float * arr = (float *)malloc(n*sizeof(float));
 
 	int i = 0;
+	size_t prev = 0;
 	for (auto p : positions)
 	{
-		arr[i] = p;
+		arr[i] = atof(data.substr(prev,p-prev).c_str());
 		i++;
+		prev = p+1;
 	}
+	arr[i] = atof(data.substr(prev, string::npos).c_str());
 
 	GLuint vbid;
 	GLuint vaid;
