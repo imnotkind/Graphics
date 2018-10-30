@@ -7,6 +7,7 @@
 class CShaderManager :
 	public CHandler
 {
+
 	map<string, GLuint> V_Programs;
 
 	map<string, GLuint> V_VerShaders;
@@ -16,7 +17,7 @@ class CShaderManager :
 	map<string, GLuint> V_Buffers;
 
 	void M_LoadShader(string path, string name, int type);
-	void M_LoadPolygon(string path, string name);
+	void M_LoadPolygon(string data, string name);
 	void M_LoadProgram(string name, string ver, string frag);
 public:
 	CShaderManager(string config_path);
