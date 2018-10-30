@@ -25,7 +25,7 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 #include "TVector.h"
-
+#include "Pointer.h"
 
 using namespace std;
 using namespace glm;

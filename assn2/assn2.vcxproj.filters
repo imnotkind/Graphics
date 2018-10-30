@@ -43,6 +43,9 @@
     <Filter Include="Helper\General">
       <UniqueIdentifier>{b091d0fb-62bb-479a-98b1-797dd269c507}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics\HierModel">
+      <UniqueIdentifier>{47badd1c-e1af-40d9-a76c-c6ece40351f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -84,6 +87,9 @@
     </ClCompile>
     <ClCompile Include="CGeneral.cpp">
       <Filter>Helper\General</Filter>
+    </ClCompile>
+    <ClCompile Include="CHierModel.cpp">
+      <Filter>Engine\Graphics\HierModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +146,12 @@
     </ClInclude>
     <ClInclude Include="CGeneral.h">
       <Filter>Helper\General</Filter>
+    </ClInclude>
+    <ClInclude Include="CHierModel.h">
+      <Filter>Engine\Graphics\HierModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Pointer.h">
+      <Filter>Helper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
