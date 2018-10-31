@@ -2,5 +2,6 @@
 
 void CGraphics::M_SetupHieraModels(void)
 {
-	V_BasicPolygons["Rect"] = shared_ptr<CSinglePolygon>(new CSinglePolygon(0));
+	auto p = CShaderManager::getInstance();
+	V_BasicPolygons["rect"] = shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("rect")));
 }
