@@ -29,6 +29,15 @@ void CGraphics::M_RenderGame(void)
 		}
 	}
 
+	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
+	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
+
+	V_Hiers["player"]->M_RegisterTrans2(1, am1);
+	V_Hiers["player"]->M_RegisterTrans2(2, am2);
+
+	V_Hiers["enemy"]->M_RegisterTrans2(1, am2);
+	V_Hiers["enemy"]->M_RegisterTrans2(2, am1);
+
 	//render objects
 	for (auto x : V_PEngine->V_Objects)
 	{
@@ -38,31 +47,31 @@ void CGraphics::M_RenderGame(void)
 		{
 			M_DrawItem(d.pos.convert_gl(), d.size, d.img - 3);
 		}
-		else //bullet, enemy
+		else if(d.img == 1)
 		{
-			M_DrawPolygon(d.pos.convert_gl(), "square", d.size,  d.rotate, d.color);
+			M_DrawHier(d.pos.convert_gl(), "enemy", d.size * 0.8,  d.rotate, d.color);
+		}
+		else
+		{
+			M_DrawPolygon(d.pos.convert_gl(), "square", d.size, d.rotate, d.color);
 		}
 		
 	}
 	//render player
 
-	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
-	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
-
 	auto d = V_PEngine->V_Player->M_GetDrawData();
-
-	V_Hiers["player"]->M_RegisterTrans2(1, am1);
-	V_Hiers["player"]->M_RegisterTrans2(2, am2);
+	
 	M_DrawHier(d.pos.convert_gl(), "player", d.size * 1.0, d.rotate, d.color);
 }
 
 void CGraphics::M_RenderUI(void)
 {
-	/*
+	
 	ostringstream s;
 	s << "Enemies : " << V_PEngine->V_PEnemies.size();
 	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
 
+	/*
 	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
 	M_DrawPolygon(Vec2d(160, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
 	M_DrawPolygon(Vec2d(230, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
@@ -239,7 +248,6 @@ void CGraphics::M_DrawHier(Vec3d p, string name, double r, double rotate, T4Int 
 
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 {
-	return;
 	//CAUTION : Font size does NOT get influenced by screen size
 	//Font position is world coordinate (most recent gluortho2D)
 	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);

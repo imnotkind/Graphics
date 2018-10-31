@@ -116,5 +116,13 @@ void CGraphics::M_SetupHieraModels(void)
 	S[6].right_sibling = 8;
 	S[8].left_child = 9;
 
+	vector<SHierModelNode> E = S;
+	for (int i = 0; i < E.size(); i++)
+	{
+		E[i].color = T4Double(1.3, 1.3, 1.0, 2.0) - E[i].color;
+	}
+
+
 	V_Hiers["player"] = shared_ptr<CHierModel>(new CHierModel(S));
+	V_Hiers["enemy"] = shared_ptr<CHierModel>(new CHierModel(E));
 }
