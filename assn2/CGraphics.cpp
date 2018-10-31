@@ -24,7 +24,7 @@ void CGraphics::M_RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				M_DrawPolygon(cen.convert_gl(), "pentagon", gsize * sqrt(2) / 2, 0, T4Int(125, 30, 255, 255));
+				M_DrawPolygon(cen.convert_gl(), "square", gsize * sqrt(2) / 2, 0, T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -54,7 +54,6 @@ void CGraphics::M_RenderGame(void)
 		else
 		{
 			M_DrawPolygon(d.pos.convert_gl(), "square", d.size, d.rotate, d.color);
-			//M_DrawPolygon(d.pos.convert_gl(), "pentagon", d.size,  d.rotate, d.color);
 		}
 		
 	}
