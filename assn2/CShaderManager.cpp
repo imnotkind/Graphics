@@ -1,5 +1,5 @@
 #include "CShaderManager.h"
-
+#include "StringHelper.h"
 
 
 CShaderManager::CShaderManager(string config_path)
@@ -7,175 +7,75 @@ CShaderManager::CShaderManager(string config_path)
 	//parse well and
 	map<string, string> VerShaderPaths;
 	map<string, string> FragShaderPaths;
+	map<string, string> PolygonData;
+	map<string, string> ProgramData;
+	string Line = "";
+
 
 	ifstream is(config_path.c_str(), std::ios::in);
 	if (is.is_open())
 	{
-		std::string Line = "";
-		getline(is, Line);
-		if (Line != "%%vs")
-			CError("Config file " + config_path + " invalid.", true);
-
 		while (getline(is, Line))
 		{
-
-			if(Line == "%%fs") 
+			if(Line == "%vs_start")
 			{
-				break;
-			}
-			else //vertexshader
-			{ 
-				size_t ind = Line.find(":");
-				if (ind == string::npos)
+				while (Line != "%vs_end")
 				{
-					continue;
+					M_ParseData(Line, VerShaderPaths, 0);
 				}
-				string name = Line.substr(0, ind);
-				string path = Line.substr(ind+1, string::npos);
-
-				size_t start = name.find("\"");
-				size_t end = name.find("\"", start + 1);
-				name = name.substr(start+1, end - start - 1);
-
-				start = path.find("\"");
-				end = path.find("\"", start + 1);
-				path = path.substr(start + 1, end - start - 1);
-
-				VerShaderPaths[name] = path;
-
 			}
-			
+
+			if (Line == "%fs_start")
+			{
+				while (Line != "%fs_end")
+				{
+					M_ParseData(Line, FragShaderPaths, 0);
+				}
+			}
+
+			if (Line == "%polygon_start")
+			{
+				while (Line != "%polygon_end")
+				{
+					M_ParseData(Line, PolygonData, 1);
+					
+				}
+			}
+
+			if (Line == "%program_start")
+			{
+				while (Line != "%program_end")
+				{
+					M_ParseData(Line, ProgramData, 1);
+				}
+			}
 		}
 
-		
-		while (getline(is, Line))
-		{
-
-			if (Line == "%%polygon")
-			{
-				// iterate M_LoadShader
-				for (auto p : VerShaderPaths)
-				{
-					M_LoadShader(p.second, p.first, GL_VERTEX_SHADER);
-				}
-				for (auto p : FragShaderPaths)
-				{
-					M_LoadShader(p.second, p.first, GL_VERTEX_SHADER);
-				}
-
-				//polygon
-				getline(is, Line);
-
-				size_t start = Line.find("\"");
-				size_t end = Line.find("\"", start + 1);
-				string polygonfilepath = Line.substr(start + 1, end - start - 1);
-
-				ifstream is2(polygonfilepath.c_str(), std::ios::in);
-				if (is2.is_open())
-				{
-					std::string Line = "";
-					while (getline(is2, Line))
-					{
-						size_t ind = Line.find(":");
-						if (ind == string::npos)
-						{
-							continue;
-						}
-						string name = Line.substr(0, ind);
-						string data = Line.substr(ind + 1, string::npos);
-
-						// iterate M_LoadPolygon
-						M_LoadPolygon(data, name);
-
-					}
-					is2.close();
-				}
-				else CError("Polygon file" + polygonfilepath + " not found.", true);
-
-				break;
-			}
-			else //fragmentshader
-			{
-				size_t ind = Line.find(":");
-				if (ind == string::npos)
-				{
-					continue;
-				}
-				string name = Line.substr(0, ind);
-				string path = Line.substr(ind + 1, string::npos);
-
-				size_t start = name.find("\"");
-				size_t end = name.find("\"", start + 1);
-				name = name.substr(start + 1, end - start - 1);
-
-				start = path.find("\"");
-				end = path.find("\"", start + 1);
-				path = path.substr(start + 1, end - start - 1);
-
-				FragShaderPaths[name] = path;
-			}
-
-		}
-
-
-		while (getline(is, Line))
-		{
-
-			if (Line == "%%program") //program
-			{
-				getline(is, Line);
-
-				size_t start = Line.find("\"");
-				size_t end = Line.find("\"", start + 1);
-				string programfilepath = Line.substr(start + 1, end - start - 1);
-
-				ifstream is3(programfilepath.c_str(), std::ios::in);
-				if (is3.is_open())
-				{
-					std::string Line = "";
-					while (getline(is3, Line))
-					{
-						size_t ind = Line.find(":");
-						if (ind == string::npos)
-						{
-							continue;
-						}
-						string name = Line.substr(0, ind);
-						string pair = Line.substr(ind + 1, string::npos);
-
-						size_t ind2 = pair.find(",");
-						string vs = pair.substr(0, ind2);
-						string fs = pair.substr(ind2 + 1, string::npos);
-
-						size_t start = vs.find("\"");
-						size_t end = vs.find("\"", start + 1);
-						vs = vs.substr(start + 1, end - start - 1);
-
-						start = fs.find("\"");
-						end = fs.find("\"", start + 1);
-						fs = fs.substr(start + 1, end - start - 1);
-
-
-						// iterate M_LoadProgram
-						M_LoadProgram(name, vs, fs);
-					}
-					is3.close();
-				}
-				else CError("Program file" + programfilepath + " not found.", true);
-
-				break;
-			}
-
-		}
 		is.close();
 	}
 	else CError("Config file " + config_path + " not found.", true);
 
+	for (auto p : VerShaderPaths)
+	{
+		M_LoadShader(p.second, p.first, GL_VERTEX_SHADER);
+	}
+	for (auto p : FragShaderPaths)
+	{
+		M_LoadShader(p.second, p.first, GL_FRAGMENT_SHADER);
+	}
+	for(auto p : PolygonData)
+	{
+		M_LoadPolygon(p.second, p.first);
+	}
+	for (auto p : ProgramData)
+	{
+		vector<string> v = StringHelper::M_split(p.second, ',');
 
+		M_LoadProgram(p.first, StringHelper::M_trim(v[0]), StringHelper::M_trim(v[1]));
+	}
 
 	
 }
-
 
 CShaderManager::~CShaderManager()
 {
@@ -300,3 +200,38 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 	V_Programs[name] = id;
 
 }
+
+
+void CShaderManager::M_ParseData(string line, map<string,string>& t, int mode)
+{
+	if (mode == 0)
+	{
+		vector<string> l = StringHelper::M_split(line, ':');
+		string name = StringHelper::M_trim(l[0]);
+		string path = StringHelper::M_trim(l[1]);
+		t[name] = path;
+	}
+	
+
+	if (mode == 1)
+	{
+		ifstream is(line.c_str(), std::ios::in);
+		if (is.is_open())
+		{
+			string subLine = "";
+			while (getline(is, subLine))
+			{
+				vector<string> l = StringHelper::M_split(subLine, ':');
+				string name = StringHelper::M_trim(l[0]);
+				string data = StringHelper::M_trim(l[1]);
+
+				//invalid string error
+				t[name] = data;
+			}
+			is.close();
+		}
+		else CError("file " + line + " not found.", true);
+	}
+}
+
+

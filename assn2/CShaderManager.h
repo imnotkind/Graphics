@@ -18,6 +18,8 @@ class CShaderManager :
 	void M_LoadPolygon(string data, string name);
 	void M_LoadProgram(string name, string ver, string frag);
 
+	void M_ParseData(string mode, map<string, string>& t);
+
 	GLuint V_CurrentProgram;
 
 	static CShaderManager* Instance;

@@ -1,0 +1,17 @@
+%vs_start
+fuck : fuck.glsl
+suck : suck.glsl
+%vs_end
+
+%fs_start
+shit : shit.glsl
+bull : bull.glsl
+%fs_end
+
+%polygon_start
+polygon.pol
+%polygon_end
+
+%program_start
+program.prg
+%program_end
