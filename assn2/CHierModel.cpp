@@ -25,7 +25,7 @@ void CHierModel::M_Draw_Rec(const unique_ptr<SHierModelNode>& node, glm::mat4 CT
 
 	glBindVertexArray(node->draw);
 	GLuint p = glGetUniformLocation(V_Program, "trans");
-	GLuint q = glGetUniformLocation(V_Program, "ver_in_color");
+	GLuint q = glGetUniformLocation(V_Program, "vicolor");
 	glUniformMatrix4fv(p, 1, GL_FALSE, &CTM[0][0]);
 	float col[4]; 
 	for(int i = 0; i< 4; i++) col[i] = node->color[i]; 

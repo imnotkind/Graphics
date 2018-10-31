@@ -22,7 +22,7 @@ void CGraphics::M_RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				M_DrawPolygon(cen.convert_gl(), "pol1", gsize * sqrt(2) / 2, DTR(45), T4Int(125, 30, 255, 255));
+				M_DrawPolygon(cen.convert_gl(), "triangle", gsize * sqrt(2) / 2, DTR(45), T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -38,13 +38,13 @@ void CGraphics::M_RenderGame(void)
 		}
 		else //bullet, enemy
 		{
-			//M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
+			M_DrawPolygon(d.pos.convert_gl(), "square", d.size,  d.rotate, d.color);
 		}
 		
 	}
 	//render player
 	auto d = V_PEngine->V_Player->M_GetDrawData();
-	//M_DrawPolygon(d.pos.convert_gl(), d.size, 3, d.rotate, d.color);
+	M_DrawPolygon(d.pos.convert_gl(), "square", d.size, d.rotate, d.color);
 }
 
 void CGraphics::M_RenderUI(void)
@@ -146,7 +146,7 @@ void CGraphics::M_MoveCamera(void)
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 150 + 50 * sin(V_PEngine->V_IS_Camera / 600.0*PI);
+	V_Camera_Height = 250 + 150 * sin(V_PEngine->V_IS_Camera / 600.0*PI);
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
@@ -173,10 +173,11 @@ void CGraphics::M_CallbackDisplay()
 	// screen coord -> cvc
 	M_RenderUI();
 
+
 	V_CTM = glm::mat4(1.0f);
 	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 300.0f);
 	auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height),
-		glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+		glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], 0), glm::vec3(0, 1, 0));
 
 	V_CTM = pers * view;
 	M_RenderGame();
