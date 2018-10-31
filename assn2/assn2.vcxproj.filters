@@ -196,5 +196,11 @@
     <None Include="program.prg">
       <Filter>Resource</Filter>
     </None>
+    <None Include="ver.glsl">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="frag.glsl">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
 </Project>
