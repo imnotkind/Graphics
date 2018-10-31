@@ -1,2 +1,2 @@
-prg1 : fuck, shit
-prg2 : fuck, bull
+prg1 : ver, frag
+prg2 : ver, frag

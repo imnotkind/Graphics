@@ -1,11 +1,9 @@
 %vs_start
-fuck : fuck.glsl
-suck : suck.glsl
+ver : ver.glsl
 %vs_end
 
 %fs_start
-shit : shit.glsl
-bull : bull.glsl
+frag : frag.glsl
 %fs_end
 
 %polygon_start
