@@ -110,8 +110,8 @@ int main(int argc, char **argv) {
 	
 	glewInit();
 
-	glEnable(GL_DEPTH_TEST);
-	auto p = CShaderManager::getInstance();
+	Graphics.M_Initialize2();
+	
 
 	
 	Engine.M_Initialize();

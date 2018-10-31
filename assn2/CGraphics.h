@@ -52,6 +52,7 @@ public:
 	void M_CallbackIdle();
 
 	void M_Initialize(CEngine * P);
+	void M_Initialize2(void);
 
 	CGraphics();
 	~CGraphics();

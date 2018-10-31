@@ -22,7 +22,7 @@ void CGraphics::M_RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				M_DrawPolygon(cen.convert_gl(), "rect", gsize * sqrt(2) / 2, DTR(45), T4Int(125, 30, 255, 255));
+				M_DrawPolygon(cen.convert_gl(), "pol1", gsize * sqrt(2) / 2, DTR(45), T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -128,6 +128,16 @@ void CGraphics::M_Initialize(CEngine * P)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 	glEnable(GL_MULTISAMPLE);
+}
+
+void CGraphics::M_Initialize2(void)
+{
+	glEnable(GL_DEPTH_TEST);
+	auto p = CShaderManager::getInstance();
+
+	M_SetupHieraModels();
+
+	
 }
 
 void CGraphics::M_MoveCamera(void)
