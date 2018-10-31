@@ -10,6 +10,7 @@ struct SHierModelNode
 	unique_ptr<SHierModelNode> left_child;
 	unique_ptr<SHierModelNode> right_sibling;
 	int port;
+	float color[4];
 };
 class CHierModel :
 	public CHandler
