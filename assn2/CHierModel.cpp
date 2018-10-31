@@ -12,7 +12,7 @@ void CHierModel::M_Release(void)
 
 }
 
-void CHierModel::M_Draw_Rec(SHierModelNode* node, Type_Not_Determined CTM)
+void CHierModel::M_Draw_Rec(const unique_ptr<SHierModelNode>& node, Type_Not_Determined CTM)
 {
 	V_MatrixStack.push(CTM);
 	CTM = CTM * node->trans;
@@ -26,5 +26,5 @@ void CHierModel::M_Draw_Rec(SHierModelNode* node, Type_Not_Determined CTM)
 
 void CHierModel::M_Draw(Type_Not_Determined CTM)
 {
-	M_Draw_Rec(&V_Root, CTM);
+	M_Draw_Rec(V_Root, CTM);
 }

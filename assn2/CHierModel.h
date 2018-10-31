@@ -4,8 +4,8 @@
 
 struct SHierModelNode
 {
-	Type_Not_Determined draw;
-	Type_Not_Determined trans;
+	GLuint draw;
+	glm::mat4 trans;
 
 	unique_ptr<SHierModelNode> left_child;
 	unique_ptr<SHierModelNode> right_sibling;
@@ -18,7 +18,7 @@ class CHierModel :
 	unique_ptr<SHierModelNode> V_Root;
 	void M_Release(void);
 
-	void M_Draw_Rec(unique_ptr<SHierModelNode> node, Type_Not_Determined CTM);
+	void M_Draw_Rec(const unique_ptr<SHierModelNode>& node, Type_Not_Determined CTM);
 public:
 	void M_Draw(Type_Not_Determined CTM);
 	CHierModel(unique_ptr<SHierModelNode>& root) { V_Root = move(root); }

@@ -179,7 +179,20 @@ CShaderManager::CShaderManager(string config_path)
 
 CShaderManager::~CShaderManager()
 {
-	
+	for (auto x : V_Polygons)
+	{
+		GLuint u = x.second;
+		glDeleteVertexArrays(1, &u);
+	}
+	for (auto x : V_Buffers)
+	{
+		GLuint u = x.second;
+		glDeleteBuffers(1, &u);
+	}
+	for (auto x : V_Programs) glDeleteProgram(x.second);
+	for (auto x : V_VerShaders) glDeleteShader(x.second);
+	for (auto x : V_FragShaders) glDeleteShader(x.second);
+
 }
 
 
