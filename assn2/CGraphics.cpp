@@ -54,6 +54,7 @@ void CGraphics::M_RenderGame(void)
 		else
 		{
 			M_DrawPolygon(d.pos.convert_gl(), "square", d.size, d.rotate, d.color);
+			//M_DrawPolygon(d.pos.convert_gl(), "pentagon", d.size,  d.rotate, d.color);
 		}
 		
 	}
