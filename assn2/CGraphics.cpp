@@ -238,6 +238,7 @@ void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 
 void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 {
+	/*
 	return;
 	if (z == 0) // Mega fire
 	{
@@ -341,6 +342,6 @@ void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
 		glEnd();
 	}
-	
+	*/
 }
 
