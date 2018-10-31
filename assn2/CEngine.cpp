@@ -229,17 +229,6 @@ void CEngine::M_Loop(void)
 	M_ListenMessages();
 	M_CheckKeyPress();
 
-	/*
-	if (QueryPerformanceCounter(&new_count)) {
-		auto elapse_micro = (new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart / 1000000.0);
-		old_count = new_count;
-		fps = 1000000.0 / (elapse_micro);
-	}
-	else {
-		cout << "counter fail" << endl;
-	}
-	*/
-
 }
 void CEngine::M_CheckKeyPress()
 {
@@ -324,21 +313,7 @@ void CEngine::M_Initialize(void)
 	V_GameEnd = 0;
 	V_Objects.clear();
 
-	if (QueryPerformanceFrequency(&freq))
-	{
-		cout << freq.QuadPart << endl;
-		if (!QueryPerformanceCounter(&old_count))
-		{
-			cout << "counter fail" << endl;
-			exit(2);
-		}
-	}
-	else
-	{
-		cout << "counter fail" << endl;
-		exit(1);
-	}
-
+	
 	V_IS_Camera = -1.0;
 	V_IS_Invincible = -1.0;
 	V_IS_Speed = -1.0;
@@ -488,10 +463,5 @@ void CEngine::M_EnemyNavigation(void)
 				if (Cur == q) break;
 			}
 		}
-			
-		
 	}
-
-
-
 }

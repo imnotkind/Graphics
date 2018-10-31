@@ -161,9 +161,11 @@
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CMath.cpp" />
     <ClCompile Include="CShaderManager.cpp" />
+    <ClCompile Include="CSinglePolygon.cpp" />
     <ClCompile Include="CSomething.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CUserInput.cpp" />
+    <ClCompile Include="HieraModels.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +181,7 @@
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CMath.h" />
     <ClInclude Include="CShaderManager.h" />
+    <ClInclude Include="CSinglePolygon.h" />
     <ClInclude Include="CSomething.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CUserInput.h" />

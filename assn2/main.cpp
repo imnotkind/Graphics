@@ -9,9 +9,11 @@ CEngine Engine;
 CMath* CMath::Instance = NULL;
 CUserInput* CUserInput::Instance = NULL;
 CGeneral* CGeneral::Instance = NULL;
+CShaderManager* CShaderManager::Instance = NULL;
 
 map<int, CMessageQueue<SScriptMessage>*> CMessageQueue<SScriptMessage>::V_Multiton = map<int, CMessageQueue<SScriptMessage>*>();
 map<int, CMessageQueue<SInputMessage>*> CMessageQueue<SInputMessage>::V_Multiton = map<int, CMessageQueue<SInputMessage>*>();
+
 
 LARGE_INTEGER old_count;
 LARGE_INTEGER new_count;
@@ -107,6 +109,9 @@ int main(int argc, char **argv) {
 	glutSpecialUpFunc(cb_skeyup);
 	
 	glewInit();
+
+	glEnable(GL_DEPTH_TEST);
+	auto p = CShaderManager::getInstance();
 
 	
 	Engine.M_Initialize();

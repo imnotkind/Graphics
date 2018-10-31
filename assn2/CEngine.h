@@ -20,11 +20,6 @@ class CEngine : public CHandler
 	vector<set<shared_ptr<CSomething>>::iterator> V_PEnemies;
 	vector<set<shared_ptr<CSomething>>::iterator> V_PItems;
 
-	//
-	double fps = 0;
-	LARGE_INTEGER old_count;
-	LARGE_INTEGER new_count;
-	LARGE_INTEGER freq;
 
 	int V_GameEnd = 0; // 0 : playing, 1 : gameover, 2: clear
 
@@ -61,7 +56,6 @@ class CEngine : public CHandler
 	void M_EnemyNavigation(void);
 
 	T2Int M_DiscretePos(T2Double p);
-
 
 	//item state
 	double V_IS_Camera;

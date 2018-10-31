@@ -22,7 +22,7 @@ void CGraphics::M_RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				M_DrawPolygon(cen.convert_gl(), gsize * sqrt(2) / 2, 4, DTR(45), T4Int(125, 30, 255, 255));
+				M_DrawPolygon(cen.convert_gl(), "rect", gsize * sqrt(2) / 2, DTR(45), T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -38,33 +38,21 @@ void CGraphics::M_RenderGame(void)
 		}
 		else //bullet, enemy
 		{
-			M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
+			//M_DrawPolygon(d.pos.convert_gl(), d.size, 5, d.rotate, d.color);
 		}
 		
 	}
 	//render player
 	auto d = V_PEngine->V_Player->M_GetDrawData();
-	M_DrawPolygon(d.pos.convert_gl(), d.size, 3, d.rotate, d.color);
+	//M_DrawPolygon(d.pos.convert_gl(), d.size, 3, d.rotate, d.color);
 }
 
 void CGraphics::M_RenderUI(void)
 {
-
+	/*
 	ostringstream s;
 	s << "Enemies : " << V_PEngine->V_PEnemies.size();
 	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
-
-	/*
-	s.str("");
-	s << "FPS of Engine : " << V_PEngine->fps;
-	M_DrawFont(Vec2d(100, 180), s.str(), T4Int(0, 0, 0, 255));
-
-	s.str("");
-	s << "FPS of Graphic : " << this->fps;
-	M_DrawFont(Vec2d(100, 230), s.str(), T4Int(0, 0, 0, 255));
-	*/
-
-
 
 	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
 	M_DrawPolygon(Vec2d(160, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
@@ -114,6 +102,7 @@ void CGraphics::M_RenderUI(void)
 		p[1] -= 200;
 		M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
 	}
+	*/
 
 
 }
@@ -121,35 +110,19 @@ void CGraphics::M_RenderUI(void)
 
 void CGraphics::M_Initialize(CEngine * P)
 {
-	if (QueryPerformanceFrequency(&freq))
-	{
-		cout << freq.QuadPart << endl;
-		if (!QueryPerformanceCounter(&old_count))
-		{
-			cout << "counter fail" << endl;
-			exit(2);
-		}
-	}
-	else
-	{
-		cout << "counter fail" << endl;
-		exit(1);
-	}
-	
 
 	V_PEngine = P;
 	V_Screen_Size = T2Double(1080, 1080);
 	V_Camera_Pos = T2Double(0, 0);
-	V_Camera_Size = 80;
-	V_Camera_Size_Acc = 0;
 	V_Camera_Speed.set(0.0, 0.0);
 
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(1080, 1080);
 
 	int id = glutCreateWindow("Graphics Assn1");
 	cout << id << endl;
+
 	glClearColor(1, 1, 1, 1); //background white
 	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -159,33 +132,10 @@ void CGraphics::M_Initialize(CEngine * P)
 
 void CGraphics::M_MoveCamera(void)
 {
-
-
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	
-	if (V_PEngine->V_IS_Camera > 0)
-	{
-		double u = V_PEngine->V_IS_Camera / 600.0 * 2 * PI;
-		V_Camera_Size_Acc = 0.5 * pow(-sin(u), 1);
-	}
-	else
-	{
-		V_Camera_Size = 80;
-	}
-
-	V_Camera_Size += V_Camera_Size_Acc;
-
-	if (V_Camera_Size < 80)
-	{
-		V_Camera_Size = 80;
-		V_Camera_Size_Acc = 0;
-	}
-	if (V_Camera_Size > 130)
-	{
-		V_Camera_Size = 130;
-	}
+	V_Camera_Height = 10 + sin(V_PEngine->V_IS_Camera / 600.0*PI);
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
@@ -201,32 +151,24 @@ void CGraphics::M_MoveCamera(void)
 }
 void CGraphics::M_CallbackDisplay()
 {
-	/*
-	if (QueryPerformanceCounter(&new_count)) {
-		auto elapse_micro = (new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart / 1000000.0);
-		old_count = new_count;
-		fps = 1000000.0 / (elapse_micro);
-	}
-	else {
-		cout << "counter fail" << endl;
-	}
-	*/
-
-	
-	
+	M_MoveCamera();
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	M_MoveCamera();
-	glLoadIdentity();
-	gluOrtho2D(V_Camera_Pos[0] - V_Camera_Size, V_Camera_Pos[0] + V_Camera_Size,
-		V_Camera_Pos[1] - V_Camera_Size, V_Camera_Pos[1] + V_Camera_Size);
-
-	M_RenderGame();
-
-	glLoadIdentity();
-	gluOrtho2D(0,V_Screen_Size[0],0,V_Screen_Size[1]);
+	V_CTM = glm::mat4(1.0f);
+	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
+	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1)); 
+	// screen coord -> cvc
 	M_RenderUI();
+
+	V_CTM = glm::mat4(1.0f);
+	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+	auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height),
+		glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+
+	V_CTM = pers * view;
+	M_RenderGame();
+	
 
 	glutSwapBuffers();
 }
@@ -240,57 +182,33 @@ void CGraphics::M_CallbackReshape(int w, int h)
 
 void CGraphics::M_CallbackIdle()
 {
-	
 	glutPostRedisplay();
 }
 
-void CGraphics::M_DrawLine(Vec2d p1, Vec2d p2, T4Int rgba)
+void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 {
-	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
-	glBegin(GL_LINES);
-	glVertex2d(p1[0], p1[1]);
-	glVertex2d(p2[0], p2[1]);
-	glEnd();
+	glm::mat4 m;
+	m = V_CTM;
+	m = glm::translate(V_CTM, glm::vec3(p1));
+	m = glm::scale(V_CTM, glm::vec3(p2 - p1));
+	V_BasicPolygons["line"]->M_Draw(m);
 }
 
-
-void CGraphics::M_DrawStar(Vec2d p, double r, double rotate, T4Int rgba)
+void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4Int rgba)
 {
-	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < 10; i++) {
-		double theta = (2.0 * PI * double(i) / double(10)) + (rotate);
-		double x, y;
-		if (i % 2 != 0) {
-			x = r * cosl(theta);
-			y = r * sinl(theta);
-		}
-		else {
-			x = r * 0.5 * cosl(theta);
-			y = r * 0.5 * sinl(theta);
-		}
-		glVertex2d(p[0] + x, p[1] + y);
-	}
-	glEnd();
-}
+	glm::mat4 m;
+	m = V_CTM;
+	m = glm::translate(V_CTM, glm::vec3(p));
+	m = glm::rotate(V_CTM, float(rotate), glm::vec3(0.0f,0.0f,1.0f));
+	m = glm::scale(V_CTM, glm::vec3(r, r, r));
 
-
-void CGraphics::M_DrawPolygon(Vec2d p, double r, int bump, double rotate, T4Int rgba)
-{
-	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < bump; i++) {
-		double theta = (2.0 * PI * double(i) / double(bump)) + (rotate);
-		double x = r * cosl(theta);
-		double y = r * sinl(theta);
-		glVertex2d(p[0] + x, p[1] + y);
-	}
-	glEnd();
+	V_BasicPolygons[name]->M_Draw(m);
 }
 
 
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 {
+	return;
 	//CAUTION : Font size does NOT get influenced by screen size
 	//Font position is world coordinate (most recent gluortho2D)
 	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
@@ -303,6 +221,7 @@ void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 
 void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 {
+	return;
 	//CAUTION : Font size DOES get influenced by screen size
 	//Font position is world coordinate (most recent gluortho2D)
 	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
@@ -319,6 +238,7 @@ void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 
 void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 {
+	return;
 	if (z == 0) // Mega fire
 	{
 		double c = r / (sqrt(650)); //most far point : (30,-10)

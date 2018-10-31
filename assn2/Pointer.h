@@ -9,7 +9,7 @@ public:
 	TPointer(T* p) : pointer(p) {}
 	void operator=(const TPointer& C) { T = C.pointer; }
 
-	~Tpointer(void)
+	~TPointer(void)
 	{
 		if (T) delete T;
 	}

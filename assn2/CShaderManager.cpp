@@ -193,6 +193,8 @@ CShaderManager::~CShaderManager()
 	for (auto x : V_VerShaders) glDeleteShader(x.second);
 	for (auto x : V_FragShaders) glDeleteShader(x.second);
 
+	freeInstance();
+
 }
 
 
@@ -296,4 +298,5 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 	}
 
 	V_Programs[name] = id;
+
 }
