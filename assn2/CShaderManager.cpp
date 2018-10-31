@@ -19,34 +19,43 @@ CShaderManager::CShaderManager(string config_path)
 		{
 			if(Line == "%vs_start")
 			{
+				getline(is, Line);
 				while (Line != "%vs_end")
 				{
 					M_ParseData(Line, VerShaderPaths, 0);
+					getline(is, Line);
 				}
 			}
 
 			if (Line == "%fs_start")
 			{
+				getline(is, Line);
 				while (Line != "%fs_end")
 				{
 					M_ParseData(Line, FragShaderPaths, 0);
+					getline(is, Line);
 				}
 			}
 
 			if (Line == "%polygon_start")
 			{
+				getline(is, Line);
 				while (Line != "%polygon_end")
 				{
-					M_ParseData(Line, PolygonData, 1);
 					
+					M_ParseData(Line, PolygonData, 1);
+					getline(is, Line);
 				}
 			}
 
 			if (Line == "%program_start")
 			{
+				getline(is, Line);
 				while (Line != "%program_end")
 				{
+					
 					M_ParseData(Line, ProgramData, 1);
+					getline(is, Line);
 				}
 			}
 		}
