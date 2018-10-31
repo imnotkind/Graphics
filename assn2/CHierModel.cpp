@@ -23,14 +23,14 @@ void CHierModel::M_Draw_Rec(const unique_ptr<SHierModelNode>& node, glm::mat4 CT
 	glm::mat4 trans2 = V_Trans2.find(node->port) == V_Trans2.end() ? glm::mat4(1.0f) : V_Trans2[node->port];
 	CTM = CTM * trans2 * node->trans;
 
-	GLuint p = glGetAttribLocation(V_Program, "position");
-	GLuint q = glGetUniformLocation(V_Program, "trans");
-
-	glEnableVertexAttribArray(p);
-	glVertexAttribPointer(p, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glBindVertexArray(node->draw);
+	GLuint p = glGetUniformLocation(V_Program, "trans");
+	GLuint q = glGetUniformLocation(V_Program, "ver_in_color");
+	glUniformMatrix4fv(p, 1, GL_FALSE, &CTM[0][0]);
+	float col[4]; 
+	for(int i = 0; i< 4; i++) col[i] = node->color[i]; 
+	glUniform4fv(q, 1, col);
 
-	glUniformMatrix4fv(q, 1, GL_FALSE, &CTM[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	if (node->left_child) M_Draw_Rec(node->left_child, CTM);

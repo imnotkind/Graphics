@@ -207,6 +207,18 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 	}
 
 	V_Programs[name] = id;
+	auto vl = glGetAttribLocation(id, "position");
+	for (auto p : V_Polygons)
+	{
+		auto a = p.second;
+		auto b = V_Buffers[p.first];
+
+		glBindVertexArray(a);
+		glBindBuffer(GL_ARRAY_BUFFER, b);
+
+		glEnableVertexAttribArray(vl);
+		glVertexAttribPointer(vl, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	}
 
 }
 

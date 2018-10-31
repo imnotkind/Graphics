@@ -124,6 +124,7 @@ void CGraphics::M_Initialize(CEngine * P)
 	cout << id << endl;
 
 	glClearColor(1, 1, 1, 1); //background white
+	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -145,7 +146,7 @@ void CGraphics::M_MoveCamera(void)
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 10 + sin(V_PEngine->V_IS_Camera / 600.0*PI);
+	V_Camera_Height = 150 + 50 * sin(V_PEngine->V_IS_Camera / 600.0*PI);
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
@@ -163,9 +164,9 @@ void CGraphics::M_CallbackDisplay()
 {
 	M_MoveCamera();
 
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	V_SM->M_UseProgram("prg1");
-
+	
 	V_CTM = glm::mat4(1.0f);
 	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
 	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1)); 
@@ -173,7 +174,7 @@ void CGraphics::M_CallbackDisplay()
 	M_RenderUI();
 
 	V_CTM = glm::mat4(1.0f);
-	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 300.0f);
 	auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height),
 		glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 
@@ -209,9 +210,9 @@ void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4I
 {
 	glm::mat4 m;
 	m = V_CTM;
-	m = glm::translate(V_CTM, glm::vec3(p));
-	m = glm::rotate(V_CTM, float(rotate), glm::vec3(0.0f,0.0f,1.0f));
-	m = glm::scale(V_CTM, glm::vec3(r, r, r));
+	m = glm::translate(m, glm::vec3(p));
+	m = glm::rotate(m, float(rotate), glm::vec3(0.0f,0.0f,1.0f));
+	m = glm::scale(m, glm::vec3(r, r, r));
 
 	V_BasicPolygons[name]->M_Draw(m);
 }
@@ -245,114 +246,7 @@ void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 	glLineWidth(1);
 }
 
-
-
 void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 {
-	/*
-	return;
-	if (z == 0) // Mega fire
-	{
-		double c = r / (sqrt(650)); //most far point : (30,-10)
-		glColor4ub(255, 0, 0, 255);
-		glBegin(GL_POLYGON);
-		glVertex2d(p[0] - 25 * c, p[1] + 5 * c);
-		glVertex2d(p[0] - 5 * c, p[1] + 25 * c);
-		glVertex2d(p[0] + 25 * c, p[1] - 5 * c);
-		glVertex2d(p[0] + 15 * c, p[1] - 5 * c);
-		glVertex2d(p[0] + 15 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 5 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
-		glEnd();
-
-		c = c * 0.5;
-		glColor4ub(255, 255, 0, 255);
-		glBegin(GL_POLYGON);
-		glVertex2d(p[0] - 25 * c, p[1] + 5 * c);
-		glVertex2d(p[0] - 5 * c, p[1] + 25 * c);
-		glVertex2d(p[0] + 25 * c, p[1] - 5 * c);
-		glVertex2d(p[0] + 15 * c, p[1] - 5 * c);
-		glVertex2d(p[0] + 15 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 5 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
-		glEnd();
-	}
-	if (z == 1) // Camera up
-	{
-		double c = r / (25); //most far point : (20,15)
-
-		glColor4ub(40, 40, 40, 255);
-		glBegin(GL_POLYGON);
-		glVertex2d(p[0] - 20 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 20 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 20 * c, p[1] + 15 * c);
-		glVertex2d(p[0] - 20 * c, p[1] + 15 * c);
-		glEnd();
-		glBegin(GL_POLYGON);
-		glVertex2d(p[0] + 6 * c, p[1] + 18 * c);
-		glVertex2d(p[0] + 16 * c, p[1] + 18 * c);
-		glVertex2d(p[0] + 16 * c, p[1] + 15 * c);
-		glVertex2d(p[0] + 6 * c, p[1] + 15 * c);
-		glEnd();
-
-		M_DrawPolygon(p, r * 0.35, 100, 0, T4Int(255, 255, 255, 255));
-	}
-	if (z == 2) // Invincible
-	{
-		M_DrawStar(p, r, DTR(54), T4Int(255, 204, 0, 255));
-		M_DrawStar(p, r * 0.8, DTR(54), T4Int(255, 255, 0, 255));
-	}
-	if (z == 3) // Speed up
-	{
-		double c = r / (20 * sqrt(13)); //most far point : (40,60)
-
-		glColor4ub(150, 75, 0, 255);
-		glBegin(GL_POLYGON);
-		glVertex2d(p[0] - 15 * c, p[1] - 5 * c);
-		glVertex2d(p[0] - 40 * c, p[1] + 20 * c);
-		glVertex2d(p[0], p[1] + 60 * c);
-		glVertex2d(p[0] + 50 * c, p[1] + 10 * c);
-		glVertex2d(p[0] - 20 * c, p[1] - 60 * c);
-		glVertex2d(p[0] - 40 * c, p[1] - 60 * c);
-		glVertex2d(p[0] - 45 * c, p[1] - 50 * c);
-		glVertex2d(p[0] - 40 * c, p[1] - 20 * c);
-		glEnd();
-		
-		glColor4ub(240, 248, 255, 255);
-		glBegin(GL_POLYGON);
-		glVertex2d(p[0] + 10 * c, p[1]);
-		glVertex2d(p[0] + 10 * c, p[1] + 30 * c);
-		glVertex2d(p[0] + 40 * c, p[1] + 60 * c);
-		glVertex2d(p[0] + 40 * c, p[1] + 30 * c);
-		glEnd();
-		
-	}
-	if (z == 4) // Super fire
-	{
-		double c = r / (sqrt(650)); //most far point : (30,-10)
-		glColor4ub(100, 100, 100, 255);
-		glBegin(GL_POLYGON);
-		glVertex2d(p[0] - 25 * c, p[1] + 5 * c);
-		glVertex2d(p[0] - 5 * c, p[1] + 25 * c);
-		glVertex2d(p[0] + 25 * c, p[1] - 5 * c);
-		glVertex2d(p[0] + 15 * c, p[1] - 5 * c);
-		glVertex2d(p[0] + 15 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 5 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
-		glEnd();
-
-		c = c * 0.5;
-		glColor4ub(230, 230, 230, 255);
-		glBegin(GL_POLYGON);
-		glVertex2d(p[0] - 25 * c, p[1] + 5 * c);
-		glVertex2d(p[0] - 5 * c, p[1] + 25 * c);
-		glVertex2d(p[0] + 25 * c, p[1] - 5 * c);
-		glVertex2d(p[0] + 15 * c, p[1] - 5 * c);
-		glVertex2d(p[0] + 15 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 5 * c, p[1] - 15 * c);
-		glVertex2d(p[0] + 5 * c, p[1] - 25 * c);
-		glEnd();
-	}
-	*/
 }
 

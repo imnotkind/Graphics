@@ -2,12 +2,14 @@
 
 
 
-CSinglePolygon::CSinglePolygon(GLuint draw)
+CSinglePolygon::CSinglePolygon(GLuint draw, T4Int C)
 {
 	auto p = new SHierModelNode;
 	p->draw = draw;
 	p->trans = glm::mat4(1.0f);
 	p->port = 0;
+	for(int i = 0; i < 4; i++) p->color[i] = C[i]/255.0;
+	
 	V_Hier.reset(new CHierModel(unique_ptr<SHierModelNode>(p)));
 }
 

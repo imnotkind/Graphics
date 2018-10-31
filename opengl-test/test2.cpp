@@ -225,14 +225,24 @@ void init_shader(void)
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(vertexLoc);
-	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+	
 
 	glGenVertexArrays(1, &VertexArrayID2);
 	glBindVertexArray(VertexArrayID2);
 	glGenBuffers(1, &vertexbuffer2);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer2);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data2), g_vertex_buffer_data2, GL_STATIC_DRAW);
+
+
+
+	glBindVertexArray(VertexArrayID);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glEnableVertexAttribArray(vertexLoc);
+	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+	glBindVertexArray(VertexArrayID2);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer2);
 	glEnableVertexAttribArray(vertexLoc);
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	
