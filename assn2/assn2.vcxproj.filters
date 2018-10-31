@@ -52,6 +52,9 @@
     <Filter Include="Engine\Graphics\HierModel\CSinglePolygon">
       <UniqueIdentifier>{91396353-0e9e-4815-9e24-bb7e670d8759}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{8cc90865-1c43-4456-9616-1d5e1bcfc2f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -105,6 +108,9 @@
     </ClCompile>
     <ClCompile Include="CSinglePolygon.cpp">
       <Filter>Engine\Graphics\HierModel\CSinglePolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="StringHelper.h">
+      <Filter>Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,5 +180,21 @@
     <ClInclude Include="CSinglePolygon.h">
       <Filter>Engine\Graphics\HierModel\CSinglePolygon</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="map.txt">
+      <Filter>Resource</Filter>
+    </Text>
+    <Text Include="config.txt">
+      <Filter>Resource</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="polygon.pol">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="program.prg">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -167,6 +167,7 @@
     <ClCompile Include="CUserInput.cpp" />
     <ClCompile Include="HieraModels.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="StringHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBullet.h" />
@@ -191,6 +192,14 @@
     <ClInclude Include="TGrid.h" />
     <ClInclude Include="TVector.h" />
     <ClInclude Include="TVector_speical.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config.txt" />
+    <Text Include="map.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="polygon.pol" />
+    <None Include="program.prg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
