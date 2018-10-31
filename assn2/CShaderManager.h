@@ -4,6 +4,11 @@
 #include <fstream>
 #include <sstream>
 
+struct SVerArray
+{
+	GLuint aindex;
+	int num;
+};
 class CShaderManager :
 	public CHandler
 {
@@ -11,7 +16,7 @@ class CShaderManager :
 	map<string, GLuint> V_Programs;
 	map<string, GLuint> V_VerShaders;
 	map<string, GLuint> V_FragShaders;
-	map<string, GLuint> V_Polygons;
+	map<string, SVerArray> V_Polygons;
 	map<string, GLuint> V_Buffers;
 
 	void M_LoadShader(string path, string name, int type);
@@ -27,7 +32,7 @@ class CShaderManager :
 	CShaderManager(string config_path);
 	~CShaderManager();
 public:
-	GLuint M_GetPolygon(string s) { return V_Polygons[s]; }
+	SVerArray M_GetPolygon(string s) { return V_Polygons[s]; }
 	void M_UseProgram(string name) {V_CurrentProgram = V_Programs[name]; glUseProgram(V_CurrentProgram);}
 	GLuint M_GetProgram(void) { return V_CurrentProgram; }
 

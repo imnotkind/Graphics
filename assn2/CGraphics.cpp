@@ -12,6 +12,8 @@ CGraphics::~CGraphics()
 
 void CGraphics::M_RenderGame(void)
 {
+	static double anim = 0.0;
+	anim += 0.05;
 	//render map
 	double gsize = V_PEngine->V_Grid_Size;
 	auto s = V_PEngine->V_Map.size;
@@ -22,7 +24,7 @@ void CGraphics::M_RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				M_DrawPolygon(cen.convert_gl(), "triangle", gsize * sqrt(2) / 2, DTR(45), T4Int(125, 30, 255, 255));
+				M_DrawPolygon(cen.convert_gl(), "triangle", gsize * sqrt(2) / 2, 0, T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -43,8 +45,15 @@ void CGraphics::M_RenderGame(void)
 		
 	}
 	//render player
+
+	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
+	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
+
 	auto d = V_PEngine->V_Player->M_GetDrawData();
-	M_DrawPolygon(d.pos.convert_gl(), "square", d.size, d.rotate, d.color);
+
+	V_Hiers["player"]->M_RegisterTrans2(1, am1);
+	V_Hiers["player"]->M_RegisterTrans2(2, am2);
+	M_DrawHier(d.pos.convert_gl(), "player", d.size * 1.0, d.rotate, d.color);
 }
 
 void CGraphics::M_RenderUI(void)
@@ -217,7 +226,16 @@ void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4I
 
 	V_BasicPolygons[name]->M_Draw(m);
 }
+void CGraphics::M_DrawHier(Vec3d p, string name, double r, double rotate, T4Int rgba)
+{
+	glm::mat4 m;
+	m = V_CTM;
+	m = glm::translate(m, glm::vec3(p));
+	m = glm::rotate(m, float(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
+	m = glm::scale(m, glm::vec3(r, r, r));
 
+	V_Hiers[name]->M_Draw(m);
+}
 
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 {

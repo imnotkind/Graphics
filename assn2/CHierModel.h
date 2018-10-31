@@ -5,12 +5,19 @@
 
 struct SHierModelNode
 {
-	GLuint draw;
+	SVerArray draw;
 	glm::mat4 trans;
-	unique_ptr<SHierModelNode> left_child;
-	unique_ptr<SHierModelNode> right_sibling;
+	glm::mat4 trans_s; // no inheritance
+
 	int port;
-	float color[4];
+	T4Double color;
+
+	int left_child;
+	int right_sibling;
+
+	SHierModelNode() {
+		draw.num = 0; trans = glm::mat4(1.0); trans_s = glm::mat4(1.0);  port = -1; color.set(1.0, 1.0, 1.0, 1.0);
+	left_child = -1; right_sibling = -1;}
 };
 class CHierModel :
 	public CHandler
@@ -20,16 +27,16 @@ protected:
 
 	map<int, glm::mat4> V_Trans2; //transforms applied after hiera transform, according to port. (for animation)
 	stack<glm::mat4> V_MatrixStack;
-	unique_ptr<SHierModelNode> V_Root;
+	vector<SHierModelNode> V_Tree;
 	void M_Release(void);
 
-	void M_Draw_Rec(const unique_ptr<SHierModelNode>& node, glm::mat4 CTM);
+	void M_Draw_Rec(int index, glm::mat4 CTM);
 
 public:
 	void M_RegisterTrans2(int port, glm::mat4 t);
 	void M_Draw(glm::mat4 CTM);
 
-	CHierModel(unique_ptr<SHierModelNode>&& root) { V_Root = move(root); }
+	CHierModel(vector<SHierModelNode>& t) { V_Tree = t; }
 
 	virtual ~CHierModel();
 };

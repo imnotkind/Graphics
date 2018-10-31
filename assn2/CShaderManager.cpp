@@ -90,7 +90,7 @@ CShaderManager::~CShaderManager()
 {
 	for (auto x : V_Polygons)
 	{
-		GLuint u = x.second;
+		GLuint u = x.second.aindex;
 		glDeleteVertexArrays(1, &u);
 	}
 	for (auto x : V_Buffers)
@@ -182,7 +182,8 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 	glBindBuffer(GL_ARRAY_BUFFER, vbid);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * n, arr, GL_STATIC_DRAW);
 
-	V_Polygons[name] = vaid;
+	SVerArray va; va.num = n/4; va.aindex = vaid;
+	V_Polygons[name] = va;
 	V_Buffers[name] = vbid;
 }
 void CShaderManager::M_LoadProgram(string name, string ver, string frag)
@@ -213,7 +214,7 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 		auto a = p.second;
 		auto b = V_Buffers[p.first];
 
-		glBindVertexArray(a);
+		glBindVertexArray(a.aindex);
 		glBindBuffer(GL_ARRAY_BUFFER, b);
 
 		glEnableVertexAttribArray(vl);

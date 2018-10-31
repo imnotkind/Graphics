@@ -34,7 +34,7 @@ typedef TVector<int, 2> T2Int;
 typedef TVector<int, 3> T3Int;
 typedef TVector<int, 4> T4Int;
 
-typedef TVector<float, 4> T4Float;
+typedef TVector<double, 4> T4Double;
 
 typedef glm::ivec2 Vec2i;
 typedef glm::ivec3 Vec3i;
