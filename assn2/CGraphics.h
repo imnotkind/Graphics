@@ -11,6 +11,7 @@
 class CGraphics : public CHandler
 {
 	CEngine * V_PEngine;
+	CShaderManager* V_SM;
 
 	T2Double V_Screen_Size;
 

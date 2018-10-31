@@ -133,7 +133,7 @@ void CGraphics::M_Initialize(CEngine * P)
 void CGraphics::M_Initialize2(void)
 {
 	glEnable(GL_DEPTH_TEST);
-	auto p = CShaderManager::getInstance();
+	V_SM = CShaderManager::getInstance();
 
 	M_SetupHieraModels();
 
@@ -164,6 +164,7 @@ void CGraphics::M_CallbackDisplay()
 	M_MoveCamera();
 
 	glClear(GL_COLOR_BUFFER_BIT);
+	V_SM->M_UseProgram("prg1");
 
 	V_CTM = glm::mat4(1.0f);
 	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
