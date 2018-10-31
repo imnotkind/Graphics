@@ -40,7 +40,7 @@ void CGraphics::M_RenderGame(void)
 		}
 		else //bullet, enemy
 		{
-			M_DrawPolygon(d.pos.convert_gl(), "polygon", d.size,  d.rotate, d.color);
+			M_DrawPolygon(d.pos.convert_gl(), "pentagon", d.size,  d.rotate, d.color);
 		}
 		
 	}
