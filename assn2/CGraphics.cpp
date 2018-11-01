@@ -82,20 +82,20 @@ void CGraphics::M_RenderUI(void)
 	
 	if (V_PEngine->V_GameEnd == 1)
 	{
-		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_PEnemies.size(), T4Int(255, 0, 0, 255));
-		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(240, 240, 240, 200));
+		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2 - 150, V_Screen_Size[1] / 2, 0), 100, V_PEngine->V_PEnemies.size(), T4Int(255, 0, 0, 255));
+		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(130, 100, 100, 255));
 	}
 	if (V_PEngine->V_GameEnd == 2)
 	{
-		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_LeftTime, T4Int(125, 255, 0, 255));
-		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(240, 240, 240, 200));
+		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2 - 150, V_Screen_Size[1] / 2, 0), 100, V_PEngine->V_LeftTime, T4Int(125, 255, 0, 255));
+		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(100, 130, 100, 255));
 	}
 	
 
-	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
-	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_LeftTime, T4Int(125,255,0,255));
-	M_DrawNumber(Vec3d(100, 200, 0), 10, V_PEngine->V_Life, T4Int(255, 255, 0, 255));
-	M_DrawPolygon(Vec3d(100, 150, 0), "rectangle", 100, 0, T4Int(180, 240, 240, 100));
+	M_DrawNumber(Vec3d(50, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
+	M_DrawNumber(Vec3d(50, 150, 0), 10, V_PEngine->V_LeftTime, T4Int(125,255,0,255));
+	M_DrawNumber(Vec3d(50, 200, 0), 10, V_PEngine->V_Life, T4Int(255, 255, 0, 255));
+	M_DrawPolygon(Vec3d(50, 150, 0), "square", 80, 0, T4Int(100, 100, 100, 200));
 	
 	
 	auto l = V_PEngine->V_Player->M_GetItemList();
@@ -117,10 +117,10 @@ void CGraphics::M_RenderUI(void)
 			break;
 	}
 
-	M_DrawPolygon(Vec3d(70, V_Screen_Size[1] - 60, 0), "square", 50, 0, T4Int(240, 240, 240, 200));
-	M_DrawPolygon(Vec3d(160, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(240, 240, 240, 200));
-	M_DrawPolygon(Vec3d(230, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(240, 240, 240, 200));
-	M_DrawPolygon(Vec3d(300, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(240, 240, 240, 200));
+	M_DrawPolygon(Vec3d(70, V_Screen_Size[1] - 60, 0), "square", 50, 0, T4Int(100, 170, 170, 200));
+	M_DrawPolygon(Vec3d(160, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
+	M_DrawPolygon(Vec3d(230, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
+	M_DrawPolygon(Vec3d(300, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
 
 	
 
@@ -302,7 +302,7 @@ void CGraphics::M_DrawItem(Vec3d p, double r, int z)
 	{
 		M_DrawPolygon(p, "circle", r*0.4, 0, T4Int(255, 255, 255, 255));
 		M_DrawPolygon(p + Vec3d(r*0.7, r*0.5, 0), "circle", r*0.1, 0, T4Int(255, 255, 255, 255));
-		M_DrawPolygon(p, "rectangle", r, 0, T4Int(90, 90, 90, 255));
+		M_DrawPolygon(p, "rectangle", r*0.9, 0, T4Int(90, 90, 90, 255));
 
 	}
 	if (z == 2) // Invincible
