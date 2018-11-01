@@ -70,6 +70,8 @@ class CEngine : public CHandler
 
 	int V_Life;
 
+	double V_Animation_Temp;
+
 public:
 
 	bool M_GameEnd(void) {return V_GameEnd != 0; }

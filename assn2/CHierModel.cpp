@@ -32,6 +32,7 @@ void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 	glUniformMatrix4fv(p, 1, GL_FALSE, &temp[0][0]);
 	float col[4]; 
 	for(int i = 0; i< 4; i++) col[i] = node.color[i] * V_NewColor[i];
+
 	glUniform4fv(q, 1, col);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, node.draw.num);

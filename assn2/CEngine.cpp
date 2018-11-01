@@ -234,7 +234,7 @@ void CEngine::M_Loop(void)
 	M_ItemState();
 	M_EnemyNavigation();
 
-	//TODO : caculate time elapsed
+	if(V_Animation_Temp >= 0.0) V_Animation_Temp -= 1;
 	double t = 1.0;
 
 	for (auto p : V_Objects)
@@ -304,7 +304,11 @@ void CEngine::M_ItemUse(list<int>& x)
 void CEngine::M_Event_KeyPress(int key, bool special)
 {
 
-	if (key == 32 && !special) V_Player->M_Fire(); // Space bar
+	if (key == 32 && !special)
+	{
+		V_Animation_Temp = 30;
+		V_Player->M_Fire(); // Space bar
+	}
 	if (key == 'q' && !special) M_ItemUse(V_Player->M_GetItemList());
 }
 T2Int CEngine::M_GetEmptyPlace(void)
@@ -332,6 +336,7 @@ void CEngine::M_Initialize(void)
 	V_Objects.clear();
 
 	V_Life = 3;
+	V_Animation_Temp = 0.0;
 
 	V_StartTick = GetTickCount();
 	V_CurrTick = V_StartTick;
