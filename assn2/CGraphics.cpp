@@ -66,8 +66,8 @@ void CGraphics::M_RenderGame(void)
 
 void CGraphics::M_RenderUI(void)
 {
-	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size());
-	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_Elapse);
+	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(0,255,0,255));
+	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_Elapse, T4Int(125,255,0,255));
 
 	/*
 	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
@@ -140,7 +140,7 @@ void CGraphics::M_Initialize(CEngine * P)
 	cout << id << endl;
 
 	glClearColor(1, 1, 1, 1); //background white
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -247,34 +247,57 @@ void CGraphics::M_DrawHier(Vec3d p, string name, double r, double rotate, T4Int 
 
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 {
-	//CAUTION : Font size does NOT get influenced by screen size
-	//Font position is world coordinate (most recent gluortho2D)
-	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
-	glRasterPos2d(p[0], p[1]);
-	for (int i=0; i < str.length(); i++)
-	{
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str.at(i));
-	}
 }
 
 void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 {
-	//CAUTION : Font size DOES get influenced by screen size
-	//Font position is world coordinate (most recent gluortho2D)
-	glLineWidth(4);
-	glPushMatrix();
-	glTranslated(p[0], p[1], 0);
-	glScaled(scale, scale, 0);
-	glutStrokeString(GLUT_STROKE_ROMAN, (unsigned char*)str.c_str());
-	glPopMatrix();
-	glLineWidth(1);
 }
 
-void CGraphics::M_DrawItem(Vec2d p, double r, int z)
+void CGraphics::M_DrawItem(Vec3d p, double r, int z)
 {
+	if (z == 0) // Mega fire
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			M_DrawPolygon(p, "diamond", r*0.5, (2 * PI / 10.0)*i, T4Int(255, 255, 0, 255));
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			M_DrawPolygon(p, "diamond", r, (2 * PI / 10.0)*i, T4Int(255, 0, 0, 255));
+		}
+		
+	}
+	if (z == 1) // Camera up
+	{
+		M_DrawPolygon(p, "circle", r*0.4, 0, T4Int(255, 255, 255, 255));
+		M_DrawPolygon(p + Vec3d(r*0.7, r*0.5, 0), "circle", r*0.1, 0, T4Int(255, 255, 255, 255));
+		M_DrawPolygon(p, "rectangle", r, 0, T4Int(90, 90, 90, 255));
+
+	}
+	if (z == 2) // Invincible
+	{
+		M_DrawPolygon(p, "star", r*0.8, 0, T4Int(255, 255, 0, 255));
+		M_DrawPolygon(p, "star", r, 0, T4Int(255, 204, 0, 255));
+		
+	}
+	if (z == 3) // Sppeed up
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			M_DrawPolygon(p, "diamond", r, PI/12 + (PI/12)*i, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p, "diamond", r, PI - (PI / 12 + (PI / 12)*i), T4Int(255, 255, 255, 255));
+		}
+	}
+	if (z == 4) // SuperFire
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			M_DrawPolygon(p, "diamond", r, (2*PI/4.0)*i, T4Int(30, 30, 30, 255));
+		}
+	}
 }
 
-void CGraphics::M_DrawNumber(Vec3d p, double r, int num)
+void CGraphics::M_DrawNumber(Vec3d p, double r, int num, T4Int rgba)
 {
 	string str = to_string(num);
 	Vec3d i = Vec3d(0, 0, 0);
@@ -284,36 +307,36 @@ void CGraphics::M_DrawNumber(Vec3d p, double r, int num)
 
 		if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 7 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "A", r, 0.0, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p+i, "A", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 1 || k == 2 || k == 3 || k == 4 || k == 7 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "B", r, 0.0, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p+i, "B", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 1 || k == 3 || k == 4 || k == 5 || k == 6 || k == 7 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "C", r, 0.0, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p+i, "C", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "D", r, 0.0, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p+i, "D", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 2 || k == 6 || k == 8)
 		{
-			M_DrawPolygon(p+i, "E", r, 0.0, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p+i, "E", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 4 || k == 5 || k == 6 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "F", r, 0.0, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p+i, "F", r, 0.0, rgba);
 		}
 		if (k == 2 || k == 3 || k == 4 || k == 5 || k == 6 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "G", r, 0.0, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p+i, "G", r, 0.0, rgba);
 		}
 
 		i += Vec3d(r+5, 0, 0);

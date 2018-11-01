@@ -205,5 +205,8 @@
     <None Include="7seg.pol">
       <Filter>Resource</Filter>
     </None>
+    <None Include="item.pol">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
 </Project>
