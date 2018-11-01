@@ -9,17 +9,23 @@
 ### Transform
 
 일반적인 3D 그래픽의 좌표계 transform 과정은 다음과 같다.
-(그림)
+![t](trans.PNG)
 Model coord에서 world coord로 가는 과정은 Hiearchy model의 구현이 필요하다. 그 이후 canonical view volume으로 가기 위해서는 view transform과 projection transform이 필요하다. 
 
-### 2D Rendering
-## Gameplay
-게임플레이 자체는 Assn1과 거의 동일하지만 메뉴얼에 명시한 추가기능(제한시간과 라이프)과 몇가지 그래픽적인 차이가 생겼다. 게임플레이 자체에 대한 설명은 Assn1 메뉴얼을 참고바란다.
-### Player
+## Game
+게임플레이 자체는 Assn1과 거의 동일하지만 메뉴얼에 명시한 추가기능(제한시간과 라이프)과 몇가지 그래픽적인 차이가 생겼다. 게임플레이 자체에 대한 설명은 Assn1 메뉴얼을 참고바라고, 여기에서는 추가적인 기능이나 달라진 부분만 설명한다.
+### Restart
+assn1에도 원래 있었던 기능이지만 이번에 명시적으로 추가를 요구했기에 설명한다. 게임오버 상황(라이프 소진 or 타임오버)나 게임클리어 상황(모든 적 사살)에 게임이 정지된다. 이 때 r키를 누르면 게임이 다시 시작된다. (오브젝트는 랜덤으로 다시 배치된다)
+### Player and Enemy
+플레이어와 에너미는 이제 hierarchy 모델을 이용하여 관절을 가진 사람모양의 형태가 된다. 또한 애니메이션도 가진다. 둘은 메뉴얼에서 요구한대로 똑같은 hiearchy 모델을 사용하지만 색깔만 다르다.
+![p](player.PNG)
+![e](enemy.PNG)
+### CrazyMod
+**추가기능 : ** 게임 중 아무때나 v키를 누르면 crazy mod로 들어갈 수 있다. 이는 우리 게임이 내부적으로 모든 3D 처리를 하고 있기 때문에 구현이 가능한 기능이다.
+crazy mod에서는 더이상 카메라가 xy평면을 수직으로 바라보지 않고 갸우뚱 갸우뚱 돌아간다. 그와 동시에 게임내 모든 오브젝트들도 xy평면에 있지 않고 출렁거리는 z좌표를 가진다. 게임 로직 자체는 전혀 변하지 않고 렌더링 transformation 만 바뀌는 것이기 때문에 플레이는 그대로 할 수 있다. 다시 v를 누르면 원래대로 돌아간다
 
-### Enemy
+![s3](crazy.PNG)
 
-### Item
 
 ## Implementation
 
@@ -73,7 +79,8 @@ CShaderManager는 셰이더와 폴리곤을 관리하는 Singltone클래스로, 
 
 ##### CShaderManager::CShaderManager()
 
-밑에서 설명할 하위 함수들을 호출하여 셰이더와 버텍스를 로딩하는 전체 초기화를 수행하는 생성자다. 이 초기화 과정에서 외부에 있는 파일을 읽어와서 파싱하는 작업을 대거 하게 되는데, 이 포맷 자체는 간단하게 만든 독자포맷이다.
+밑에서 설명할 하위 함수들을 호출하여 셰이더와 버텍스를 로딩하는 전체 초기화를 수행하는 생성자다. **추가기능 : **이 초기화 과정에서 외부에 있는 파일을 읽어와서 파싱하는 작업을 대거 하게 되는데, 이 포맷 자체는 간단하게 만든 독자포맷이다. 따라서 맘에 안든다면 폴리곤의 모양을 직접 수정할 수 있다. (resource/polygon.pol 과 item.pol)
+
 
 ##### CShaderManager::M_LoadShader()
 
@@ -213,15 +220,18 @@ auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(
 ```
 anim은 매프레임마다 조금씩 증가하는 변수이다. 식을 보면 알겠지만 am1과 am2는 매 시간마다 조금씩 왔다갔다 하는 회전행렬이 된다. 둘이 내부적으로 cos/sin을 쓰고 있으므로 회전하는 각도는 살짝씩 딜레이가 있다. 이 am1과 am2를 각각 port 1과 port 2에 apply함으로써 사용자의 다리와 팔은 할당된 port에 맞게 적절하게 회전한다.
 
+만약 플레이어가 총을 쏘는 상황이라면 그 상황에만 다른 애니메이션을 사용하여 오른손을 드는 형태를 만들었다.
+
 ### Text
 
 Assn1까지는 텍스트 출력을 위해 opengl 자체 기능을 사용할수 있었으나 셰이더로 갈아타게 되면서 그 기능이 작동하지 않았다. 하지만 그렇다고 해서 텍스트를 출력할 수 있는 다른 방법이 있는 것도 아니었기에 숫자에만 대해서 polygon을 직접 출력하는 방식을 택했다.
 ![s1](text.PNG)
 
 ## Example
-![s1](gamestart.PNG)
-![s2](gameplay.PNG)
-![s3](gameplay2.PNG)
+![f1](example.PNG)
+평범한 실행 중 모습이다.
+![q2](end.PNG)
+게임오버의 모습이다. r을 누르면 다시 시작 할 수 있다.
 
 ## Discussion
 
@@ -245,7 +255,7 @@ Assn1까지는 텍스트 출력을 위해 opengl 자체 기능을 사용할수 �
 
 ## Reference
 
-OpenGL 사용법, 특히 shader를 로딩하는 과정과 사용방법에 대해서는 상당량 레퍼런스를 참고 했다.  하지만 게임로직과 hierarchy model의 구현은 100% 직접만든 원본이다.
+OpenGL 사용법, 특히 shader를 로딩하는 과정과 사용방법에 대해서는 레퍼런스를 참고 했다.  하지만 게임로직과 hierarchy model의 구현은 100% 직접만든 원본이다.
 
 [The OpenGL Utility Toolkit (GLUT) Programming Interface API Version 3](https://www.opengl.org/resources/libraries/glut/spec3/spec3.html)
 
