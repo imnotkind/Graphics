@@ -3,15 +3,18 @@
 ##### <span style="float:right">20160785 양준하, 20160463 성해빈 </span>
 
 ## Introduction
-이번 과제는 지난 Assn1을 바탕으로 하여 opengl의 셰이더를 사용하고 Hierarchy 모델을 만드는 것이 목적이다.
+이번 과제는 지난 Assn1을 바탕으로 하여 OpenGL의 셰이더를 사용하고 hierarchy 모델을 만드는 것이 목적이다.
 
 ## Background
 ### Transform
-<p style="text-align:justify">Opengl은 대표적인 크로스 플랫폼 라이브러리이다. opengl은 각 플랫폼이나 언어, 드라이버마다 구현이 다 다르므로 이것을 쉽게 사용할 수 있게 해주기 위해, 또 추가적인 기능을 더 쓸 수 있게 하기 위해 glew라는 extension loading library를 사용한다. freeglut는 순수 그래픽인 opengl에서 키보드 입력, 타이머,  마우스 입력 등등의 유틸리티 기능을 추가한 toolkit이다.</p>
+
+일반적인 3D 그래픽의 좌표계 transform 과정은 다음과 같다.
+(그림)
+Model coord에서 world coord로 가는 과정은 Hiearchy model의 구현이 필요하다. 그 이후 canonical view volume으로 가기 위해서는 view transform과 projection transform이 필요하다. 
 
 ### 2D Rendering
 ## Gameplay
-게임플레이 자체는 Assn1과 완벽하게 동일하지만 몇가지 그래픽적인 차이가 생겼다.
+게임플레이 자체는 Assn1과 거의 동일하지만 메뉴얼에 명시한 추가기능(제한시간과 라이프)과 몇가지 그래픽적인 차이가 생겼다. 게임플레이 자체에 대한 설명은 Assn1 메뉴얼을 참고바란다.
 ### Player
 
 ### Enemy
@@ -28,7 +31,34 @@
 
 빌드는 Release로 해야하는데, STL의 사용이 많아 debug로 빌드하면 각종 Assertion들이 난무해서 게임속도가 심각하게 느려져서 정상적인 플레이가 불가능 할 수도 있다.
 
-### Text
+### Transform
+
+일단 내부적으로 이 Assn2은 모두 3D 좌표계로 구현되어있다. (XY평면에 존재할 뿐이다)
+
+Model coord에서 World coord로 가는 과정은 아래의 Hierachy Model에서 자세히 설명할 것이므로 view transform과 projection transform에 대해서 설명하겠다.
+```c++
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+V_SM->M_UseProgram("prg1");
+
+V_CTM = glm::mat4(1.0f);
+auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 300.0f);
+auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height),
+glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], 0), glm::vec3(0, 1, 0));
+
+V_CTM = pers * view;
+M_RenderGame();
+
+V_CTM = glm::mat4(1.0f);
+V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
+V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
+M_RenderUI();
+
+glutSwapBuffers();
+```
+
+다음 코드는 매 프레임마다 호출되는 CGraphics::M_CallbackDisplay()의 일부이다. M_RenderGame은 실제 world에 존재하는 오브젝트를 그리는 것으로 view transform과 projection transform을 모두 거쳐야하므로 호출하기 전에 V_CTM (current transform matrix)에 미리 다 적용을 해놓고 호출한다
+
+M_RenderUI는 world내 오브젝트가 아니라 화면에 바로 보여야할 컴포넌트이기 때문에 화면좌표계에서 canonical view volume 좌표계로 가는 다른 transform을 적용시키고 호출한다.
 
 ### CShaderManager
 
@@ -174,6 +204,9 @@ auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(
 	V_Hiers["player"]->M_RegisterTrans2(1, am1);
 	V_Hiers["player"]->M_RegisterTrans2(2, am2);
 ```
+anim은 매프레임마다 조금씩 증가하는 변수이다. 식을 보면 알겠지만 am1과 am2는 매 시간마다 조금씩 왔다갔다 하는 회전행렬이 된다. 둘이 내부적으로 cos/sin을 쓰고 있으므로 회전하는 각도는 살짝씩 딜레이가 있다. 이 am1과 am2를 각각 port 1과 port 2에 apply함으로써 사용자의 다리와 팔은 할당된 port에 맞게 적절하게 회전한다.
+
+### Text
 
 ## Example
 ![s1](gamestart.PNG)
@@ -182,20 +215,27 @@ auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(
 
 ## Discussion
 
-### Frame
+### GPU Optimization
 
-Idle때 호출되는 함수에서 정확하게 해줘야되는 처리에 대해 더 연구할 필요가 있다. 현재는 시간을 재서 실제 모니터 주사율인 60fps 정도로 redisplay와 engine의 업데이트를 호출을 하는 식으로 해결했으나 어떨때 idle자체가 모니저 주사율에 dependent해지는 이상 행동을 보일때가 있어서 좀더 탐구가 필요하다.
+아직 shader에 대해서 완벽하게 이해한게 아니라서 정확한 리소스 관리 방법에 대해 연구중이다. 예를들어 현재는 폴리곤 1개를 load할때마다 VBO와 VBA를 새로 만들고 있는데 그게 아니라 VBO는 크게 하나만 사용하고 VBA만 바꾸는게 효율적이지 않을까 생각은 해봤으나 실제로 그게 큰 문제인지는 아직 자료가 안나와서 모르겠다.
 
-### Animation
-각 오브젝트들이 어떤 모양으로 출력될지 프레임마다 변화를 주어 달릴 때에 꿈틀거린다든지 하는 효과를 줄 수 있을 것 같다. 현재는 모든 오브젝트를 폴리곤으로 출력하고 있지만 텍스쳐로 출력할 수 있다면 더욱 애니메이션을 잘 활용할 수 있을 것으로 생각한다.
+또한 shader가 현재는 1개씩이라서 문제가 없지만 여러개의 shader가 있을때 이를 attach, detach하는 것을 계속 해야하는지 아니면 program을 여러개 생성해놓고 미리 다 attach를 해놓고 program만 갈아야하는건지도 확실치 않다. (일단 후자의 방법으로 구현은 되어 있다.) 
+
+### Vertex
+현재는 vertex에 좌표밖에 없지만 색깔이나 텍스쳐 매핑 좌표도 포함시키는 것이 나중에 필요할 수도 있을 것 같다. 이에 대한 구현은 현재 되어 있지 않다.
+
+### Hierarchy Model
+
+현재 Hierarchy 모델에서 쓰고 있는 몇가지 방법 (animation을 위한 port할당, 상속되지 않는 trans_s 등)은 실제로 참고해서 따라한 것이 아니라 걍 필요하다고 생각해서 독자적으로 만든 방법이기 때문에 실제로 더 효율적이고 일반적인 방법을 조사해봐야할 필요는 있다.
+
 
 ## Conclusion
-결론적으로 이번 어싸인에서는 OpenGL의 2D드로잉 기술을 사용하면서 기본적인 기능 및 2D 렌더링의 파이프라인에 대해서 알아볼 수 있었다. 
+결론적으로 이번 어싸인에서는 OpenGL의 셰이더 기능을 활용하여 파이프라인을 직접 구성하여 게임을 만들 수 있었다. 또한 Hierarchy 모델을 이용하여 복잡한 움직임과 애니메이션을 구현하였다.
 
 
 ## Reference
 
-OpenGL 사용법에 대해서는 레퍼런스를 참고했으나 게임로직은 100% 원본이다.
+OpenGL 사용법, 특히 shader를 로딩하는 과정과 사용방법에 대해서는 상당량 레퍼런스를 참고 했다.  하지만 게임로직과 hierarchy model의 구현은 100% 직접만든 원본이다.
 
 [The OpenGL Utility Toolkit (GLUT) Programming Interface API Version 3](https://www.opengl.org/resources/libraries/glut/spec3/spec3.html)
 
