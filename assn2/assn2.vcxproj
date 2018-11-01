@@ -199,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="frag.glsl" />
+    <None Include="7seg.pol" />
     <None Include="polygon.pol" />
     <None Include="program.prg" />
     <None Include="ver.glsl" />

@@ -66,10 +66,17 @@ void CGraphics::M_RenderGame(void)
 
 void CGraphics::M_RenderUI(void)
 {
-	
+	M_DrawPolygon(Vec3d(100, 100, 0), "A", 10.0, 0.0, T4Int(255, 255, 255, 255));
+	M_DrawPolygon(Vec3d(100, 100, 0), "B", 10.0, 0.0, T4Int(255, 255, 255, 255));
+	M_DrawPolygon(Vec3d(100, 100, 0), "C", 10.0, 0.0, T4Int(255, 255, 255, 255));
+	M_DrawPolygon(Vec3d(100, 100, 0), "D", 10.0, 0.0, T4Int(255, 255, 255, 255));
+	M_DrawPolygon(Vec3d(100, 100, 0), "E", 10.0, 0.0, T4Int(255, 255, 255, 255));
+	M_DrawPolygon(Vec3d(100, 100, 0), "F", 10.0, 0.0, T4Int(255, 255, 255, 255));
+	M_DrawPolygon(Vec3d(100, 100, 0), "G", 10.0, 0.0, T4Int(255, 255, 255, 255));
+
 	ostringstream s;
 	s << "Enemies : " << V_PEngine->V_PEnemies.size();
-	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
+	//M_DrawFontBig(Vec2d(100, 100), s.str(), 0.1, T4Int(0, 0, 0, 255));
 
 	/*
 	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
@@ -157,6 +164,7 @@ void CGraphics::M_Initialize2(void)
 	M_SetupHieraModels();
 
 	
+
 }
 
 void CGraphics::M_MoveCamera(void)
@@ -185,12 +193,6 @@ void CGraphics::M_CallbackDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	V_SM->M_UseProgram("prg1");
 	
-	V_CTM = glm::mat4(1.0f);
-	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
-	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1)); 
-	// screen coord -> cvc
-	M_RenderUI();
-
 
 	V_CTM = glm::mat4(1.0f);
 	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 300.0f);
@@ -200,6 +202,12 @@ void CGraphics::M_CallbackDisplay()
 	V_CTM = pers * view;
 	M_RenderGame();
 	
+
+	V_CTM = glm::mat4(1.0f);
+	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
+	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
+	// screen coord -> cvc
+	M_RenderUI();
 
 	glutSwapBuffers();
 }
@@ -260,10 +268,8 @@ void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 
 void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 {
-	return;
 	//CAUTION : Font size DOES get influenced by screen size
 	//Font position is world coordinate (most recent gluortho2D)
-	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
 	glLineWidth(4);
 	glPushMatrix();
 	glTranslated(p[0], p[1], 0);

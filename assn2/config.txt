@@ -8,6 +8,7 @@ frag : frag.glsl
 
 %polygon_start
 polygon.pol
+7seg.pol
 %polygon_end
 
 %program_start

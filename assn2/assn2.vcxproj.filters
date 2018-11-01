@@ -202,5 +202,8 @@
     <None Include="frag.glsl">
       <Filter>Resource</Filter>
     </None>
+    <None Include="7seg.pol">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
 </Project>
