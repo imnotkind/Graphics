@@ -62,8 +62,9 @@ class CEngine : public CHandler
 	double V_IS_Invincible;
 	double V_IS_Speed;
 
-	DWORD starttick;
-	DWORD currtick;
+	DWORD V_StartTick;
+	DWORD V_CurrTick;
+	int V_Elapse;
 
 public:
 

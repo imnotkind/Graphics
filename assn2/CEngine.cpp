@@ -211,7 +211,9 @@ void CEngine::M_Loop(void)
 		}
 		return;
 	}
-	currtick = GetTickCount();
+
+	V_CurrTick = GetTickCount();
+	V_Elapse = (V_CurrTick - V_StartTick) / 1000;
 
 	M_ObjectIndexing();
 	M_ItemState();
@@ -314,8 +316,8 @@ void CEngine::M_Initialize(void)
 	V_GameEnd = 0;
 	V_Objects.clear();
 
-	starttick = GetTickCount();
-	currtick = starttick;
+	V_StartTick = GetTickCount();
+	V_CurrTick = V_StartTick;
 
 	V_IS_Camera = -1.0;
 	V_IS_Invincible = -1.0;
