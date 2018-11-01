@@ -66,7 +66,7 @@ void CGraphics::M_RenderGame(void)
 
 void CGraphics::M_RenderUI(void)
 {
-	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(0,255,0,255));
+	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
 	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_Elapse, T4Int(125,255,0,255));
 
 	/*
@@ -280,12 +280,12 @@ void CGraphics::M_DrawItem(Vec3d p, double r, int z)
 		M_DrawPolygon(p, "star", r, 0, T4Int(255, 204, 0, 255));
 		
 	}
-	if (z == 3) // Sppeed up
+	if (z == 3) // Speed up
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			M_DrawPolygon(p, "diamond", r, PI/12 + (PI/12)*i, T4Int(255, 255, 255, 255));
-			M_DrawPolygon(p, "diamond", r, PI - (PI / 12 + (PI / 12)*i), T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p+Vec3d(r*0.1,0,0), "diamond", r, PI/12 + (PI/12)*i, T4Int(255, 255, 255, 255));
+			M_DrawPolygon(p-Vec3d(r*0.1,0,0), "diamond", r, PI - (PI / 12 + (PI / 12)*i), T4Int(255, 255, 255, 255));
 		}
 	}
 	if (z == 4) // SuperFire
