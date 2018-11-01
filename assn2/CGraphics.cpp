@@ -24,7 +24,7 @@ void CGraphics::M_RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				M_DrawPolygon(cen.convert_gl(), "square", gsize * sqrt(2) / 2, 0, T4Int(125, 30, 255, 255));
+				M_DrawPolygon(cen.convert_gl(), "square", gsize / 2, 0, T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -66,10 +66,9 @@ void CGraphics::M_RenderGame(void)
 
 void CGraphics::M_RenderUI(void)
 {
-	
-	ostringstream s;
-	s << "Enemies : " << V_PEngine->V_PEnemies.size();
-	M_DrawFont(Vec2d(100, 100), s.str(), T4Int(0, 0, 0, 255));
+	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size());
+	DWORD elapse = (V_PEngine->currtick - V_PEngine->starttick) / 1000;
+	M_DrawNumber(Vec3d(100, 150, 0), 10, elapse);
 
 	/*
 	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
@@ -157,6 +156,7 @@ void CGraphics::M_Initialize2(void)
 	M_SetupHieraModels();
 
 	
+
 }
 
 void CGraphics::M_MoveCamera(void)
@@ -185,12 +185,6 @@ void CGraphics::M_CallbackDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	V_SM->M_UseProgram("prg1");
 	
-	V_CTM = glm::mat4(1.0f);
-	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
-	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1)); 
-	// screen coord -> cvc
-	M_RenderUI();
-
 
 	V_CTM = glm::mat4(1.0f);
 	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 300.0f);
@@ -200,6 +194,12 @@ void CGraphics::M_CallbackDisplay()
 	V_CTM = pers * view;
 	M_RenderGame();
 	
+
+	V_CTM = glm::mat4(1.0f);
+	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
+	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
+	// screen coord -> cvc
+	M_RenderUI();
 
 	glutSwapBuffers();
 }
@@ -260,10 +260,8 @@ void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 
 void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
 {
-	return;
 	//CAUTION : Font size DOES get influenced by screen size
 	//Font position is world coordinate (most recent gluortho2D)
-	glColor4ub(rgba[0], rgba[1], rgba[2], rgba[3]);
 	glLineWidth(4);
 	glPushMatrix();
 	glTranslated(p[0], p[1], 0);
@@ -277,3 +275,48 @@ void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 {
 }
 
+void CGraphics::M_DrawNumber(Vec3d p, double r, int num)
+{
+	string str = to_string(num);
+	Vec3d i = Vec3d(0, 0, 0);
+	for (auto c : str)
+	{
+		int k = c - '0';
+
+		if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 7 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "A", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 1 || k == 2 || k == 3 || k == 4 || k == 7 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "B", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 1 || k == 3 || k == 4 || k == 5 || k == 6 || k == 7 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "C", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "D", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 2 || k == 6 || k == 8)
+		{
+			M_DrawPolygon(p+i, "E", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 4 || k == 5 || k == 6 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "F", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+		if (k == 2 || k == 3 || k == 4 || k == 5 || k == 6 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "G", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		i += Vec3d(r+5, 0, 0);
+	}
+}

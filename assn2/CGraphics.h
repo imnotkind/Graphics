@@ -44,6 +44,8 @@ class CGraphics : public CHandler
 	void M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba);
 	void M_DrawItem(Vec2d p, double r, int z);
 
+	void M_DrawNumber(Vec3d p, double r, int num);
+
 	void M_SetupHieraModels(void);
 
 	map<string, shared_ptr<CSinglePolygon>> V_BasicPolygons;

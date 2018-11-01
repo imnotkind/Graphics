@@ -62,6 +62,9 @@ class CEngine : public CHandler
 	double V_IS_Invincible;
 	double V_IS_Speed;
 
+	DWORD starttick;
+	DWORD currtick;
+
 public:
 
 	bool M_GameEnd(void) {return V_GameEnd != 0; }

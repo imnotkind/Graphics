@@ -13,6 +13,20 @@ void CGraphics::M_SetupHieraModels(void)
 		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("star"), T4Int(255, 0, 255, 255)));
 	V_BasicPolygons["circle"] =
 		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("circle"), T4Int(255, 0, 255, 255)));
+	V_BasicPolygons["A"] =
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("A"), T4Int(0, 255, 0, 255)));
+	V_BasicPolygons["B"] =
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("B"), T4Int(0, 255, 0, 255)));
+	V_BasicPolygons["C"] =
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("C"), T4Int(0, 255, 0, 255)));
+	V_BasicPolygons["D"] =
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("D"), T4Int(0, 255, 0, 255)));
+	V_BasicPolygons["E"] =
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("E"), T4Int(0, 255, 0, 255)));
+	V_BasicPolygons["F"] =
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("F"), T4Int(0, 255, 0, 255)));
+	V_BasicPolygons["G"] =
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("G"), T4Int(0, 255, 0, 255)));
 
 	SHierModelNode body;
 	body.color = T4Double(1.0, 0.5, 0.3, 1.0);
