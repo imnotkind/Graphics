@@ -19,6 +19,7 @@ void CGraphics::M_SetupHieraModels(void)
 	body.draw = V_SM->M_GetPolygon("square");
 	body.port = 0;
 	body.trans_s = glm::scale(body.trans, glm::vec3(0.5, 1.0, 1.0));
+	body.trans = glm::rotate(body.trans, float(DTR(-90)), glm::vec3(0.0, 0.0, 1.0));
 
 	SHierModelNode head;
 	head.color = T4Double(0.0, 0.5, 0.3, 1.0);
