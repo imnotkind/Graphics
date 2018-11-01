@@ -6,7 +6,7 @@ void CGraphics::M_SetupHieraModels(void)
 	V_BasicPolygons["triangle"] = 
 		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("triangle"), T4Int(255, 0, 255, 255)));
 	V_BasicPolygons["square"] =
-		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("square"), T4Int(255, 0, 255, 255)));
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("square"), T4Int(255, 0, 255, 100)));
 	V_BasicPolygons["pentagon"] =
 		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("pentagon"), T4Int(255, 0, 255, 255)));
 	V_BasicPolygons["star"] =
@@ -30,7 +30,7 @@ void CGraphics::M_SetupHieraModels(void)
 	V_BasicPolygons["diamond"] =
 		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("diamond"), T4Int(30, 30, 30, 255)));
 	V_BasicPolygons["rectangle"] =
-		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("rectangle"), T4Int(90, 90, 90, 255)));
+		shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon("rectangle"), T4Int(90, 90, 90, 100)));
 
 	SHierModelNode body;
 	body.color = T4Double(1.0, 0.5, 0.3, 1.0);
