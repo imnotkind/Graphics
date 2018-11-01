@@ -66,59 +66,57 @@ void CGraphics::M_RenderGame(void)
 
 void CGraphics::M_RenderUI(void)
 {
-	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
-	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_Elapse, T4Int(125,255,0,255));
-
-	/*
-	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
-	M_DrawPolygon(Vec2d(160, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
-	M_DrawPolygon(Vec2d(230, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
-	M_DrawPolygon(Vec2d(300, V_Screen_Size[1] - 40), 60 / sqrt(2), 4, DTR(45), T4Int(200, 200, 200, 200));
-
-	auto l = V_PEngine->V_Player->M_GetItemList();
-
 
 	
+	if (V_PEngine->V_GameEnd == 1)
+	{
+		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_PEnemies.size(), T4Int(125, 255, 0, 255));
+		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 300, 0, T4Int(200, 200, 200, 200));
+
+		//M_DrawFontBig(p, "Game Over!", 1, T4Int(255, 0, 0, 255));
+		cout << "Game Over!" << endl;
+		//M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
+	}
+	if (V_PEngine->V_GameEnd == 2)
+	{
+		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_Elapse, T4Int(125, 255, 0, 255));
+		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 300, 0, T4Int(200, 200, 200, 200));
+
+		//M_DrawFontBig(p, "Game Clear!", 1, T4Int(255, 0, 0, 255));
+		cout << "Game Clear!" << endl;
+		//M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
+	}
+	
+
+	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
+	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_Elapse, T4Int(125,255,0,255));
+	
+	
+	auto l = V_PEngine->V_Player->M_GetItemList();
+
 	auto n = std::min(4, (int)l.size());
 	auto it = l.begin();
 
 	switch (n)
 	{
 		case 4:
-			M_DrawItem(Vec2d(300, V_Screen_Size[1] - 40), 60 / 2, *next(it, 3));
+			M_DrawItem(Vec3d(300, V_Screen_Size[1] - 40, 0), 30, *next(it, 3));
 		case 3:
-			M_DrawItem(Vec2d(230, V_Screen_Size[1] - 40), 60 / 2, *next(it, 2));
+			M_DrawItem(Vec3d(230, V_Screen_Size[1] - 40, 0), 30, *next(it, 2));
 		case 2:
-			M_DrawItem(Vec2d(160, V_Screen_Size[1] - 40), 60 / 2, *next(it, 1));
+			M_DrawItem(Vec3d(160, V_Screen_Size[1] - 40, 0), 30, *next(it, 1));
 		case 1:
-			M_DrawItem(Vec2d(70, V_Screen_Size[1] - 60), 100 / 2,*it);
+			M_DrawItem(Vec3d(70, V_Screen_Size[1] - 60, 0), 50,*it);
 		case 0:
 			break;
 	}
 
-	if (V_PEngine->V_GameEnd == 1)
-	{
-		glColor4ub(200, 200, 200, 200);
-		glRectd(0,0,V_Screen_Size[0], V_Screen_Size[1]);
+	M_DrawPolygon(Vec3d(70, V_Screen_Size[1] - 60, 0), "square", 50, 0, T4Int(200, 200, 200, 200));
+	M_DrawPolygon(Vec3d(160, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(200, 200, 200, 200));
+	M_DrawPolygon(Vec3d(230, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(200, 200, 200, 200));
+	M_DrawPolygon(Vec3d(300, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(200, 200, 200, 200));
 
-		Vec2d p = Vec2d(V_Screen_Size[0] / 2 - 400, V_Screen_Size[1] / 2.0);
-		M_DrawFontBig(p, "Game Over!", 1, T4Int(255, 0, 0, 255));
-		p[0] += 300;
-		p[1] -= 200;
-		M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
-	}
-	if (V_PEngine->V_GameEnd == 2)
-	{
-		glColor4ub(200, 200, 200, 200);
-		glRectd(0, 0, V_Screen_Size[0], V_Screen_Size[1]);
-
-		Vec2d p = Vec2d(V_Screen_Size[0] / 2 - 400, V_Screen_Size[1] / 2.0);
-		M_DrawFontBig(p, "Game Clear!", 1, T4Int(255, 0, 0, 255));
-		p[0] += 300;
-		p[1] -= 200;
-		M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
-	}
-	*/
+	
 
 
 }
@@ -164,7 +162,6 @@ void CGraphics::M_MoveCamera(void)
 	auto c = V_Camera_Pos;
 	
 	V_Camera_Height = 200 +90 * sin(V_PEngine->V_IS_Camera / 300.0*PI);
-	cout << V_PEngine->V_IS_Camera << " : " << V_Camera_Height << endl;
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
@@ -185,6 +182,11 @@ void CGraphics::M_CallbackDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	V_SM->M_UseProgram("prg1");
 	
+	V_CTM = glm::mat4(1.0f);
+	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
+	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
+	// screen coord -> cvc
+	M_RenderUI();
 
 	V_CTM = glm::mat4(1.0f);
 	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 300.0f);
@@ -194,12 +196,6 @@ void CGraphics::M_CallbackDisplay()
 	V_CTM = pers * view;
 	M_RenderGame();
 	
-
-	V_CTM = glm::mat4(1.0f);
-	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
-	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
-	// screen coord -> cvc
-	M_RenderUI();
 
 	glutSwapBuffers();
 }
@@ -340,6 +336,6 @@ void CGraphics::M_DrawNumber(Vec3d p, double r, int num, T4Int rgba)
 			M_DrawPolygon(p+i, "G", r, 0.0, rgba);
 		}
 
-		i += Vec3d(r+5, 0, 0);
+		i += Vec3d(r*1.5, 0, 0);
 	}
 }
