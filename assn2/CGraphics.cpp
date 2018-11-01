@@ -82,8 +82,8 @@ void CGraphics::M_RenderUI(void)
 	
 	if (V_PEngine->V_GameEnd == 1)
 	{
-		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2 - 150, V_Screen_Size[1] / 2, 0), 100, V_PEngine->V_PEnemies.size(), T4Int(255, 0, 0, 255));
 		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(240, 240, 240, 200));
+		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2 - 150, V_Screen_Size[1] / 2, 0), 100, V_PEngine->V_PEnemies.size(), T4Int(255, 0, 0, 255));
 	}
 	if (V_PEngine->V_GameEnd == 2)
 	{
