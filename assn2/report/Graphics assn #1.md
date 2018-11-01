@@ -37,28 +37,35 @@ Model coord에서 world coord로 가는 과정은 Hiearchy model의 구현이 �
 
 Model coord에서 World coord로 가는 과정은 아래의 Hierachy Model에서 자세히 설명할 것이므로 view transform과 projection transform에 대해서 설명하겠다.
 ```c++
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-V_SM->M_UseProgram("prg1");
-
-V_CTM = glm::mat4(1.0f);
-auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 300.0f);
-auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height),
-glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], 0), glm::vec3(0, 1, 0));
-
-V_CTM = pers * view;
-M_RenderGame();
-
 V_CTM = glm::mat4(1.0f);
 V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
 V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
 M_RenderUI();
 
-glutSwapBuffers();
+glm::vec3 v(0.0f);
+glm::vec3 up(0, 1, 0);
+if (V_PEngine->V_CrazyMod)
+{
+v[0] = 100 * cos(count);
+v[1] = 100 * sin(count);
+
+up[1] = cos(DTR(30)*sin(count));
+up[0] = sin(DTR(30)*sin(count));
+}
+V_CTM = glm::mat4(1.0f);
+auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
+auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height) + v,
+glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], 0), up);
+
+V_CTM = pers * view;
+M_RenderGame();
 ```
 
 다음 코드는 매 프레임마다 호출되는 CGraphics::M_CallbackDisplay()의 일부이다. M_RenderGame은 실제 world에 존재하는 오브젝트를 그리는 것으로 view transform과 projection transform을 모두 거쳐야하므로 호출하기 전에 V_CTM (current transform matrix)에 미리 다 적용을 해놓고 호출한다
 
 M_RenderUI는 world내 오브젝트가 아니라 화면에 바로 보여야할 컴포넌트이기 때문에 화면좌표계에서 canonical view volume 좌표계로 가는 다른 transform을 적용시키고 호출한다.
+
+반면 M_RenderGame은 world내 오브젝트를 출력하는 함수이기 때문에 view와 projection이 모두 필요하다. V_CrazyMod를 검사하는 반복문은 위에서 설명한 crazy mod에만 특별히 카메라를 흔들어대는 특수한 코드이므로 크게 신경쓰지 않아도 된다. 중요한 것은 밑의 glm::perspective와 glm::lookAt으로 부드러운 카메라 움직임 구현을 위해 계산된 V_Caemra_Pos(자세한건 assn1 참조바람)가 위에서 XY 평면을 바라보고 있게 했다. 실제로 게임오브젝트들은 XY평면에 다 누워있으므로 카메라 구도를 바꾸지 않는한(crzay mod) 2D drawing과 똑같은 효과를 낼 수 있다.
 
 ### CShaderManager
 
@@ -207,6 +214,9 @@ auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(
 anim은 매프레임마다 조금씩 증가하는 변수이다. 식을 보면 알겠지만 am1과 am2는 매 시간마다 조금씩 왔다갔다 하는 회전행렬이 된다. 둘이 내부적으로 cos/sin을 쓰고 있으므로 회전하는 각도는 살짝씩 딜레이가 있다. 이 am1과 am2를 각각 port 1과 port 2에 apply함으로써 사용자의 다리와 팔은 할당된 port에 맞게 적절하게 회전한다.
 
 ### Text
+
+Assn1까지는 텍스트 출력을 위해 opengl 자체 기능을 사용할수 있었으나 셰이더로 갈아타게 되면서 그 기능이 작동하지 않았다. 하지만 그렇다고 해서 텍스트를 출력할 수 있는 다른 방법이 있는 것도 아니었기에 숫자에만 대해서 polygon을 직접 출력하는 방식을 택했다.
+![s1](text.PNG)
 
 ## Example
 ![s1](gamestart.PNG)

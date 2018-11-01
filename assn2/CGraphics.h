@@ -22,7 +22,8 @@ class CGraphics : public CHandler
 	glm::mat4 V_CTM;
 
 	
-
+	double V_CrazyParam;
+	bool V_CurrentDrawing; //ui : false
 	
 	//
 	double fps = 0;

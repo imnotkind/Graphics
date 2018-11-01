@@ -14,6 +14,8 @@ void CGraphics::M_RenderGame(void)
 {
 	static double anim = 0.0;
 	anim += 0.05;
+	V_CrazyParam += 0.05;
+
 	//render map
 	double gsize = V_PEngine->V_Grid_Size;
 	auto s = V_PEngine->V_Map.size;
@@ -25,10 +27,6 @@ void CGraphics::M_RenderGame(void)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
 				auto p = cen.convert_gl();
-				if (V_PEngine->V_CrazyMod)
-				{
-					p[2] += 10* (sin(i*0.1+anim) + sin(j*0.1+anim));
-				}
 				M_DrawPolygon(p, "square", gsize / 2, 0, T4Int(125, 30, 255, 255));
 			}
 		}
@@ -86,19 +84,11 @@ void CGraphics::M_RenderUI(void)
 	{
 		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_PEnemies.size(), T4Int(255, 0, 0, 255));
 		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(240, 240, 240, 200));
-
-		//M_DrawFontBig(p, "Game Over!", 1, T4Int(255, 0, 0, 255));
-		cout << "Game Over!" << endl;
-		//M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
 	}
 	if (V_PEngine->V_GameEnd == 2)
 	{
 		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_LeftTime, T4Int(125, 255, 0, 255));
 		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(240, 240, 240, 200));
-
-		//M_DrawFontBig(p, "Game Clear!", 1, T4Int(255, 0, 0, 255));
-		cout << "Game Clear!" << endl;
-		//M_DrawFont(p, "Press R to restart", T4Int(0, 0, 0, 255));
 	}
 	
 
@@ -159,6 +149,8 @@ void CGraphics::M_Initialize(CEngine * P)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 	glEnable(GL_MULTISAMPLE);
+
+	V_CrazyParam = 0.0;
 }
 
 void CGraphics::M_Initialize2(void)
@@ -177,7 +169,7 @@ void CGraphics::M_MoveCamera(void)
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 200 +90 * sin(V_PEngine->V_IS_Camera / 300.0*PI);
+	V_Camera_Height = 200 +200 * sin(V_PEngine->V_IS_Camera / 300.0*PI);
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
@@ -197,14 +189,17 @@ void CGraphics::M_CallbackDisplay()
 	count += 0.02;
 	M_MoveCamera();
 
+	V_CurrentDrawing = false;
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	V_SM->M_UseProgram("prg1");
 	
 	V_CTM = glm::mat4(1.0f);
 	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
 	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
-	// screen coord -> cvc
 	M_RenderUI();
+
+	V_CurrentDrawing = true;
 
 	glm::vec3 v(0.0f);
 	glm::vec3 up(0, 1, 0);
@@ -216,7 +211,6 @@ void CGraphics::M_CallbackDisplay()
 		up[1] = cos(DTR(30)*sin(count));
 		up[0] = sin(DTR(30)*sin(count));
 	}
-
 	V_CTM = glm::mat4(1.0f);
 	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
 	auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height) + v,
@@ -252,6 +246,11 @@ void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 
 void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4Int rgba)
 {
+	if (V_PEngine->V_CrazyMod && V_CurrentDrawing)
+	{
+		p[2] += 15 * (sin(p[0]*0.05 + V_CrazyParam) + sin(p[1]*0.05 + V_CrazyParam));
+	}
+
 	glm::mat4 m;
 	m = V_CTM;
 	m = glm::translate(m, glm::vec3(p));
@@ -261,6 +260,11 @@ void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4I
 }
 void CGraphics::M_DrawHier(Vec3d p, string name, double r, double rotate, T4Int rgba)
 {
+	if (V_PEngine->V_CrazyMod && V_CurrentDrawing)
+	{
+		p[2] += 15 * (sin(p[0] * 0.05 + V_CrazyParam) + sin(p[1] * 0.05 + V_CrazyParam));
+	}
+
 	glm::mat4 m;
 	m = V_CTM;
 	m = glm::translate(m, glm::vec3(p));
