@@ -42,9 +42,9 @@ class CGraphics : public CHandler
 
 	void M_DrawFont(Vec2d p, string str, T4Int rgba);
 	void M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba);
-	void M_DrawItem(Vec2d p, double r, int z);
+	void M_DrawItem(Vec3d p, double r, int z);
 
-	void M_DrawNumber(Vec3d p, double r, int num);
+	void M_DrawNumber(Vec3d p, double r, int num, T4Int rgba);
 
 	void M_SetupHieraModels(void);
 

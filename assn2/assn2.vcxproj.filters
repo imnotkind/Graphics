@@ -174,11 +174,11 @@
     <ClInclude Include="Pointer.h">
       <Filter>Helper</Filter>
     </ClInclude>
-    <ClInclude Include="CShaderManager.h">
-      <Filter>Engine\Graphics\ShaderManager</Filter>
-    </ClInclude>
     <ClInclude Include="CSinglePolygon.h">
       <Filter>Engine\Graphics\HierModel\CSinglePolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="CShaderManager.h">
+      <Filter>Engine\Graphics\ShaderManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +203,9 @@
       <Filter>Resource</Filter>
     </None>
     <None Include="7seg.pol">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="item.pol">
       <Filter>Resource</Filter>
     </None>
   </ItemGroup>
