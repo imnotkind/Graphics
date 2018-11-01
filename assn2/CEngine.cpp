@@ -310,6 +310,7 @@ void CEngine::M_Event_KeyPress(int key, bool special)
 		V_Player->M_Fire(); // Space bar
 	}
 	if (key == 'q' && !special) M_ItemUse(V_Player->M_GetItemList());
+	if (key == 'v' && !special) V_CrazyMod = !V_CrazyMod;
 }
 T2Int CEngine::M_GetEmptyPlace(void)
 {
@@ -335,6 +336,7 @@ void CEngine::M_Initialize(void)
 	V_GameEnd = 0;
 	V_Objects.clear();
 
+	V_CrazyMod = false;
 	V_Life = 3;
 	V_Animation_Temp = 0.0;
 

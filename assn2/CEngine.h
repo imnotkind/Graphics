@@ -72,6 +72,8 @@ class CEngine : public CHandler
 
 	double V_Animation_Temp;
 
+	bool V_CrazyMod;
+
 public:
 
 	bool M_GameEnd(void) {return V_GameEnd != 0; }

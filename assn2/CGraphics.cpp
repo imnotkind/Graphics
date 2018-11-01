@@ -24,7 +24,12 @@ void CGraphics::M_RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				M_DrawPolygon(cen.convert_gl(), "square", gsize / 2, 0, T4Int(125, 30, 255, 255));
+				auto p = cen.convert_gl();
+				if (V_PEngine->V_CrazyMod)
+				{
+					p[2] += 10* (sin(i*0.1+anim) + sin(j*0.1+anim));
+				}
+				M_DrawPolygon(p, "square", gsize / 2, 0, T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -60,6 +65,15 @@ void CGraphics::M_RenderGame(void)
 	//render player
 
 	auto d = V_PEngine->V_Player->M_GetDrawData();
+
+	if (V_PEngine->V_Animation_Temp > 0)
+	{
+		am1 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 0.0, 1.0));
+		am2 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 0.0, 1.0));
+	}
+
+	V_Hiers["player"]->M_RegisterTrans2(1, am1);
+	V_Hiers["player"]->M_RegisterTrans2(2, am2);
 	
 	M_DrawHier(d.pos.convert_gl(), "player", d.size * 1.0, d.rotate, d.color);
 }
@@ -179,6 +193,8 @@ void CGraphics::M_MoveCamera(void)
 }
 void CGraphics::M_CallbackDisplay()
 {
+	static double count = 0;
+	count += 0.02;
 	M_MoveCamera();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -190,11 +206,22 @@ void CGraphics::M_CallbackDisplay()
 	// screen coord -> cvc
 	M_RenderUI();
 
-	V_CTM = glm::mat4(1.0f);
-	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 300.0f);
-	auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height),
-		glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], 0), glm::vec3(0, 1, 0));
+	glm::vec3 v(0.0f);
+	glm::vec3 up(0, 1, 0);
+	if (V_PEngine->V_CrazyMod)
+	{
+		v[0] = 100 * cos(count);
+		v[1] = 100 * sin(count);
 
+		up[1] = cos(DTR(30)*sin(count));
+		up[0] = sin(DTR(30)*sin(count));
+	}
+
+	V_CTM = glm::mat4(1.0f);
+	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
+	auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height) + v,
+		glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], 0), up);
+	
 	V_CTM = pers * view;
 	M_RenderGame();
 	
