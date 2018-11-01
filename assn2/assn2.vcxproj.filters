@@ -174,11 +174,11 @@
     <ClInclude Include="Pointer.h">
       <Filter>Helper</Filter>
     </ClInclude>
-    <ClInclude Include="CShaderManager.h">
-      <Filter>Engine\Graphics\ShaderManager</Filter>
-    </ClInclude>
     <ClInclude Include="CSinglePolygon.h">
       <Filter>Engine\Graphics\HierModel\CSinglePolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="CShaderManager.h">
+      <Filter>Engine\Graphics\ShaderManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -163,7 +163,8 @@ void CGraphics::M_MoveCamera(void)
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 250 + 150 * sin(V_PEngine->V_IS_Camera / 600.0*PI);
+	V_Camera_Height = 200 +90 * sin(V_PEngine->V_IS_Camera / 300.0*PI);
+	cout << V_PEngine->V_IS_Camera << " : " << V_Camera_Height << endl;
 
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);

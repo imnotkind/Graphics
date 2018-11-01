@@ -186,6 +186,8 @@ void CEngine::M_ItemState(void)
 	if (V_IS_Camera > 0) V_IS_Camera -= 1.0;
 	if (V_IS_Invincible > 0) V_IS_Invincible -= 1.0;
 	if (V_IS_Speed > 0) V_IS_Speed -= 1.0;
+
+	if (V_IS_Camera < 0) V_IS_Camera = 0.0;
 }
 void CEngine::M_Defeat(void)
 {
@@ -270,7 +272,7 @@ void CEngine::M_ItemUse(list<int>& x)
 	}
 	if (z == 1) // Camera up
 	{
-		V_IS_Camera = 60 * 10;
+		V_IS_Camera = 300;
 	}
 	if (z == 2) // Invincible
 	{
@@ -319,7 +321,7 @@ void CEngine::M_Initialize(void)
 	V_StartTick = GetTickCount();
 	V_CurrTick = V_StartTick;
 
-	V_IS_Camera = -1.0;
+	V_IS_Camera = 0.0;
 	V_IS_Invincible = -1.0;
 	V_IS_Speed = -1.0;
 
