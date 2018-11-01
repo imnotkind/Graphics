@@ -71,15 +71,15 @@ M_RenderGame();
 
 M_RenderUI는 world내 오브젝트가 아니라 화면에 바로 보여야할 컴포넌트이기 때문에 화면좌표계에서 canonical view volume 좌표계로 가는 다른 transform을 적용시키고 호출한다.
 
-반면 M_RenderGame은 world내 오브젝트를 출력하는 함수이기 때문에 view와 projection이 모두 필요하다. V_CrazyMod를 검사하는 반복문은 위에서 설명한 crazy mod에만 특별히 카메라를 흔들어대는 특수한 코드이므로 크게 신경쓰지 않아도 된다. 중요한 것은 밑의 glm::perspective와 glm::lookAt으로 부드러운 카메라 움직임 구현을 위해 계산된 V_Caemra_Pos(자세한건 assn1 참조바람)가 위에서 XY 평면을 바라보고 있게 했다. 실제로 게임오브젝트들은 XY평면에 다 누워있으므로 카메라 구도를 바꾸지 않는한(crzay mod) 2D drawing과 똑같은 효과를 낼 수 있다.
+반면 M_RenderGame은 world내 오브젝트를 출력하는 함수이기 때문에 view와 projection이 모두 필요하다. V_CrazyMod를 검사하는 반복문은 위에서 설명한 crazy mod에만 특별히 카메라를 흔들어대는 특수한 코드이므로 크게 신경쓰지 않아도 된다. 중요한 것은 밑의 glm::perspective와 glm::lookAt으로 부드러운 카메라 움직임 구현을 위해 계산된 V_Camera_Pos(자세한건 assn1 참조바람)가 위에서 XY 평면을 바라보고 있게 했다. 실제로 게임오브젝트들은 XY평면에 다 누워있으므로 카메라 구도를 바꾸지 않는한(crzay mod) 2D drawing과 똑같은 효과를 낼 수 있다.
 
 ### CShaderManager
 
-CShaderManager는 셰이더와 폴리곤을 관리하는 Singltone클래스로, 처음에 한번 초기화 되며 그 이후에 CGraphics에서 종종 참조된다.
+CShaderManager는 셰이더와 폴리곤을 관리하는 Singeltone클래스로, 처음에 한번 초기화 되며 그 이후에 CGraphics에서 종종 참조된다.
 
 ##### CShaderManager::CShaderManager()
 
-밑에서 설명할 하위 함수들을 호출하여 셰이더와 버텍스를 로딩하는 전체 초기화를 수행하는 생성자다. **추가기능 : **이 초기화 과정에서 외부에 있는 파일을 읽어와서 파싱하는 작업을 대거 하게 되는데, 이 포맷 자체는 간단하게 만든 독자포맷이다. 따라서 맘에 안든다면 폴리곤의 모양을 직접 수정할 수 있다. (resource/polygon.pol 과 item.pol)
+밑에서 설명할 하위 함수들을 호출하여 셰이더와 버텍스를 로딩하는 전체 초기화를 수행하는 생성자다. **추가기능 : **이 초기화 과정에서 외부에 있는 파일을 읽어와서 파싱하는 작업을 대거 하게 되는데, 이 포맷 자체는 간단하게 만든 독자포맷이다. 따라서 맘에 안든다면 폴리곤의 모양을 직접 수정할 수 있다. (polygon.pol 과 item.pol 등)
 
 
 ##### CShaderManager::M_LoadShader()
