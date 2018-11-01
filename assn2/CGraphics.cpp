@@ -24,7 +24,7 @@ void CGraphics::M_RenderGame(void)
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
-				M_DrawPolygon(cen.convert_gl(), "square", gsize * sqrt(2) / 2, 0, T4Int(125, 30, 255, 255));
+				M_DrawPolygon(cen.convert_gl(), "square", gsize / 2, 0, T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -66,13 +66,7 @@ void CGraphics::M_RenderGame(void)
 
 void CGraphics::M_RenderUI(void)
 {
-	M_DrawPolygon(Vec3d(100, 100, 0), "A", 10.0, 0.0, T4Int(255, 255, 255, 255));
-	M_DrawPolygon(Vec3d(100, 100, 0), "B", 10.0, 0.0, T4Int(255, 255, 255, 255));
-	M_DrawPolygon(Vec3d(100, 100, 0), "C", 10.0, 0.0, T4Int(255, 255, 255, 255));
-	M_DrawPolygon(Vec3d(100, 100, 0), "D", 10.0, 0.0, T4Int(255, 255, 255, 255));
-	M_DrawPolygon(Vec3d(100, 100, 0), "E", 10.0, 0.0, T4Int(255, 255, 255, 255));
-	M_DrawPolygon(Vec3d(100, 100, 0), "F", 10.0, 0.0, T4Int(255, 255, 255, 255));
-	M_DrawPolygon(Vec3d(100, 100, 0), "G", 10.0, 0.0, T4Int(255, 255, 255, 255));
+	M_DrawNumber(Vec3d(100, 100, 0), 10, 1234567890);
 
 	ostringstream s;
 	s << "Enemies : " << V_PEngine->V_PEnemies.size();
@@ -283,3 +277,48 @@ void CGraphics::M_DrawItem(Vec2d p, double r, int z)
 {
 }
 
+void CGraphics::M_DrawNumber(Vec3d p, double r, int num)
+{
+	string str = to_string(num);
+	Vec3d i = Vec3d(0, 0, 0);
+	for (auto c : str)
+	{
+		int k = c - '0';
+
+		if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 7 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "A", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 1 || k == 2 || k == 3 || k == 4 || k == 7 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "B", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 1 || k == 3 || k == 4 || k == 5 || k == 6 || k == 7 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "C", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "D", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 2 || k == 6 || k == 8)
+		{
+			M_DrawPolygon(p+i, "E", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		if (k == 0 || k == 4 || k == 5 || k == 6 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "F", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+		if (k == 2 || k == 3 || k == 4 || k == 5 || k == 6 || k == 8 || k == 9)
+		{
+			M_DrawPolygon(p+i, "G", r, 0.0, T4Int(255, 255, 255, 255));
+		}
+
+		i += Vec3d(r+5, 0, 0);
+	}
+}
