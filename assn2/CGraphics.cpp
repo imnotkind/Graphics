@@ -66,11 +66,9 @@ void CGraphics::M_RenderGame(void)
 
 void CGraphics::M_RenderUI(void)
 {
-	M_DrawNumber(Vec3d(100, 100, 0), 10, 1234567890);
-
-	ostringstream s;
-	s << "Enemies : " << V_PEngine->V_PEnemies.size();
-	//M_DrawFontBig(Vec2d(100, 100), s.str(), 0.1, T4Int(0, 0, 0, 255));
+	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size());
+	DWORD elapse = (V_PEngine->currtick - V_PEngine->starttick) / 1000;
+	M_DrawNumber(Vec3d(100, 150, 0), 10, elapse);
 
 	/*
 	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
