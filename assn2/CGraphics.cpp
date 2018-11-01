@@ -32,7 +32,8 @@ void CGraphics::M_RenderGame(void)
 	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 
-	
+	V_Hiers["player"]->M_RegisterTrans2(1, am1);
+	V_Hiers["player"]->M_RegisterTrans2(2, am2);
 
 	V_Hiers["enemy"]->M_RegisterTrans2(1, am2);
 	V_Hiers["enemy"]->M_RegisterTrans2(2, am1);
@@ -59,17 +60,7 @@ void CGraphics::M_RenderGame(void)
 	//render player
 
 	auto d = V_PEngine->V_Player->M_GetDrawData();
-
-	if (V_PEngine->V_Animation_Temp > 0)
-	{
-		am1 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) /30), glm::vec3(0.0, 0.0, 1.0));
-		am2 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 0.0, 1.0));
-	}
 	
-
-	V_Hiers["player"]->M_RegisterTrans2(1, am1);
-	V_Hiers["player"]->M_RegisterTrans2(2, am2);
-
 	M_DrawHier(d.pos.convert_gl(), "player", d.size * 1.0, d.rotate, d.color);
 }
 
@@ -79,8 +70,8 @@ void CGraphics::M_RenderUI(void)
 	
 	if (V_PEngine->V_GameEnd == 1)
 	{
-		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_PEnemies.size(), T4Int(125, 255, 0, 255));
-		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(200, 200, 200, 200));
+		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_PEnemies.size(), T4Int(255, 0, 0, 255));
+		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(240, 240, 240, 200));
 
 		//M_DrawFontBig(p, "Game Over!", 1, T4Int(255, 0, 0, 255));
 		cout << "Game Over!" << endl;
@@ -89,7 +80,7 @@ void CGraphics::M_RenderUI(void)
 	if (V_PEngine->V_GameEnd == 2)
 	{
 		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_LeftTime, T4Int(125, 255, 0, 255));
-		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(200, 200, 200, 200));
+		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(240, 240, 240, 200));
 
 		//M_DrawFontBig(p, "Game Clear!", 1, T4Int(255, 0, 0, 255));
 		cout << "Game Clear!" << endl;
@@ -99,6 +90,8 @@ void CGraphics::M_RenderUI(void)
 
 	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
 	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_LeftTime, T4Int(125,255,0,255));
+	M_DrawNumber(Vec3d(100, 200, 0), 10, V_PEngine->V_Life, T4Int(255, 255, 0, 255));
+	M_DrawPolygon(Vec3d(100, 150, 0), "rectangle", 100, 0, T4Int(180, 240, 240, 100));
 	
 	
 	auto l = V_PEngine->V_Player->M_GetItemList();
@@ -120,10 +113,10 @@ void CGraphics::M_RenderUI(void)
 			break;
 	}
 
-	M_DrawPolygon(Vec3d(70, V_Screen_Size[1] - 60, 0), "square", 50, 0, T4Int(200, 200, 200, 200));
-	M_DrawPolygon(Vec3d(160, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(200, 200, 200, 200));
-	M_DrawPolygon(Vec3d(230, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(200, 200, 200, 200));
-	M_DrawPolygon(Vec3d(300, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(200, 200, 200, 200));
+	M_DrawPolygon(Vec3d(70, V_Screen_Size[1] - 60, 0), "square", 50, 0, T4Int(240, 240, 240, 200));
+	M_DrawPolygon(Vec3d(160, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(240, 240, 240, 200));
+	M_DrawPolygon(Vec3d(230, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(240, 240, 240, 200));
+	M_DrawPolygon(Vec3d(300, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(240, 240, 240, 200));
 
 	
 
@@ -147,7 +140,7 @@ void CGraphics::M_Initialize(CEngine * P)
 	cout << id << endl;
 
 	glClearColor(1, 1, 1, 1); //background white
-	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+	glClearColor(0.8f, 0.8f, 0.8f, 0.5f);
 	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
