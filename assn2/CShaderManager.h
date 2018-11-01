@@ -33,6 +33,8 @@ class CShaderManager :
 	~CShaderManager();
 public:
 	SVerArray M_GetPolygon(string s) { return V_Polygons[s]; }
+	const map<string, SVerArray>& M_GetPolygonList(void) { return V_Polygons; }
+
 	void M_UseProgram(string name) {V_CurrentProgram = V_Programs[name]; glUseProgram(V_CurrentProgram);}
 	GLuint M_GetProgram(void) { return V_CurrentProgram; }
 

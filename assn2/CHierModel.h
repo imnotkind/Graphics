@@ -32,9 +32,11 @@ protected:
 
 	void M_Draw_Rec(int index, glm::mat4 CTM);
 
+	T4Double V_NewColor;
+
 public:
 	void M_RegisterTrans2(int port, glm::mat4 t);
-	void M_Draw(glm::mat4 CTM);
+	void M_Draw(glm::mat4 CTM, T4Double color = T4Double(1.0, 1.0, 1.0, 1.0));
 
 	CHierModel(vector<SHierModelNode>& t) { V_Tree = t; }
 

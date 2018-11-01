@@ -218,7 +218,7 @@ void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 	m = V_CTM;
 	m = glm::translate(V_CTM, glm::vec3(p1));
 	m = glm::scale(V_CTM, glm::vec3(p2 - p1));
-	V_BasicPolygons["line"]->M_Draw(m);
+	V_BasicPolygons["line"]->M_Draw(m, rgba);
 }
 
 void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4Int rgba)
@@ -228,8 +228,7 @@ void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4I
 	m = glm::translate(m, glm::vec3(p));
 	m = glm::rotate(m, float(rotate), glm::vec3(0.0f,0.0f,1.0f));
 	m = glm::scale(m, glm::vec3(r, r, r));
-
-	V_BasicPolygons[name]->M_Draw(m);
+	V_BasicPolygons[name]->M_Draw(m, rgba);
 }
 void CGraphics::M_DrawHier(Vec3d p, string name, double r, double rotate, T4Int rgba)
 {

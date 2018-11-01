@@ -31,7 +31,7 @@ void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 	GLuint q = glGetUniformLocation(V_Program, "vicolor");
 	glUniformMatrix4fv(p, 1, GL_FALSE, &temp[0][0]);
 	float col[4]; 
-	for(int i = 0; i< 4; i++) col[i] = node.color[i]; 
+	for(int i = 0; i< 4; i++) col[i] = node.color[i] * V_NewColor[i];
 	glUniform4fv(q, 1, col);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, node.draw.num);
@@ -41,8 +41,9 @@ void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 	if (node.right_sibling != -1) M_Draw_Rec(node.right_sibling, CTM);
 }
 
-void CHierModel::M_Draw(glm::mat4 CTM)
+void CHierModel::M_Draw(glm::mat4 CTM, T4Double color)
 {
+	V_NewColor = color;
 	auto s = CShaderManager::getInstance();
 	V_Program = s->M_GetProgram();
 	M_Draw_Rec(0, CTM);
