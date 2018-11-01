@@ -79,7 +79,7 @@ void CGraphics::M_RenderUI(void)
 	}
 	if (V_PEngine->V_GameEnd == 2)
 	{
-		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_Elapse, T4Int(125, 255, 0, 255));
+		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), 40, V_PEngine->V_LeftTime, T4Int(125, 255, 0, 255));
 		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "rectangle", 300, 0, T4Int(200, 200, 200, 200));
 
 		//M_DrawFontBig(p, "Game Clear!", 1, T4Int(255, 0, 0, 255));
@@ -89,7 +89,7 @@ void CGraphics::M_RenderUI(void)
 	
 
 	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
-	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_Elapse, T4Int(125,255,0,255));
+	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_LeftTime, T4Int(125,255,0,255));
 	
 	
 	auto l = V_PEngine->V_Player->M_GetItemList();

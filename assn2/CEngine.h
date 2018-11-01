@@ -64,7 +64,9 @@ class CEngine : public CHandler
 
 	DWORD V_StartTick;
 	DWORD V_CurrTick;
-	int V_Elapse;
+
+	int V_MaxTime;
+	int V_LeftTime;
 
 public:
 

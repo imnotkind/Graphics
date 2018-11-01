@@ -215,7 +215,12 @@ void CEngine::M_Loop(void)
 	}
 
 	V_CurrTick = GetTickCount();
-	V_Elapse = (V_CurrTick - V_StartTick) / 1000;
+	V_LeftTime = V_MaxTime - (V_CurrTick - V_StartTick) / 1000;
+
+	if (V_LeftTime <= 0)
+	{
+		V_GameEnd = 1; return;
+	}
 
 	M_ObjectIndexing();
 	M_ItemState();
@@ -320,6 +325,7 @@ void CEngine::M_Initialize(void)
 
 	V_StartTick = GetTickCount();
 	V_CurrTick = V_StartTick;
+	V_MaxTime = 500;
 
 	V_IS_Camera = 0.0;
 	V_IS_Invincible = -1.0;
