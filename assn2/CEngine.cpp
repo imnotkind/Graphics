@@ -159,8 +159,16 @@ void CEngine::M_CollisionTest(void)
 
 		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
 		{
-			M_Defeat();
-			return;
+			V_Life--;
+			V_IS_Invincible = 40;
+			V_Player->M_GetInvincible(V_IS_Invincible);
+			if (V_Life == 0)
+			{
+				M_Defeat();
+				return;
+			}
+			
+			
 		}
 	}
 
@@ -323,6 +331,8 @@ void CEngine::M_Initialize(void)
 	V_GameEnd = 0;
 	V_Objects.clear();
 
+	V_Life = 3;
+
 	V_StartTick = GetTickCount();
 	V_CurrTick = V_StartTick;
 	V_MaxTime = 500;
@@ -338,7 +348,7 @@ void CEngine::M_Initialize(void)
 	int n_enm = V_Max_Enemies;
 	int n_itm = V_Max_Items;
 
-	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 0, 0, 255), V_Grid_Size * 0.3));
+	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3));
 
 	//place items
 	for (int i = 0; i < n_itm; i++)
@@ -347,7 +357,7 @@ void CEngine::M_Initialize(void)
 		V_Map[p] = 2;
 		vector<int> pr; pr.push_back(3); pr.push_back(1); pr.push_back(2); pr.push_back(2); pr.push_back(1);
 		int type = V_Math->M_SelectOne(pr);
-		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 3+type, V_General->M_Pallete(type), V_Grid_Size * 0.3, type)));
+		auto q = V_Objects.insert(shared_ptr<CItem>(new CItem(T2Double(p[0], p[1]) * V_Grid_Size, 3+type, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3, type)));
 	}
 
 
@@ -355,7 +365,7 @@ void CEngine::M_Initialize(void)
 	for (int i = 0; i < n_enm; i++)
 	{
 		auto p = M_GetEmptyPlace();
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(0, 255, 0, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
 		//p.first->get()->~~ : some initialization
 	}
 

@@ -238,7 +238,9 @@ void CGraphics::M_DrawHier(Vec3d p, string name, double r, double rotate, T4Int 
 	m = glm::rotate(m, float(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
 	m = glm::scale(m, glm::vec3(r, r, r));
 
-	V_Hiers[name]->M_Draw(m);
+	T4Double c;
+	for (int i = 0; i < 4; i++) c[i] = rgba[i] / 255.0;
+	V_Hiers[name]->M_Draw(m, c);
 }
 
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)

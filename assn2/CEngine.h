@@ -68,6 +68,8 @@ class CEngine : public CHandler
 	int V_MaxTime;
 	int V_LeftTime;
 
+	int V_Life;
+
 public:
 
 	bool M_GameEnd(void) {return V_GameEnd != 0; }

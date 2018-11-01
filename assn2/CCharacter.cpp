@@ -9,7 +9,7 @@ CCharacter::CCharacter(T2Double p, int i, T4Int c, double r) : CSomething(p, i, 
 void CCharacter::M_GetInvincible(int t)
 {
 	V_InvTime = t;
-	V_Color.set(200, 200, 0, 100);
+	V_Color.set(255, 255, 0, 100);
 }
 void CCharacter::M_Loop(double t)
 {
@@ -17,7 +17,7 @@ void CCharacter::M_Loop(double t)
 	if (V_InvTime > 0)
 	{
 		V_InvTime--;
-		if(V_InvTime == 0) V_Color.set(255, 0, 0, 255);
+		if(V_InvTime == 0) V_Color.set(255, 255, 255, 255);
 	}
 	if (V_SuperTime > 0)
 	{
