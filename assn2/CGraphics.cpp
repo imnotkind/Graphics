@@ -67,8 +67,7 @@ void CGraphics::M_RenderGame(void)
 void CGraphics::M_RenderUI(void)
 {
 	M_DrawNumber(Vec3d(100, 100, 0), 10, V_PEngine->V_PEnemies.size());
-	DWORD elapse = (V_PEngine->currtick - V_PEngine->starttick) / 1000;
-	M_DrawNumber(Vec3d(100, 150, 0), 10, elapse);
+	M_DrawNumber(Vec3d(100, 150, 0), 10, V_PEngine->V_Elapse);
 
 	/*
 	M_DrawPolygon(Vec2d(70, V_Screen_Size[1] - 60), 100 / sqrt(2), 4, DTR(45), T4Int(200,200,200,200));
