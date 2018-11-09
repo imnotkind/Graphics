@@ -249,14 +249,14 @@ void init_shader(void)
 }
 
 
-void loadobjfile()
+void loadobjfile(string filename)
 {
 	objl::Loader loader;
-	bool loadsuccess = loader.LoadFile("M1911.obj");
+	bool loadsuccess = loader.LoadFile(filename+".obj");
 	if (loadsuccess)
 	{
 		// Create/Open e1Out.txt
-		std::ofstream file("e1Out.txt");
+		std::ofstream file(filename+"_data.txt");
 
 		// Go through each loaded mesh and out its contents
 		for (int i = 0; i < loader.LoadedMeshes.size(); i++)
@@ -327,7 +327,11 @@ int main(int argc, char **argv)
 	cout << glutCreateWindow("Hello OpenGL") << endl;
 
 	
-	loadobjfile();
+	loadobjfile("OBJ files/M1911");
+	loadobjfile("OBJ files/dummy_obj");
+	loadobjfile("OBJ files/dummy_obj_red");
+	loadobjfile("OBJ files/Skeleton");
+	
 
 	glutReshapeFunc(reshape1);
 	glutDisplayFunc(display1);
