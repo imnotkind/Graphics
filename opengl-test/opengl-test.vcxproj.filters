@@ -3,9 +3,11 @@
   <ItemGroup>
     <ClCompile Include="sltest.cpp" />
     <ClCompile Include="test2.cpp" />
+    <ClCompile Include="objloader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OBJ_Loader.h" />
+    <ClInclude Include="objloader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ver.glsl" />

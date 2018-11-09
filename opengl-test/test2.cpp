@@ -1,6 +1,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#define _CRT_SECURE_NO_WARNINGS
 
 // Include all GLM core / GLSL features
 #include <glm/glm.hpp> // vec2, vec3, mat4, radians
@@ -9,11 +10,13 @@
 #include <glm/ext.hpp> // perspective, translate, rotate
 #include <glm/gtc/matrix_transform.hpp>
 #include "OBJ_Loader.h"
+#include "objloader.hpp"
 
 
 #pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "freeglut.lib")
 #pragma comment(lib, "Opengl32.lib")
+
 
 using namespace std;
 using namespace glm;
@@ -25,6 +28,28 @@ using namespace glm;
 
 GLuint VertexShaderID;
 GLuint FragmentShaderID;
+
+GLuint programID;
+GLuint vertexLoc;
+
+
+GLuint vertexbuffer;
+GLuint vertexbuffer2;
+GLuint vertexbuffer3;
+
+GLuint uvbuffer3;
+
+GLuint VertexArrayID;
+GLuint VertexArrayID2;
+GLuint VertexArrayID3;
+
+GLuint MatrixID;
+
+// Read our .obj file
+std::vector<glm::vec3> vertices;
+std::vector<glm::vec2> uvs;
+std::vector<glm::vec3> normals; // Won't be used at the moment.
+
 
 
 GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path) {
@@ -135,17 +160,6 @@ void idle1()
 	glutPostRedisplay();
 }
 
-GLuint programID;
-GLuint vertexLoc;
-
-
-GLuint vertexbuffer;
-GLuint vertexbuffer2;
-
-GLuint VertexArrayID;
-GLuint VertexArrayID2;
-
-GLuint MatrixID;
 
 void display1() {
 
@@ -169,7 +183,9 @@ void display1() {
 
 	glBindVertexArray(VertexArrayID);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &iden[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
 
 	glBindVertexArray(VertexArrayID2);
 
@@ -181,7 +197,7 @@ void display1() {
 	{
 		mvp = Projection * View * glm::translate(glm::mat4(1.0f), glm::vec3((float)i*0.5, 0.0f, -5.0f)) * Model;
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-		glDrawArrays(GL_LINES, 0, 2);
+		//glDrawArrays(GL_LINES, 0, 2);
 	}
 
 	Model = glm::mat4(1.0f);
@@ -192,12 +208,18 @@ void display1() {
 	{
 		mvp = Projection * View * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, (float)i*0.5)) * Model;
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-		glDrawArrays(GL_LINES, 0, 2);
+		//glDrawArrays(GL_LINES, 0, 2);
 	}
 
-	
+	Projection = glm::perspective(glm::radians(120.0f), 1.0f, 0.1f, 100.0f);
+	View = glm::lookAt(glm::vec3(0,100,100), glm::vec3(0, 100, 0), glm::vec3(0, 1, 0));
+	Model = glm::mat4(1.0f);
+	mvp = Projection * View * Model;
 
-	
+	glBindVertexArray(VertexArrayID3);
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
 
 	glutSwapBuffers();
 }
@@ -237,7 +259,7 @@ void init_shader(void)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer2);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data2), g_vertex_buffer_data2, GL_STATIC_DRAW);
 
-
+	
 
 	glBindVertexArray(VertexArrayID);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -249,6 +271,24 @@ void init_shader(void)
 	glEnableVertexAttribArray(vertexLoc);
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	
+
+	bool res = loadOBJ("OBJ files/dummy_obj_red.obj", vertices, uvs, normals);
+	cout << "res:" << res << endl;
+
+	// Load it into a VBO
+	glGenVertexArrays(1, &VertexArrayID3);
+	glBindVertexArray(VertexArrayID3);
+
+	glGenBuffers(1, &vertexbuffer3);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer3);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
+
+
+	glBindVertexArray(VertexArrayID3);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer3);
+	glEnableVertexAttribArray(vertexLoc);
+	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
 }
 
 
@@ -320,6 +360,9 @@ void loadobjfile(string filename)
 
 
 
+
+
+
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
@@ -351,7 +394,6 @@ int main(int argc, char **argv)
 	// Create and compile our GLSL program from the shaders
 
 	init_shader();
-	
 
 	
 
