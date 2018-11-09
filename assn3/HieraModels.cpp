@@ -1,18 +1,34 @@
 #include "CGraphics.h"
 
+
+SDrawingInfo temptemp(string s, T4Double c)
+{
+	SDrawingInfo d;
+	d.DrawMode = 2;
+	d.Global_Color = c;
+	d.PolygonName = s;
+	d.Program = "prg1";
+}
+
 void CGraphics::M_SetupHieraModels(void)
 {
 	auto p = CShaderManager::getInstance();
 
 	for (auto k : p->M_GetPolygonList())
 	{
-		V_BasicPolygons[k.first] = 
-			shared_ptr<CSinglePolygon>(new CSinglePolygon(p->M_GetPolygon(k.first), T4Int(255, 255, 255, 255)));
+		SDrawingInfo di;
+		di.DrawMode = 2;
+		di.Global_Color = T4Double(1.0, 1.0, 1.0, 1.0);
+		di.PolygonName = k.first;
+		di.Program = "prg1";
+
+		SHierModelNode node;
+		node.draw.reset(new CDrawing(di));
+		V_Models[k.first] = shared_ptr<CHierModel>(new CHierModel(node));
 	}
 
 	SHierModelNode body;
-	body.color = T4Double(1.0, 0.5, 0.3, 1.0);
-	body.draw = V_SM->M_GetPolygon("square");
+	body.draw.reset(new CDrawing(temptemp("square", T4Double(1.0, 0.5, 0.3, 1.0))));
 	body.port = 0;
 	body.trans_s = glm::scale(body.trans, glm::vec3(0.5, 1.0, 1.0));
 	body.trans = glm::rotate(body.trans, float(DTR(-90)), glm::vec3(0.0, 0.0, 1.0));
@@ -124,7 +140,6 @@ void CGraphics::M_SetupHieraModels(void)
 		E[i].color = T4Double(1.3, 1.3, 1.0, 2.0) - E[i].color;
 	}
 
-
-	V_Hiers["player"] = shared_ptr<CHierModel>(new CHierModel(S));
-	V_Hiers["enemy"] = shared_ptr<CHierModel>(new CHierModel(E));
+	V_Models["player"] = shared_ptr<CHierModel>(new CHierModel(S));
+	V_Models["enemy"] = shared_ptr<CHierModel>(new CHierModel(E));
 }

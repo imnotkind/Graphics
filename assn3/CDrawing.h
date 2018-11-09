@@ -1,13 +1,32 @@
 #pragma once
 #include "CHandler.h"
+#include "CShaderManager.h"
+
+struct SDrawingInfo
+{
+	string PolygonName;
+	string Program;
+	T4Double Global_Color;
+	int DrawMode;
+	//optional
+	T4Double Line_Color;
+};
+
 class CDrawing :
 	public CHandler
 {
-	GLuint V_ArrayIndex;
-	GLuint V_Program; // what program should be used for this drawing
+	CShaderManager* V_PSM;
+
+	SVerArray V_Array;
+	string V_Program; // what program should be used for this drawing
+	T4Double V_Color; // global color
+
+	int V_DrawMode; //0 : point, 1 : line, 2 : strip, 3 : strip + line
+	T4Double V_LineColor;
 
 public:
-	CDrawing();
+	CDrawing(const SDrawingInfo& s);
+	void M_Draw(const glm::mat4& mat, T4Double color);
 	virtual ~CDrawing() {}
 };
 
