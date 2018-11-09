@@ -188,6 +188,7 @@
     <ClInclude Include="CUserInput.h" />
     <ClInclude Include="MainHeader.h" />
     <ClInclude Include="MessageQueue.h" />
+    <ClInclude Include="OBJ_Loader.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="TGrid.h" />
     <ClInclude Include="TVector.h" />

@@ -180,6 +180,9 @@
     <ClInclude Include="CShaderManager.h">
       <Filter>Engine\Graphics\ShaderManager</Filter>
     </ClInclude>
+    <ClInclude Include="OBJ_Loader.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">
