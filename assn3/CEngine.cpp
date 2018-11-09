@@ -350,7 +350,7 @@ void CEngine::M_Initialize(void)
 
 	V_Grid_Size = 6.0;
 	
-	M_ReadMap("map.txt");
+	M_ReadMap("resource/map.txt");
 
 	int n_enm = V_Max_Enemies;
 	int n_itm = V_Max_Items;

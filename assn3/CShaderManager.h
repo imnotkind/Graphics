@@ -23,13 +23,14 @@ class CShaderManager :
 	void M_LoadPolygon(string data, string name);
 	void M_LoadProgram(string name, string ver, string frag);
 
-	void M_ParseData(string line, map<string, string>& t, int mode);
+	void M_ParseData(string respath, string line, map<string, string>& t, int mode);
 
 
 	GLuint V_CurrentProgram;
 
 	static CShaderManager* Instance;
 	CShaderManager(string config_path);
+	CShaderManager(string res_path, string config_path);
 	~CShaderManager();
 public:
 	SVerArray M_GetPolygon(string s) { return V_Polygons[s]; }
@@ -40,7 +41,7 @@ public:
 
 	static CShaderManager* getInstance(void)
 	{
-		if (Instance == NULL)Instance = new CShaderManager("config.txt");
+		if (Instance == NULL)Instance = new CShaderManager("resource/","config.txt");
 		return Instance;
 	}
 	static void freeInstance(void)

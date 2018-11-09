@@ -119,7 +119,7 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 }
 
 
-void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
+void CShaderManager::M_ParseData(string res_path, string line, map<string, string>& t, int mode)
 {
 	if (mode == 0) //direct
 	{
@@ -128,13 +128,13 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 			return;
 		string name = StringHelper::M_trim(l[0]);
 		string path = StringHelper::M_trim(l[1]);
-		t[name] = path;
+		t[name] = res_path + path;
 	}
 
 
 	if (mode == 1) //indirect
 	{
-		ifstream is(line.c_str(), std::ios::in);
+		ifstream is((res_path+line).c_str(), std::ios::in);
 		if (is.is_open())
 		{
 			string subLine = "";

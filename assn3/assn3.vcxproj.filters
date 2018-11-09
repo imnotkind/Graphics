@@ -185,31 +185,31 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="map.txt">
+    <None Include="resource\frag.glsl">
       <Filter>Resource</Filter>
-    </Text>
-    <Text Include="config.txt">
+    </None>
+    <None Include="resource\item.pol">
       <Filter>Resource</Filter>
-    </Text>
+    </None>
+    <None Include="resource\polygon.pol">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="resource\program.prg">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="resource\ver.glsl">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="resource\7seg.pol">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="polygon.pol">
+    <Text Include="resource\map.txt">
       <Filter>Resource</Filter>
-    </None>
-    <None Include="program.prg">
+    </Text>
+    <Text Include="resource\config.txt">
       <Filter>Resource</Filter>
-    </None>
-    <None Include="ver.glsl">
-      <Filter>Resource</Filter>
-    </None>
-    <None Include="frag.glsl">
-      <Filter>Resource</Filter>
-    </None>
-    <None Include="7seg.pol">
-      <Filter>Resource</Filter>
-    </None>
-    <None Include="item.pol">
-      <Filter>Resource</Filter>
-    </None>
+    </Text>
   </ItemGroup>
 </Project>

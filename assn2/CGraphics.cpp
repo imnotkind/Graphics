@@ -140,7 +140,7 @@ void CGraphics::M_Initialize(CEngine * P)
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(1080, 1080);
 
-	int id = glutCreateWindow("Graphics Assn1");
+	int id = glutCreateWindow("Graphics Assn2");
 	cout << id << endl;
 
 	glClearColor(1, 1, 1, 1); //background white

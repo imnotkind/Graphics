@@ -195,16 +195,16 @@
     <ClInclude Include="TVector_speical.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="config.txt" />
-    <Text Include="map.txt" />
+    <None Include="resource\7seg.pol" />
+    <None Include="resource\frag.glsl" />
+    <None Include="resource\item.pol" />
+    <None Include="resource\polygon.pol" />
+    <None Include="resource\program.prg" />
+    <None Include="resource\ver.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="frag.glsl" />
-    <None Include="7seg.pol" />
-    <None Include="item.pol" />
-    <None Include="polygon.pol" />
-    <None Include="program.prg" />
-    <None Include="ver.glsl" />
+    <Text Include="resource\config.txt" />
+    <Text Include="resource\map.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

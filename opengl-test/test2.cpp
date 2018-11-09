@@ -26,7 +26,6 @@ using namespace glm;
 GLuint VertexShaderID;
 GLuint FragmentShaderID;
 
-GLuint default_program;
 
 GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path) {
 
@@ -95,8 +94,6 @@ GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_pat
 		printf("%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
-	default_program = glCreateProgram();
-
 	// Link the program
 	printf("Linking program\n");
 	GLuint ProgramID = glCreateProgram();
@@ -115,6 +112,11 @@ GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_pat
 		printf("%s\n", &ProgramErrorMessage[0]);
 	}
 
+	glDetachShader(ProgramID, VertexShaderID);
+	glDetachShader(ProgramID, FragmentShaderID);
+
+	glDeleteShader(VertexShaderID);
+	glDeleteShader(FragmentShaderID);
 
 	return ProgramID;
 }
@@ -204,7 +206,7 @@ void display1() {
 void init_shader(void)
 {
 	static const GLfloat g_vertex_buffer_data[] = {
-		-0.0f, -0.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
 		0.0f,  1.0f, 0.0f,
 	};
@@ -220,6 +222,7 @@ void init_shader(void)
 	MatrixID = glGetUniformLocation(programID, "trans");
 	vertexLoc = glGetAttribLocation(programID, "position");
 
+	//https://stackoverflow.com/questions/45860198/glgenvertexarrays-and-glgenbuffers-arguments
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 	glGenBuffers(1, &vertexbuffer);
@@ -326,12 +329,12 @@ int main(int argc, char **argv)
 	glutInitWindowSize(800, 800);
 	cout << glutCreateWindow("Hello OpenGL") << endl;
 
-	
+	/*
 	loadobjfile("OBJ files/M1911");
 	loadobjfile("OBJ files/dummy_obj");
 	loadobjfile("OBJ files/dummy_obj_red");
 	loadobjfile("OBJ files/Skeleton");
-	
+	*/
 
 	glutReshapeFunc(reshape1);
 	glutDisplayFunc(display1);
@@ -360,11 +363,7 @@ int main(int argc, char **argv)
 	glDeleteVertexArrays(1, &VertexArrayID);
 	glDeleteProgram(programID);
 
-	glDetachShader(programID, VertexShaderID);
-	glDetachShader(programID, FragmentShaderID);
-
-	glDeleteShader(VertexShaderID);
-	glDeleteShader(FragmentShaderID);
+	
 
 	return 0;
 }
