@@ -4,10 +4,11 @@
 SDrawingInfo temptemp(string s, T4Double c)
 {
 	SDrawingInfo d;
-	d.DrawMode = 2;
+	d.DrawMode = 3;
 	d.Global_Color = c;
 	d.PolygonName = s;
 	d.Program = "prg1";
+	d.Line_Color.set(1.0, 0.0, 0.0, 1.0);
 
 	return d;
 }
