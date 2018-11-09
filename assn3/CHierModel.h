@@ -2,22 +2,21 @@
 #include "CHandler.h"
 #include "CShaderManager.h"
 #include <stack>
+#include "CDrawing.h"
 
 struct SHierModelNode
 {
-	SVerArray draw;
+	shared_ptr<CDrawing> draw;
 	glm::mat4 trans;
 	glm::mat4 trans_s; // no inheritance
 
 	int port;
-	T4Double color;
 
 	int left_child;
 	int right_sibling;
 
 	SHierModelNode() {
-		draw.num = 0; trans = glm::mat4(1.0); trans_s = glm::mat4(1.0);  port = -1; color.set(1.0, 1.0, 1.0, 1.0);
-	left_child = -1; right_sibling = -1;}
+		trans = glm::mat4(1.0); trans_s = glm::mat4(1.0);  port = -1; left_child = -1; right_sibling = -1;}
 };
 class CHierModel :
 	public CHandler
@@ -39,6 +38,7 @@ public:
 	void M_Draw(glm::mat4 CTM, T4Double color = T4Double(1.0, 1.0, 1.0, 1.0));
 
 	CHierModel(vector<SHierModelNode>& t) { V_Tree = t; }
+	CHierModel(SHierModelNode& t) { V_Tree.push_back(t); }
 
 	virtual ~CHierModel();
 };

@@ -49,11 +49,11 @@
     <Filter Include="Engine\Graphics\ShaderManager">
       <UniqueIdentifier>{8c820817-96e2-447d-b407-5ff94901d423}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\HierModel\CSinglePolygon">
-      <UniqueIdentifier>{91396353-0e9e-4815-9e24-bb7e670d8759}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{8cc90865-1c43-4456-9616-1d5e1bcfc2f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\HierModel\Drawing">
+      <UniqueIdentifier>{8e7ddf70-55ae-4fdc-ae81-1082ff08352a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,11 +106,14 @@
     <ClCompile Include="HieraModels.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="CSinglePolygon.cpp">
-      <Filter>Engine\Graphics\HierModel\CSinglePolygon</Filter>
-    </ClCompile>
     <ClCompile Include="StringHelper.h">
       <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="CDrawing.cpp">
+      <Filter>Engine\Graphics\HierModel\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="CShaderManager_load.cpp">
+      <Filter>Engine\Graphics\ShaderManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,14 +177,11 @@
     <ClInclude Include="Pointer.h">
       <Filter>Helper</Filter>
     </ClInclude>
-    <ClInclude Include="CSinglePolygon.h">
-      <Filter>Engine\Graphics\HierModel\CSinglePolygon</Filter>
-    </ClInclude>
     <ClInclude Include="CShaderManager.h">
       <Filter>Engine\Graphics\ShaderManager</Filter>
     </ClInclude>
-    <ClInclude Include="OBJ_Loader.h">
-      <Filter>Helper</Filter>
+    <ClInclude Include="CDrawing.h">
+      <Filter>Engine\Graphics\HierModel\Drawing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

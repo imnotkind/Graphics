@@ -4,7 +4,7 @@
 #include "CEngine.h"
 #include "CHandler.h"
 #include "CShaderManager.h"
-#include "CSinglePolygon.h"
+#include "CHierModel.h"
 
 #include <ctime>
 
@@ -38,8 +38,7 @@ class CGraphics : public CHandler
 
 	void M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba);
 
-	void M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4Int rgba); //lying on xy
-	void M_DrawHier(Vec3d p, string name, double r, double rotate, T4Int rgba); 
+	void M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int rgba); //lying on xy
 
 	void M_DrawFont(Vec2d p, string str, T4Int rgba);
 	void M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba);
@@ -49,8 +48,7 @@ class CGraphics : public CHandler
 
 	void M_SetupHieraModels(void);
 
-	map<string, shared_ptr<CSinglePolygon>> V_BasicPolygons;
-	map<string, shared_ptr<CHierModel>> V_Hiers;
+	map<string, shared_ptr<CHierModel>> V_Models;
 
 public:
 

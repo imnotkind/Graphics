@@ -27,7 +27,7 @@ void CGraphics::M_RenderGame(void)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
 				auto p = cen.convert_gl();
-				M_DrawPolygon(p, "square", gsize / 2, 0, T4Int(125, 30, 255, 255));
+				M_DrawModel(p, "square", gsize / 2, 0, T4Int(125, 30, 255, 255));
 			}
 		}
 	}
@@ -35,11 +35,11 @@ void CGraphics::M_RenderGame(void)
 	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 
-	V_Hiers["player"]->M_RegisterTrans2(1, am1);
-	V_Hiers["player"]->M_RegisterTrans2(2, am2);
+	V_Models["player"]->M_RegisterTrans2(1, am1);
+	V_Models["player"]->M_RegisterTrans2(2, am2);
 
-	V_Hiers["enemy"]->M_RegisterTrans2(1, am2);
-	V_Hiers["enemy"]->M_RegisterTrans2(2, am1);
+	V_Models["enemy"]->M_RegisterTrans2(1, am2);
+	V_Models["enemy"]->M_RegisterTrans2(2, am1);
 
 	//render objects
 	for (auto x : V_PEngine->V_Objects)
@@ -52,11 +52,11 @@ void CGraphics::M_RenderGame(void)
 		}
 		else if(d.img == 1)
 		{
-			M_DrawHier(d.pos.convert_gl(), "enemy", d.size * 0.8,  d.rotate, d.color);
+			M_DrawModel(d.pos.convert_gl(), "enemy", d.size * 0.8,  d.rotate, d.color);
 		}
 		else
 		{
-			M_DrawPolygon(d.pos.convert_gl(), "square", d.size, d.rotate, d.color);
+			M_DrawModel(d.pos.convert_gl(), "square", d.size, d.rotate, d.color);
 		}
 		
 	}
@@ -70,10 +70,10 @@ void CGraphics::M_RenderGame(void)
 		am2 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 0.0, 1.0));
 	}
 
-	V_Hiers["player"]->M_RegisterTrans2(1, am1);
-	V_Hiers["player"]->M_RegisterTrans2(2, am2);
+	V_Models["player"]->M_RegisterTrans2(1, am1);
+	V_Models["player"]->M_RegisterTrans2(2, am2);
 	
-	M_DrawHier(d.pos.convert_gl(), "player", d.size * 1.0, d.rotate, d.color);
+	M_DrawModel(d.pos.convert_gl(), "player", d.size * 1.0, d.rotate, d.color);
 }
 
 void CGraphics::M_RenderUI(void)
@@ -83,19 +83,19 @@ void CGraphics::M_RenderUI(void)
 	if (V_PEngine->V_GameEnd == 1)
 	{
 		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2 - 150, V_Screen_Size[1] / 2, 0), 100, V_PEngine->V_PEnemies.size(), T4Int(255, 0, 0, 255));
-		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(130, 100, 100, 255));
+		M_DrawModel(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(130, 100, 100, 255));
 	}
 	if (V_PEngine->V_GameEnd == 2)
 	{
 		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2 - 150, V_Screen_Size[1] / 2, 0), 100, V_PEngine->V_LeftTime, T4Int(125, 255, 0, 255));
-		M_DrawPolygon(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(100, 130, 100, 255));
+		M_DrawModel(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(100, 130, 100, 255));
 	}
 	
 
 	M_DrawNumber(Vec3d(50, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
 	M_DrawNumber(Vec3d(50, 150, 0), 10, V_PEngine->V_LeftTime, T4Int(125,255,0,255));
 	M_DrawNumber(Vec3d(50, 200, 0), 10, V_PEngine->V_Life, T4Int(255, 255, 0, 255));
-	M_DrawPolygon(Vec3d(50, 150, 0), "square", 80, 0, T4Int(100, 100, 100, 200));
+	M_DrawModel(Vec3d(50, 150, 0), "square", 80, 0, T4Int(100, 100, 100, 200));
 	
 	
 	auto l = V_PEngine->V_Player->M_GetItemList();
@@ -117,12 +117,11 @@ void CGraphics::M_RenderUI(void)
 			break;
 	}
 
-	M_DrawPolygon(Vec3d(70, V_Screen_Size[1] - 60, 0), "square", 50, 0, T4Int(100, 170, 170, 200));
-	M_DrawPolygon(Vec3d(160, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
-	M_DrawPolygon(Vec3d(230, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
-	M_DrawPolygon(Vec3d(300, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
+	M_DrawModel(Vec3d(70, V_Screen_Size[1] - 60, 0), "square", 50, 0, T4Int(100, 170, 170, 200));
+	M_DrawModel(Vec3d(160, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
+	M_DrawModel(Vec3d(230, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
+	M_DrawModel(Vec3d(300, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
 
-	
 
 
 }
@@ -241,10 +240,12 @@ void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 	m = V_CTM;
 	m = glm::translate(V_CTM, glm::vec3(p1));
 	m = glm::scale(V_CTM, glm::vec3(p2 - p1));
-	V_BasicPolygons["line"]->M_Draw(m, rgba);
+	T4Double c;
+	for (int i = 0; i < 4; i++) c[i] = rgba[i] / 255.0;
+	V_Models["line"]->M_Draw(m, c);
 }
 
-void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4Int rgba)
+void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int rgba)
 {
 	if (V_PEngine->V_CrazyMod && V_CurrentDrawing)
 	{
@@ -256,26 +257,11 @@ void CGraphics::M_DrawPolygon(Vec3d p, string name, double r, double rotate, T4I
 	m = glm::translate(m, glm::vec3(p));
 	m = glm::rotate(m, float(rotate), glm::vec3(0.0f,0.0f,1.0f));
 	m = glm::scale(m, glm::vec3(r, r, r));
-	V_BasicPolygons[name]->M_Draw(m, rgba);
-}
-void CGraphics::M_DrawHier(Vec3d p, string name, double r, double rotate, T4Int rgba)
-{
-	if (V_PEngine->V_CrazyMod && V_CurrentDrawing)
-	{
-		p[2] += 15 * (sin(p[0] * 0.05 + V_CrazyParam) + sin(p[1] * 0.05 + V_CrazyParam));
-	}
-
-	glm::mat4 m;
-	m = V_CTM;
-	m = glm::translate(m, glm::vec3(p));
-	m = glm::rotate(m, float(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
-	m = glm::scale(m, glm::vec3(r, r, r));
 
 	T4Double c;
 	for (int i = 0; i < 4; i++) c[i] = rgba[i] / 255.0;
-	V_Hiers[name]->M_Draw(m, c);
+	V_Models[name]->M_Draw(m, c);
 }
-
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 {
 }
@@ -290,40 +276,40 @@ void CGraphics::M_DrawItem(Vec3d p, double r, int z)
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			M_DrawPolygon(p, "diamond", r*0.5, (2 * PI / 10.0)*i, T4Int(255, 255, 0, 255));
+			M_DrawModel(p, "diamond", r*0.5, (2 * PI / 10.0)*i, T4Int(255, 255, 0, 255));
 		}
 		for (int i = 0; i < 10; i++)
 		{
-			M_DrawPolygon(p, "diamond", r, (2 * PI / 10.0)*i, T4Int(255, 0, 0, 255));
+			M_DrawModel(p, "diamond", r, (2 * PI / 10.0)*i, T4Int(255, 0, 0, 255));
 		}
 		
 	}
 	if (z == 1) // Camera up
 	{
-		M_DrawPolygon(p, "circle", r*0.4, 0, T4Int(255, 255, 255, 255));
-		M_DrawPolygon(p + Vec3d(r*0.7, r*0.5, 0), "circle", r*0.1, 0, T4Int(255, 255, 255, 255));
-		M_DrawPolygon(p, "rectangle", r*0.9, 0, T4Int(90, 90, 90, 255));
+		M_DrawModel(p, "circle", r*0.4, 0, T4Int(255, 255, 255, 255));
+		M_DrawModel(p + Vec3d(r*0.7, r*0.5, 0), "circle", r*0.1, 0, T4Int(255, 255, 255, 255));
+		M_DrawModel(p, "rectangle", r*0.9, 0, T4Int(90, 90, 90, 255));
 
 	}
 	if (z == 2) // Invincible
 	{
-		M_DrawPolygon(p, "star", r*0.8, 0, T4Int(255, 255, 0, 255));
-		M_DrawPolygon(p, "star", r, 0, T4Int(255, 204, 0, 255));
+		M_DrawModel(p, "star", r*0.8, 0, T4Int(255, 255, 0, 255));
+		M_DrawModel(p, "star", r, 0, T4Int(255, 204, 0, 255));
 		
 	}
 	if (z == 3) // Speed up
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			M_DrawPolygon(p+Vec3d(r*0.1,0,0), "diamond", r, PI/12 + (PI/12)*i, T4Int(255, 255, 255, 255));
-			M_DrawPolygon(p-Vec3d(r*0.1,0,0), "diamond", r, PI - (PI / 12 + (PI / 12)*i), T4Int(255, 255, 255, 255));
+			M_DrawModel(p+Vec3d(r*0.1,0,0), "diamond", r, PI/12 + (PI/12)*i, T4Int(255, 255, 255, 255));
+			M_DrawModel(p-Vec3d(r*0.1,0,0), "diamond", r, PI - (PI / 12 + (PI / 12)*i), T4Int(255, 255, 255, 255));
 		}
 	}
 	if (z == 4) // SuperFire
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			M_DrawPolygon(p, "diamond", r, (2*PI/4.0)*i, T4Int(30, 30, 30, 255));
+			M_DrawModel(p, "diamond", r, (2*PI/4.0)*i, T4Int(30, 30, 30, 255));
 		}
 	}
 }
@@ -338,36 +324,36 @@ void CGraphics::M_DrawNumber(Vec3d p, double r, int num, T4Int rgba)
 
 		if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 7 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "A", r, 0.0, rgba);
+			M_DrawModel(p+i, "A", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 1 || k == 2 || k == 3 || k == 4 || k == 7 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "B", r, 0.0, rgba);
+			M_DrawModel(p+i, "B", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 1 || k == 3 || k == 4 || k == 5 || k == 6 || k == 7 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "C", r, 0.0, rgba);
+			M_DrawModel(p+i, "C", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "D", r, 0.0, rgba);
+			M_DrawModel(p+i, "D", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 2 || k == 6 || k == 8)
 		{
-			M_DrawPolygon(p+i, "E", r, 0.0, rgba);
+			M_DrawModel(p+i, "E", r, 0.0, rgba);
 		}
 
 		if (k == 0 || k == 4 || k == 5 || k == 6 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "F", r, 0.0, rgba);
+			M_DrawModel(p+i, "F", r, 0.0, rgba);
 		}
 		if (k == 2 || k == 3 || k == 4 || k == 5 || k == 6 || k == 8 || k == 9)
 		{
-			M_DrawPolygon(p+i, "G", r, 0.0, rgba);
+			M_DrawModel(p+i, "G", r, 0.0, rgba);
 		}
 
 		i += Vec3d(r*1.5, 0, 0);

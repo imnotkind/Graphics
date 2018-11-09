@@ -23,19 +23,9 @@ void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 	//not exist -> identity
 	glm::mat4 trans2 = V_Trans2.find(node.port) == V_Trans2.end() ? glm::mat4(1.0f) : V_Trans2[node.port];
 	CTM = CTM * node.trans * trans2;
-
 	auto temp = CTM * node.trans_s;
 
-	glBindVertexArray(node.draw.aindex);
-	GLuint p = glGetUniformLocation(V_Program, "trans");
-	GLuint q = glGetUniformLocation(V_Program, "vicolor");
-	glUniformMatrix4fv(p, 1, GL_FALSE, &temp[0][0]);
-	float col[4]; 
-	for(int i = 0; i< 4; i++) col[i] = node.color[i] * V_NewColor[i];
-
-	glUniform4fv(q, 1, col);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, node.draw.num);
+	node.draw->M_Draw(temp, V_NewColor);
 
 	if (node.left_child != -1) M_Draw_Rec(node.left_child, CTM);
 	CTM = V_MatrixStack.top();  V_MatrixStack.pop();
