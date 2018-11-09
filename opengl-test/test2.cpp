@@ -218,7 +218,7 @@ void display1() {
 
 	glBindVertexArray(VertexArrayID3);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	glDrawArrays(GL_LINES, 0, vertices.size());
 
 
 	glutSwapBuffers();
