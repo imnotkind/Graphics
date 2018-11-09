@@ -6,6 +6,7 @@ CDrawing::CDrawing(const SDrawingInfo& s)
 	V_Array = V_PSM->M_GetPolygon(s.PolygonName);
 	V_Color = s.Global_Color;
 	V_Program = s.Program;
+	V_DrawMode = s.DrawMode;
 }
 
 void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)

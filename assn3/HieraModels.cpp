@@ -8,6 +8,8 @@ SDrawingInfo temptemp(string s, T4Double c)
 	d.Global_Color = c;
 	d.PolygonName = s;
 	d.Program = "prg1";
+
+	return d;
 }
 
 void CGraphics::M_SetupHieraModels(void)
@@ -128,7 +130,7 @@ void CGraphics::M_SetupHieraModels(void)
 	vector<SHierModelNode> E = S;
 	for (int i = 0; i < E.size(); i++)
 	{
-		E[i].color = T4Double(1.3, 1.3, 1.0, 2.0) - E[i].color;
+		E[i].draw->V_Color = T4Double(1.3, 1.3, 1.0, 2.0) - E[i].draw->V_Color;
 	}
 
 	V_Models["player"] = shared_ptr<CHierModel>(new CHierModel(S));
