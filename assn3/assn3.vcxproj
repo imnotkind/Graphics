@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CCharacter.cpp" />
+    <ClCompile Include="CDrawing.cpp" />
     <ClCompile Include="CEnemy.cpp" />
     <ClCompile Include="CEngine.cpp" />
     <ClCompile Include="CError.cpp" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="CBullet.h" />
     <ClInclude Include="CCharacter.h" />
+    <ClInclude Include="CDrawing.h" />
     <ClInclude Include="CEnemy.h" />
     <ClInclude Include="CEngine.h" />
     <ClInclude Include="CError.h" />
@@ -188,7 +190,6 @@
     <ClInclude Include="CUserInput.h" />
     <ClInclude Include="MainHeader.h" />
     <ClInclude Include="MessageQueue.h" />
-    <ClInclude Include="OBJ_Loader.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="TGrid.h" />
     <ClInclude Include="TVector.h" />

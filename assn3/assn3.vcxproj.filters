@@ -55,6 +55,9 @@
     <Filter Include="Resource">
       <UniqueIdentifier>{8cc90865-1c43-4456-9616-1d5e1bcfc2f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics\HierModel\Drawing">
+      <UniqueIdentifier>{8e7ddf70-55ae-4fdc-ae81-1082ff08352a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -111,6 +114,9 @@
     </ClCompile>
     <ClCompile Include="StringHelper.h">
       <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="CDrawing.cpp">
+      <Filter>Engine\Graphics\HierModel\Drawing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,8 +186,8 @@
     <ClInclude Include="CShaderManager.h">
       <Filter>Engine\Graphics\ShaderManager</Filter>
     </ClInclude>
-    <ClInclude Include="OBJ_Loader.h">
-      <Filter>Helper</Filter>
+    <ClInclude Include="CDrawing.h">
+      <Filter>Engine\Graphics\HierModel\Drawing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
