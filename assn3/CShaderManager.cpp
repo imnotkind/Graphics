@@ -178,8 +178,8 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 
 	glGenVertexArrays(1, &vaid);
 	glBindVertexArray(vaid);
-	glGenBuffers(1, &vbid);
-	glBindBuffer(GL_ARRAY_BUFFER, vbid);
+	glGenBuffers(1, &vbid); 
+	glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * n, arr, GL_STATIC_DRAW);
 
 	SVerArray va; va.num = n/4; va.aindex = vaid;
