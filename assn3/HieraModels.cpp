@@ -128,6 +128,12 @@ void CGraphics::M_SetupHieraModels(void)
 	S[8].left_child = 9;
 
 	vector<SHierModelNode> E = S;
+
+	for (SHierModelNode& x : E) //deep copy
+	{
+		x.draw.reset(new CDrawing(*x.draw));
+	}
+
 	for (int i = 0; i < E.size(); i++)
 	{
 		E[i].draw->V_Color = T4Double(1.3, 1.3, 1.0, 2.0) - E[i].draw->V_Color;

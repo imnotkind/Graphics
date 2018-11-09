@@ -31,3 +31,21 @@ void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)
 	}
 	else if (V_DrawMode == 0)glDrawArrays(GL_POINTS, 0, V_Array.num); 
 }
+
+
+CDrawing::CDrawing(const CDrawing& x)
+{
+	V_PSM = CShaderManager::getInstance();
+	V_Array = x.V_Array;
+	V_Color = x.V_Color;
+	V_Program = x.V_Program;
+	V_DrawMode = x.V_DrawMode;
+}
+void CDrawing::operator=(const CDrawing& x)
+{
+	V_PSM = CShaderManager::getInstance();
+	V_Array = x.V_Array;
+	V_Color = x.V_Color;
+	V_Program = x.V_Program;
+	V_DrawMode = x.V_DrawMode;
+}

@@ -39,3 +39,4 @@ void CHierModel::M_Draw(glm::mat4 CTM, T4Double color)
 	V_Program = s->M_GetProgram();
 	M_Draw_Rec(0, CTM);
 }
+
