@@ -222,6 +222,10 @@ void display1() {
 	glUniform4f(colorLoc, 0.0, 1.0, 0.0, 1.0);
 	glDrawArrays(GL_LINES, 0, vertices.size());
 
+	Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.95, 0.95, 0.95));
+	mvp = Projection * View * Model;
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+
 	glUniform4f(colorLoc, 1.0, 0.0, 0.0, 1.0);
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
