@@ -31,6 +31,7 @@ GLuint FragmentShaderID;
 
 GLuint programID;
 GLuint vertexLoc;
+GLuint colorLoc;
 
 
 GLuint vertexbuffer;
@@ -184,7 +185,7 @@ void display1() {
 	glBindVertexArray(VertexArrayID);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &iden[0][0]);
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
-
+	
 
 
 	glBindVertexArray(VertexArrayID2);
@@ -211,14 +212,17 @@ void display1() {
 		//glDrawArrays(GL_LINES, 0, 2);
 	}
 
-	Projection = glm::perspective(glm::radians(120.0f), 1.0f, 0.1f, 100.0f);
+	Projection = glm::perspective(glm::radians(120.0f), 1.0f, 0.1f, 200.0f);
 	View = glm::lookAt(glm::vec3(0,100,100), glm::vec3(0, 100, 0), glm::vec3(0, 1, 0));
 	Model = glm::mat4(1.0f);
 	mvp = Projection * View * Model;
 
 	glBindVertexArray(VertexArrayID3);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glUniform4f(colorLoc, 0.0, 1.0, 0.0, 1.0);
 	glDrawArrays(GL_LINES, 0, vertices.size());
+
+
 
 
 	glutSwapBuffers();
@@ -239,10 +243,12 @@ void init_shader(void)
 
 	};
 
+
 	programID = LoadShaders("ver.glsl", "frag.glsl");
 
 	MatrixID = glGetUniformLocation(programID, "trans");
 	vertexLoc = glGetAttribLocation(programID, "position");
+	colorLoc = glGetAttribLocation(programID, "vicolor");
 
 	//https://stackoverflow.com/questions/45860198/glgenvertexarrays-and-glgenbuffers-arguments
 	glGenVertexArrays(1, &VertexArrayID);
@@ -272,8 +278,18 @@ void init_shader(void)
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	
 
-	bool res = loadOBJ("OBJ files/dummy_obj_red.obj", vertices, uvs, normals);
-	cout << "res:" << res << endl;
+	//bool res = loadOBJ("OBJ files/dummy_obj.obj", vertices, uvs, normals);
+	objl::Loader loader;
+	loader.LoadFile("OBJ files/dummy_obj.obj");
+	for (unsigned int t : loader.LoadedIndices)
+	{
+		objl::Vertex v = loader.LoadedVertices[t];
+		glm::vec3 gv;
+		gv.x = v.Position.X;
+		gv.y = v.Position.Y;
+		gv.z = v.Position.Z;
+		vertices.push_back(gv);
+	}
 
 	// Load it into a VBO
 	glGenVertexArrays(1, &VertexArrayID3);
@@ -387,6 +403,7 @@ int main(int argc, char **argv)
 	glewInit();
 
 	glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_LESS);
 
 	// Dark blue background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
