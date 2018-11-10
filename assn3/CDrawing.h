@@ -24,8 +24,6 @@ public:
 	int V_DrawMode; //0 : point, 1 : line, 2 : strip, 3 : strip + line
 	T4Double V_LineColor;
 
-	CDrawing(const CDrawing& x);
-	void operator=(const CDrawing& x);
 	CDrawing(const SDrawingInfo& s);
 	void M_Draw(const glm::mat4& mat, T4Double color);
 	virtual ~CDrawing() {}
