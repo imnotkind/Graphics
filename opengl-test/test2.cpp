@@ -222,6 +222,9 @@ void display1() {
 	glUniform4f(colorLoc, 0.0, 1.0, 0.0, 1.0);
 	glDrawArrays(GL_LINES, 0, vertices.size());
 
+	glUniform4f(colorLoc, 1.0, 0.0, 0.0, 1.0);
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
 
 
 
@@ -248,7 +251,7 @@ void init_shader(void)
 
 	MatrixID = glGetUniformLocation(programID, "trans");
 	vertexLoc = glGetAttribLocation(programID, "position");
-	colorLoc = glGetAttribLocation(programID, "vicolor");
+	colorLoc = glGetUniformLocation(programID, "vicolor");
 
 	//https://stackoverflow.com/questions/45860198/glgenvertexarrays-and-glgenbuffers-arguments
 	glGenVertexArrays(1, &VertexArrayID);
