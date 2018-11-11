@@ -161,6 +161,7 @@
     <ClCompile Include="CHierModel.cpp" />
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CMath.cpp" />
+    <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CShaderManager.cpp" />
     <ClCompile Include="CShaderManager_load.cpp" />
     <ClCompile Include="CSomething.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="CHierModel.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CMath.h" />
+    <ClInclude Include="CMesh.h" />
     <ClInclude Include="CShaderManager.h" />
     <ClInclude Include="CSomething.h" />
     <ClInclude Include="CTexture.h" />

@@ -72,6 +72,11 @@ void cb_skeyup(int key, int x, int y)
 	iq->M_PressUp(key, true);
 }
 
+void cb_mousemove(int x, int y)
+{
+	auto iq = CUserInput::getInstance();
+	iq->M_MouseSet(T2Int(x, y));
+}
 
 int main(int argc, char **argv) {
 
@@ -107,6 +112,10 @@ int main(int argc, char **argv) {
 
 	glutKeyboardUpFunc(cb_keyup);
 	glutSpecialUpFunc(cb_skeyup);
+
+	glutMotionFunc(cb_mousemove);
+	glutPassiveMotionFunc(cb_mousemove);
+
 	
 	glewInit();
 

@@ -15,6 +15,8 @@ class CUserInput : public CHandler
 	static CUserInput* Instance;
 	set<pair<int, bool>> V_pressingkeys;
 	CUserInput();
+
+	T2Int V_MousePos;
 public:
 	
 
@@ -31,6 +33,9 @@ public:
 
 	void M_PressDown(int key, bool special);
 	void M_PressUp(int key, bool special);
+	
+	void M_MouseSet(T2Int p) { V_MousePos = p; }
+	T2Int M_MouseGet(void) { return V_MousePos; }
 
 	bool M_IfPressed(int key, bool special);
 

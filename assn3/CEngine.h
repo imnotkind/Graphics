@@ -46,7 +46,7 @@ class CEngine : public CHandler
 
 	void M_CollisionTest(void);
 	void M_ListenMessages(void);
-	void M_Event_KeyPress(int key, bool special);
+	bool M_Event_KeyPress(int key, bool special); //false : not mine
 
 	void M_ObjectIndexing(void);
 	void M_ItemState(void);

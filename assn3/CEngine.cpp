@@ -44,10 +44,18 @@ void CEngine::M_ListenMessages(void)
 
 	//Input Messages;
 	auto iq = SIQueue::M_GetSingletone(0);
+	auto rq = SIQueue::M_GetSingletone(1);
 	while (!iq->M_Empty())
 	{
 		auto m = iq->M_Pop();
-		if(m.type == "down") M_Event_KeyPress(m.key, m.special);
+		if (m.type == "down")
+		{
+			if (!M_Event_KeyPress(m.key, m.special)) rq->M_Push(m); //not mine!
+		}
+	}
+	while (!rq->M_Empty())
+	{
+		iq->M_Push(rq->M_Pop());
 	}
 
 }
@@ -301,16 +309,21 @@ void CEngine::M_ItemUse(list<int>& x)
 		V_Player->M_SuperFire();
 	}
 }
-void CEngine::M_Event_KeyPress(int key, bool special)
+bool CEngine::M_Event_KeyPress(int key, bool special)
 {
 
 	if (key == 32 && !special)
 	{
 		V_Animation_Temp = 30;
 		V_Player->M_Fire(); // Space bar
+		return true;
 	}
-	if (key == 'q' && !special) M_ItemUse(V_Player->M_GetItemList());
-	if (key == 'v' && !special) V_CrazyMod = !V_CrazyMod;
+	if (key == 'q' && !special)
+	{
+		M_ItemUse(V_Player->M_GetItemList());
+		return true;
+	}
+	return false;
 }
 T2Int CEngine::M_GetEmptyPlace(void)
 {

@@ -14,7 +14,6 @@ void CGraphics::M_RenderGame(void)
 {
 	static double anim = 0.0;
 	anim += 0.05;
-	V_CrazyParam += 0.05;
 
 	//render map
 	double gsize = V_PEngine->V_Grid_Size;
@@ -132,8 +131,6 @@ void CGraphics::M_Initialize(CEngine * P)
 
 	V_PEngine = P;
 	V_Screen_Size = T2Double(1080, 1080);
-	V_Camera_Pos = T2Double(0, 0);
-	V_Camera_Speed.set(0.0, 0.0);
 
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(0, 0);
@@ -149,7 +146,6 @@ void CGraphics::M_Initialize(CEngine * P)
 	glEnable(GL_BLEND);
 	glEnable(GL_MULTISAMPLE);
 
-	V_CrazyParam = 0.0;
 }
 
 void CGraphics::M_Initialize2(void)
@@ -157,19 +153,64 @@ void CGraphics::M_Initialize2(void)
 	glEnable(GL_DEPTH_TEST);
 	V_SM = CShaderManager::getInstance();
 
+	V_ViewMode = false;
+	V_CurrentDrawing = false;
+
 	M_SetupHieraModels();
-
-	
-
 }
+
+void CGraphics::M_ListenMessages(void)
+{
+	auto iq = SIQueue::M_GetSingletone(0);
+	while (!iq->M_Empty())
+	{
+		auto m = iq->M_Pop();
+		if (m.type == "down")
+		{
+			if (!M_Event_KeyPress(m.key, m.special)) iq->M_Push(m); //not mine!
+		}
+	}
+}
+
+bool CGraphics::M_Event_KeyPress(int key, bool special)
+{
+	if (key == 'v' && special == false)
+	{
+		V_ViewMode = !V_ViewMode;
+		return true;
+	}
+	return false;
+}
+
 
 void CGraphics::M_MoveCamera(void)
 {
+	T2Int mp = CUserInput::getInstance()->M_MouseGet();
+	double x = 2.0*mp[0] / V_Screen_Size[0] - 1;
+	double y = 2.0*mp[1] / V_Screen_Size[1] - 1;
+
+	V_Camera_Look_Angle[0] -= x*x*x * 0.1;
+	V_Camera_Look_Angle[1] -= 0.1 * (1 - abs(V_Camera_Look_Angle[1] / DTR(70)))*y*y*y;
+
+
+	auto p = V_PEngine->V_Player->M_GetPosition();
+	V_Camera_Pos[0] = p[0];
+	V_Camera_Pos[1] = p[1];
+	V_Camera_Pos[2] = 15;
+
+	V_Camera_Look = V_Camera_Pos;
+	V_Camera_Look[0] += cos(V_Camera_Look_Angle[0]);
+	V_Camera_Look[1] += sin(V_Camera_Look_Angle[0]);
+	V_Camera_Look[2] += sin(V_Camera_Look_Angle[1]);
+
+
+
+	return;
+
+	/*
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	auto c = V_Camera_Pos;
 	
-	V_Camera_Height = 200 +200 * sin(V_PEngine->V_IS_Camera / 300.0*PI);
-
 	auto a = p - c;
 	a = V_Math->M_2TV_Normalize(a);
 	auto d = V_Math->M_2TV_Angle(p, c);
@@ -180,6 +221,7 @@ void CGraphics::M_MoveCamera(void)
 	V_Camera_Speed *= 0.9;
 	
 	V_Camera_Pos += V_Camera_Speed;
+	*/
 
 }
 void CGraphics::M_CallbackDisplay()
@@ -201,19 +243,11 @@ void CGraphics::M_CallbackDisplay()
 	V_CurrentDrawing = true;
 
 	glm::vec3 v(0.0f);
-	glm::vec3 up(0, 1, 0);
-	if (V_PEngine->V_CrazyMod)
-	{
-		v[0] = 100 * cos(count);
-		v[1] = 100 * sin(count);
+	glm::vec3 up(0, 0, 1);
 
-		up[1] = cos(DTR(30)*sin(count));
-		up[0] = sin(DTR(30)*sin(count));
-	}
 	V_CTM = glm::mat4(1.0f);
 	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
-	auto view = glm::lookAt(glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], V_Camera_Height) + v,
-		glm::vec3(V_Camera_Pos[0], V_Camera_Pos[1], 0), up);
+	auto view = glm::lookAt(V_Camera_Pos, V_Camera_Look, up);
 	
 	V_CTM = pers * view;
 	M_RenderGame();
@@ -247,10 +281,6 @@ void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 
 void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int rgba)
 {
-	if (V_PEngine->V_CrazyMod && V_CurrentDrawing)
-	{
-		p[2] += 15 * (sin(p[0]*0.05 + V_CrazyParam) + sin(p[1]*0.05 + V_CrazyParam));
-	}
 
 	glm::mat4 m;
 	m = V_CTM;
