@@ -13,6 +13,7 @@ class CCharacter :
 
 	T2Double V_LookAngle;
 
+	void M_CalculateLook(void);
 public:
 	virtual void M_Loop(double t);
 

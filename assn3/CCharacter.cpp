@@ -39,15 +39,25 @@ void CCharacter::M_Loop(double t)
 		}
 	}
 
-
+	M_CalculateLook();
+	
+}
+void CCharacter::M_CalculateLook(void)
+{
 	T2Double mp = CUserInput::getInstance()->M_MouseGet_Normalized();
-	double x = 2.0*mp[0] - 1;
+	double x = mp[0];
 	double y = 2.0*mp[1] - 1;
 
-	if(abs(x) > 0.3) V_LookAngle[0] -= x* 0.05;
-	if(abs(y) > 0.3) V_LookAngle[1] -= 0.05 * (1 - abs(V_LookAngle[1] / DTR(70)))*y;
-}
+	int xc = 1;
+	double yl = 75;
 
+	x = x * 2 * PI*xc;
+
+	V_LookAngle[0] = -x;
+	V_LookAngle[1] = - y  * DTR(yl);
+
+
+}
 void CCharacter::M_SuperFire(void)
 {
 	V_SuperTime = 35;
