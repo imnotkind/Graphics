@@ -44,8 +44,8 @@ void CCharacter::M_Loop(double t)
 	double x = 2.0*mp[0] - 1;
 	double y = 2.0*mp[1] - 1;
 
-	V_LookAngle[0] -= x * x*x * 0.1;
-	V_LookAngle[1] -= 0.1 * (1 - abs(V_LookAngle[1] / DTR(70)))*y*y*y;
+	if(abs(x) > 0.3) V_LookAngle[0] -= x* 0.05;
+	if(abs(y) > 0.3) V_LookAngle[1] -= 0.05 * (1 - abs(V_LookAngle[1] / DTR(70)))*y;
 }
 
 void CCharacter::M_SuperFire(void)
