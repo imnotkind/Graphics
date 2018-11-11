@@ -187,7 +187,7 @@ void display1() {
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	
 
-
+	/*
 	glBindVertexArray(VertexArrayID2);
 
 	Model = glm::mat4(1.0f);
@@ -211,25 +211,56 @@ void display1() {
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 		//glDrawArrays(GL_LINES, 0, 2);
 	}
+	*/
 
 	Projection = glm::perspective(glm::radians(100.0f), 1.0f, 0.1f, 200.0f);
-	View = glm::lookAt(glm::vec3(0,100,100), glm::vec3(0, 90, 0), glm::vec3(0, 1, 0));
+	View = glm::lookAt(glm::vec3(100,100,100), glm::vec3(0, 90, 0), glm::vec3(0, 1, 0));
 	Model = glm::mat4(1.0f);
 	mvp = Projection * View * Model;
 
 	glBindVertexArray(VertexArrayID3);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-	glUniform4f(colorLoc, 0.0, 1.0, 0.0, 1.0);
+	glUniform4f(colorLoc, 1.0, 1.0, 0.0, 1.0);
 	glDrawArrays(GL_LINES, 0, vertices.size());
 
-	Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.95, 0.95, 0.95));
-	mvp = Projection * View * Model;
+	//Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.95, 0.95, 0.95));
+	//mvp = Projection * View * Model;
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-
 	glUniform4f(colorLoc, 1.0, 0.0, 0.0, 1.0);
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	//glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
 
+	//y axis
+	Model = glm::mat4(1.0f);
+	Model = glm::scale(Model, glm::vec3(1.0f, 1000.0f, 1.0f));
+	mvp = Projection * View * Model;
+
+	glBindVertexArray(VertexArrayID2);
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glUniform4f(colorLoc, 0.0, 1.0, 0.0, 1.0);
+	glDrawArrays(GL_LINES, 0, 2);
+
+	//z axis
+	Model = glm::mat4(1.0f);
+	Model = glm::rotate(Model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	Model = glm::scale(Model, glm::vec3(1.0f, 1000.0f, 1.0f));
+	mvp = Projection * View * Model;
+
+	glBindVertexArray(VertexArrayID2);
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glUniform4f(colorLoc, 0.0, 0.0, 1.0, 1.0);
+	glDrawArrays(GL_LINES, 0, 2);
+
+	//x axis
+	Model = glm::mat4(1.0f);
+	Model = glm::rotate(Model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	Model = glm::scale(Model, glm::vec3(1.0f, 1000.0f, 1.0f));
+	mvp = Projection * View * Model;
+
+	glBindVertexArray(VertexArrayID2);
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glUniform4f(colorLoc, 1.0, 0.0, 0.0, 1.0);
+	glDrawArrays(GL_LINES, 0, 2);
 
 
 	glutSwapBuffers();
@@ -413,7 +444,7 @@ int main(int argc, char **argv)
 	//glDepthFunc(GL_LESS);
 
 	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
 	// Create and compile our GLSL program from the shaders
 
