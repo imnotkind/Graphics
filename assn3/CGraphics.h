@@ -61,7 +61,7 @@ public:
 	void M_CallbackReshape(int w, int h);
 	void M_CallbackIdle();
 
-	void M_Initialize(CEngine * P);
+	int M_Initialize(CEngine * P);
 	void M_Initialize2(void);
 
 	CGraphics();

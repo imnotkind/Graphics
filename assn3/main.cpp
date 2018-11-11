@@ -19,6 +19,7 @@ LARGE_INTEGER old_count;
 LARGE_INTEGER new_count;
 LARGE_INTEGER freq;
 
+int winid;
 void cb_display()
 {
 	Graphics.M_CallbackDisplay();
@@ -34,13 +35,23 @@ void cb_idle()
 {
 	if (QueryPerformanceCounter(&new_count)) {
 
+		
+
 		//if ((new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart/1000000.0) < 1000000.0 * (1 / 700.0)) return;
 		if (((new_count.QuadPart - old_count.QuadPart) * 1000000) / freq.QuadPart < 1000000 / 90) return;
+
+		RECT r;
+		HWND h = GetForegroundWindow();
+		GetWindowRect(h, &r);
+		if(h == GetActiveWindow())
+			glutWarpPointer(r.left + glutGet(GLUT_WINDOW_WIDTH)*0.5,
+				r.top + glutGet(GLUT_WINDOW_HEIGHT)*0.5);
 
 		old_count = new_count;
 
 		Graphics.M_CallbackIdle();
 		Engine.M_Loop();
+
 	}
 	else {
 		cout << "counter fail" << endl;
@@ -76,6 +87,7 @@ void cb_mousemove(int x, int y)
 {
 	auto iq = CUserInput::getInstance();
 	iq->M_MouseSet(T2Int(x, y));
+	
 }
 
 int main(int argc, char **argv) {
@@ -100,7 +112,7 @@ int main(int argc, char **argv) {
 	}
 
 	glutInit(&argc, argv);
-	Graphics.M_Initialize(&Engine);
+	winid = Graphics.M_Initialize(&Engine);
 
 	glutDisplayFunc(cb_display);
 	glutReshapeFunc(cb_reshape);

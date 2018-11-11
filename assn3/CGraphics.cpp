@@ -126,7 +126,7 @@ void CGraphics::M_RenderUI(void)
 }
 
 
-void CGraphics::M_Initialize(CEngine * P)
+int CGraphics::M_Initialize(CEngine * P)
 {
 
 	V_PEngine = P;
@@ -147,6 +147,8 @@ void CGraphics::M_Initialize(CEngine * P)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 	glEnable(GL_MULTISAMPLE);
+
+	return id;
 
 }
 

@@ -11,6 +11,7 @@ class CCharacter :
 	int V_InvTime;
 	int V_SuperTime;
 
+	T2Double V_OldMP;
 	T2Double V_LookAngle;
 
 	void M_CalculateLook(void);
