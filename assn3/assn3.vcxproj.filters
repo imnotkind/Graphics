@@ -55,6 +55,9 @@
     <Filter Include="Engine\Graphics\HierModel\Drawing">
       <UniqueIdentifier>{8e7ddf70-55ae-4fdc-ae81-1082ff08352a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics\Mesh">
+      <UniqueIdentifier>{55e65afa-2f8b-4a36-976c-82fd26ef02a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -114,6 +117,9 @@
     </ClCompile>
     <ClCompile Include="CShaderManager_load.cpp">
       <Filter>Engine\Graphics\ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMesh.cpp">
+      <Filter>Engine\Graphics\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="CDrawing.h">
       <Filter>Engine\Graphics\HierModel\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="CMesh.h">
+      <Filter>Engine\Graphics\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

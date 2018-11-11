@@ -15,17 +15,18 @@ class CGraphics : public CHandler
 
 	T2Double V_Screen_Size;
 
-	T2Double V_Camera_Pos;
-	T2Double V_Camera_Speed;
-	double V_Camera_Height;
+
+
+	Vec3d V_Camera_Pos;
+	Vec3d V_Camera_Look;
+	Vec2d V_Camera_Look_Angle;
+
+	Vec3d V_Camera_Speed;
 
 	glm::mat4 V_CTM;
-
 	
-	double V_CrazyParam;
-	bool V_CurrentDrawing; //ui : false
-	
-	//
+	bool V_CurrentDrawing;
+	bool V_ViewMode; // false : 1p, true: 3p
 	double fps = 0;
 
 	LARGE_INTEGER old_count;
@@ -43,8 +44,12 @@ class CGraphics : public CHandler
 	void M_DrawFont(Vec2d p, string str, T4Int rgba);
 	void M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba);
 	void M_DrawItem(Vec3d p, double r, int z);
-
 	void M_DrawNumber(Vec3d p, double r, int num, T4Int rgba);
+
+	void M_ListenMessages(void);
+	bool M_Event_KeyPress(int key, bool special);
+
+
 
 	void M_SetupHieraModels(void);
 

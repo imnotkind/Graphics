@@ -37,8 +37,15 @@ void CCharacter::M_Loop(double t)
 				mq->M_Push(message);
 			}
 		}
-		
 	}
+
+
+	T2Double mp = CUserInput::getInstance()->M_MouseGet_Normalized();
+	double x = 2.0*mp[0] - 1;
+	double y = 2.0*mp[1] - 1;
+
+	V_LookAngle[0] -= x * x*x * 0.1;
+	V_LookAngle[1] -= 0.1 * (1 - abs(V_LookAngle[1] / DTR(70)))*y*y*y;
 }
 
 void CCharacter::M_SuperFire(void)
@@ -62,6 +69,16 @@ void CCharacter::M_MegaFire(void)
 
 	
 }
+
+void CCharacter::M_MoveFirst(T2Double v)
+{
+	T2Double p;
+	double d = V_LookAngle[0];
+	p[0] = v[0] * cos(d) - v[1] * sin(d);
+	p[1] = v[0] * sin(d) + v[1] * cos(d);
+	M_Move(p);
+}
+
 void CCharacter::M_Fire(void)
 {
 	if (V_Power < 25) return;

@@ -44,10 +44,18 @@ void CEngine::M_ListenMessages(void)
 
 	//Input Messages;
 	auto iq = SIQueue::M_GetSingletone(0);
+	auto rq = SIQueue::M_GetSingletone(1);
 	while (!iq->M_Empty())
 	{
 		auto m = iq->M_Pop();
-		if(m.type == "down") M_Event_KeyPress(m.key, m.special);
+		if (m.type == "down")
+		{
+			if (!M_Event_KeyPress(m.key, m.special)) rq->M_Push(m); //not mine!
+		}
+	}
+	while (!rq->M_Empty())
+	{
+		iq->M_Push(rq->M_Pop());
 	}
 
 }
@@ -204,10 +212,10 @@ void CEngine::M_Defeat(void)
 }
 void CEngine::M_MoveRequest(T2Double d)
 {
-	V_Player->M_Move(d);
+	V_Player->M_MoveFirst(d);
 
 	if(M_CheckWallCollision(V_Player))
-		V_Player->M_Move(d *(-1));
+		V_Player->M_MoveFirst(d *(-1));
 }
 void CEngine::M_Loop(void)
 {
@@ -255,19 +263,19 @@ void CEngine::M_CheckKeyPress()
 
 	if (V_IS_Speed > 0.0) speed += sin(V_IS_Speed / 240.0 * PI) *0.15;
 
-	if (iq->M_IfPressed(GLUT_KEY_DOWN, true))
+	if (iq->M_IfPressed(GLUT_KEY_RIGHT, true))
 	{
 		M_MoveRequest(T2Double(0, -V_Grid_Size * speed));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_UP, true))
+	if (iq->M_IfPressed(GLUT_KEY_LEFT, true))
 	{
 		M_MoveRequest(T2Double(0, V_Grid_Size * speed));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_LEFT, true))
+	if (iq->M_IfPressed(GLUT_KEY_DOWN, true))
 	{
 		M_MoveRequest(T2Double(-V_Grid_Size * speed, 0));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_RIGHT, true))
+	if (iq->M_IfPressed(GLUT_KEY_UP, true))
 	{
 		M_MoveRequest(T2Double(V_Grid_Size * speed, 0));
 	}
@@ -301,16 +309,21 @@ void CEngine::M_ItemUse(list<int>& x)
 		V_Player->M_SuperFire();
 	}
 }
-void CEngine::M_Event_KeyPress(int key, bool special)
+bool CEngine::M_Event_KeyPress(int key, bool special)
 {
 
 	if (key == 32 && !special)
 	{
 		V_Animation_Temp = 30;
 		V_Player->M_Fire(); // Space bar
+		return true;
 	}
-	if (key == 'q' && !special) M_ItemUse(V_Player->M_GetItemList());
-	if (key == 'v' && !special) V_CrazyMod = !V_CrazyMod;
+	if (key == 'q' && !special)
+	{
+		M_ItemUse(V_Player->M_GetItemList());
+		return true;
+	}
+	return false;
 }
 T2Int CEngine::M_GetEmptyPlace(void)
 {
@@ -355,7 +368,7 @@ void CEngine::M_Initialize(void)
 	int n_enm = V_Max_Enemies;
 	int n_itm = V_Max_Items;
 
-	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3));
+	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 255, 255, 255), V_Grid_Size * 0.1));
 
 	//place items
 	for (int i = 0; i < n_itm; i++)
