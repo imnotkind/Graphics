@@ -131,6 +131,8 @@ void CGraphics::M_Initialize(CEngine * P)
 
 	V_PEngine = P;
 	V_Screen_Size = T2Double(1080, 1080);
+	auto ui = CUserInput::getInstance();
+	ui->M_SetWinSize(V_Screen_Size);
 
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(0, 0);
@@ -185,13 +187,8 @@ bool CGraphics::M_Event_KeyPress(int key, bool special)
 
 void CGraphics::M_MoveCamera(void)
 {
-	T2Int mp = CUserInput::getInstance()->M_MouseGet();
-	double x = 2.0*mp[0] / V_Screen_Size[0] - 1;
-	double y = 2.0*mp[1] / V_Screen_Size[1] - 1;
-
-	V_Camera_Look_Angle[0] -= x*x*x * 0.1;
-	V_Camera_Look_Angle[1] -= 0.1 * (1 - abs(V_Camera_Look_Angle[1] / DTR(70)))*y*y*y;
-
+	
+	V_Camera_Look_Angle = V_PEngine->V_Player->M_GetLook().convert_gl();
 
 	auto p = V_PEngine->V_Player->M_GetPosition();
 	V_Camera_Pos[0] = p[0];

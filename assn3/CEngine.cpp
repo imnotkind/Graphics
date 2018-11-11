@@ -263,19 +263,19 @@ void CEngine::M_CheckKeyPress()
 
 	if (V_IS_Speed > 0.0) speed += sin(V_IS_Speed / 240.0 * PI) *0.15;
 
-	if (iq->M_IfPressed(GLUT_KEY_DOWN, true))
+	if (iq->M_IfPressed(GLUT_KEY_RIGHT, true))
 	{
 		M_MoveRequest(T2Double(0, -V_Grid_Size * speed));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_UP, true))
+	if (iq->M_IfPressed(GLUT_KEY_LEFT, true))
 	{
 		M_MoveRequest(T2Double(0, V_Grid_Size * speed));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_LEFT, true))
+	if (iq->M_IfPressed(GLUT_KEY_DOWN, true))
 	{
 		M_MoveRequest(T2Double(-V_Grid_Size * speed, 0));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_RIGHT, true))
+	if (iq->M_IfPressed(GLUT_KEY_UP, true))
 	{
 		M_MoveRequest(T2Double(V_Grid_Size * speed, 0));
 	}
@@ -368,7 +368,7 @@ void CEngine::M_Initialize(void)
 	int n_enm = V_Max_Enemies;
 	int n_itm = V_Max_Items;
 
-	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3));
+	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 255, 255, 255), V_Grid_Size * 0.1));
 
 	//place items
 	for (int i = 0; i < n_itm; i++)

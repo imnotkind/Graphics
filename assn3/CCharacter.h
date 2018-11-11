@@ -1,6 +1,7 @@
 #pragma once
 #include "CSomething.h"
 #include "CBullet.h"
+#include "CUserInput.h"
 
 class CCharacter :
 	public CSomething
