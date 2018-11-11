@@ -212,10 +212,10 @@ void CEngine::M_Defeat(void)
 }
 void CEngine::M_MoveRequest(T2Double d)
 {
-	V_Player->M_Move(d);
+	V_Player->M_MoveFirst(d);
 
 	if(M_CheckWallCollision(V_Player))
-		V_Player->M_Move(d *(-1));
+		V_Player->M_MoveFirst(d *(-1));
 }
 void CEngine::M_Loop(void)
 {

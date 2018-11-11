@@ -62,6 +62,16 @@ void CCharacter::M_MegaFire(void)
 
 	
 }
+
+void CCharacter::M_MoveFirst(T2Double v)
+{
+	T2Double p;
+	double d = V_LookAngle[0];
+	p[0] = v[0] * cos(d) - v[1] * sin(d);
+	p[1] = v[0] * sin(d) + v[1] * cos(d);
+	M_Move(p);
+}
+
 void CCharacter::M_Fire(void)
 {
 	if (V_Power < 25) return;
