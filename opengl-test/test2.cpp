@@ -238,8 +238,8 @@ void display1() {
 void translatetoorigin(int p)
 {
 	set<int> group_info[15] = {
-		{0,1},
-		{2},
+		{0},
+		{1,2},
 		{3,4},
 		{5,6},
 		{7,8},
@@ -256,8 +256,8 @@ void translatetoorigin(int p)
 	};
 
 	vec3 group_translation[15] = {
+		{ 0,-100,0 },
 		{ 0,-115,0 },
-		{ 0,-137.5,0 },
 		{ 20,-137.5,0 },
 		{ 47,-137.5,0 },
 		{ 73,-137.5,0 },
@@ -275,7 +275,7 @@ void translatetoorigin(int p)
 
 	pair<float,vec3> group_rotation[15] = {
 		{ 0,{ 0,0,1 } },
-		{ 0,{ 0,0,1 } },
+		{ 180,{ 0,0,1 } },
 		{ 90,{ 0,0,1 } },
 		{ 90,{ 0,0,1 } },
 		{ 90,{ 0,0,1 } },
