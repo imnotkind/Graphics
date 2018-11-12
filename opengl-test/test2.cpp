@@ -380,10 +380,10 @@ void translatetoparent(int p)
 {
 	int l = parent_info[p - 15];
 	if (l != -1) {
-		//translatetoorigin(l);
+		translatetoorigin(l);
 	}
 	
-	translatetoorigin(p);
+	translatetoorigin(p - 15);
 }
 
 
