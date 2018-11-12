@@ -26,6 +26,7 @@ using namespace glm;
 #include <sstream>
 #include <vector>
 #include <set>
+#include <map>
 
 GLuint VertexShaderID;
 GLuint FragmentShaderID;
@@ -273,7 +274,7 @@ void translatetoorigin(int p)
 		{ -8,-8,0 }
 	};
 
-	pair<float,vec3> group_rotation[15] = {
+	pair<float, vec3> group_rotation[15] = {
 		{ 0,{ 0,0,1 } },
 		{ 180,{ 0,0,1 } },
 		{ 90,{ 0,0,1 } },
@@ -289,6 +290,10 @@ void translatetoorigin(int p)
 		{ 0,{ 0,0,1 } },
 		{ 0,{ 0,0,1 } },
 		{ 0,{ 0,0,1 } }
+	};
+
+	map<int, int> parent_info[14] = {
+
 	};
 
 	set<int> a = group_info[p];
