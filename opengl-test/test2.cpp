@@ -123,36 +123,20 @@ int parent_info[15] = {
 	9,
 	10,
 	0,
-	13,
-	14
+	12,
+	13
 };
 
 
-vec3 parent_translation[15] = {
-	{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 },
-{ 0,0,0 }
-};
+
 
 pair<float, vec3> parent_rotation[15] = {
 	{ 0,{ 0,0,1 } },
+{ 180,{ 0,0,1 } },
+{ 90,{ 0,0,1 } },
 { 0,{ 0,0,1 } },
 { 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
+{ -90,{ 0,0,1 } },
 { 0,{ 0,0,1 } },
 { 0,{ 0,0,1 } },
 { 0,{ 0,0,1 } },
@@ -162,6 +146,24 @@ pair<float, vec3> parent_rotation[15] = {
 { 0,{ 0,0,1 } },
 { 0,{ 0,0,1 } },
 { 0,{ 0,0,1 } }
+};
+
+vec3 parent_translation[15] = {
+	{ 0,0,0 },
+{ 0,15,0 },
+{ 18,-23,0 },
+{ 0,-25,0 },
+{ 0,-25,0 },
+{ -18,-23,0 },
+{ 0,-25,0 },
+{ 0,-25,0 },
+{ 0,-35,0 },
+{ -8,-8,0 },
+{ 0,-40,0 },
+{ 0,-40,0 },
+{ 8,-8,0 },
+{ 0,-40,0 },
+{ 0,-40,0 }
 };
 
 
@@ -337,7 +339,7 @@ void display1() {
 	//mvp = Projection * View * Model;
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glUniform4f(colorLoc, 1.0, 0.0, 0.0, 1.0);
-	//glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
 
 
@@ -378,12 +380,33 @@ void translatetoorigin(int p)
 
 void translatetoparent(int p)
 {
-	int l = parent_info[p - 15];
-	if (l != -1) {
-		translatetoorigin(l);
+	set<int> a = group_info[p];
+
+	for (int q : a)
+	{
+		objl::Mesh m = loader.LoadedMeshes[q];
+		cout << m.MeshName << endl;
+
+		glm::mat4 P = glm::mat4(1.0f);
+		P = glm::translate(P, parent_translation[p]);
+		P = glm::rotate(P, glm::radians(parent_rotation[p].first), parent_rotation[p].second);
+
+		glm::mat4 M = glm::mat4(1.0f);
+		M = glm::rotate(M, glm::radians(group_rotation[p].first), group_rotation[p].second);
+		M = glm::translate(M, group_translation[p]);
+
+		for (unsigned int t : m.Indices)
+		{
+			objl::Vertex v = m.Vertices[t];
+			glm::vec4 gv;
+			gv.x = v.Position.X;
+			gv.y = v.Position.Y;
+			gv.z = v.Position.Z;
+			gv.w = 1;
+
+			vertices.push_back(P * M * gv);
+		}
 	}
-	
-	translatetoorigin(p - 15);
 }
 
 
@@ -461,7 +484,11 @@ void init_shader(int p)
 	}
 	else if (15 <= p && p <= 29)
 	{
-		translatetoparent(p);
+		int l = parent_info[p - 15];
+		if (l != -1) {
+			translatetoorigin(l);
+		}
+		translatetoparent(p - 15);
 	}
 
 
