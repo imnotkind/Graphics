@@ -40,6 +40,10 @@ void CGraphics::M_RenderGame(void)
 	V_Models["enemy"]->M_RegisterTrans2(1, am2);
 	V_Models["enemy"]->M_RegisterTrans2(2, am1);
 
+
+	auto old = V_CTM_Temp;
+	V_CTM_Temp = M_GetBillboardMat();
+
 	//render objects
 	for (auto x : V_PEngine->V_Objects)
 	{
@@ -55,7 +59,7 @@ void CGraphics::M_RenderGame(void)
 		}
 		else
 		{
-			M_DrawModel(d.pos.convert_gl(), "square", d.size, d.rotate, d.color);
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.0), "square", d.size, d.rotate, d.color);
 		}
 		
 	}
@@ -73,6 +77,8 @@ void CGraphics::M_RenderGame(void)
 	V_Models["player"]->M_RegisterTrans2(2, am2);
 	
 	M_DrawModel(d.pos.convert_gl(), "player", d.size * 1.0, d.rotate, d.color);
+
+	V_CTM_Temp = old;
 }
 
 void CGraphics::M_RenderUI(void)
@@ -186,7 +192,16 @@ bool CGraphics::M_Event_KeyPress(int key, bool special)
 	return false;
 }
 
+glm::mat4 CGraphics::M_GetBillboardMat(void)
+{
+	auto view = V_CTM_View;
+	view = glm::transpose(view);
+	for (int i = 0; i < 3; i++)
+		view[i][3] = 0;
+	view = glm::transpose(view); //inverse
 
+	return glm::transpose(view);
+}
 void CGraphics::M_MoveCamera(void)
 {
 	
@@ -225,6 +240,8 @@ void CGraphics::M_MoveCamera(void)
 }
 void CGraphics::M_CallbackDisplay()
 {
+	V_CTM_Temp = glm::mat4(1.0);
+
 	static double count = 0;
 	count += 0.02;
 	M_MoveCamera();
@@ -234,9 +251,10 @@ void CGraphics::M_CallbackDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	V_SM->M_UseProgram("prg1");
 	
-	V_CTM = glm::mat4(1.0f);
-	V_CTM = glm::translate(V_CTM, glm::vec3(-1.0, -1.0, 0.0));
-	V_CTM = glm::scale(V_CTM, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
+	V_CTM_Project = glm::mat4(1.0f);
+	V_CTM_Project = glm::translate(V_CTM_Project, glm::vec3(-1.0, -1.0, 0.0));
+	V_CTM_Project = glm::scale(V_CTM_Project, glm::vec3(2.0 / V_Screen_Size[0], 2.0 / V_Screen_Size[1], 1));
+	V_CTM_View = glm::mat4(1.0f);
 	M_RenderUI();
 
 	V_CurrentDrawing = true;
@@ -244,11 +262,9 @@ void CGraphics::M_CallbackDisplay()
 	glm::vec3 v(0.0f);
 	glm::vec3 up(0, 0, 1);
 
-	V_CTM = glm::mat4(1.0f);
-	auto pers = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
-	auto view = glm::lookAt(V_Camera_Pos, V_Camera_Look, up);
-	
-	V_CTM = pers * view;
+	V_CTM_Project = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
+	V_CTM_View = glm::lookAt(V_Camera_Pos, V_Camera_Look, up);
+
 	M_RenderGame();
 	
 
@@ -270,9 +286,9 @@ void CGraphics::M_CallbackIdle()
 void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 {
 	glm::mat4 m;
-	m = V_CTM;
-	m = glm::translate(V_CTM, glm::vec3(p1));
-	m = glm::scale(V_CTM, glm::vec3(p2 - p1));
+	m = V_CTM_Project * V_CTM_View;
+	m = glm::translate(m, glm::vec3(p1));
+	m = glm::scale(m, glm::vec3(p2 - p1));
 	T4Double c;
 	for (int i = 0; i < 4; i++) c[i] = rgba[i] / 255.0;
 	V_Models["line"]->M_Draw(m, c);
@@ -282,8 +298,11 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 {
 
 	glm::mat4 m;
-	m = V_CTM;
+	m = V_CTM_Project * V_CTM_View;
 	m = glm::translate(m, glm::vec3(p));
+
+	m = m * V_CTM_Temp; //billboard
+
 	m = glm::rotate(m, float(rotate), glm::vec3(0.0f,0.0f,1.0f));
 	m = glm::scale(m, glm::vec3(r, r, r));
 

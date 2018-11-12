@@ -23,7 +23,9 @@ class CGraphics : public CHandler
 
 	Vec3d V_Camera_Speed;
 
-	glm::mat4 V_CTM;
+	glm::mat4 V_CTM_View;
+	glm::mat4 V_CTM_Project;
+	glm::mat4 V_CTM_Temp;
 	
 	bool V_CurrentDrawing;
 	bool V_ViewMode; // false : 1p, true: 3p
@@ -37,10 +39,10 @@ class CGraphics : public CHandler
 	void M_RenderUI(void);
 	void M_MoveCamera(void);
 
+	glm::mat4 M_GetBillboardMat(void);
+
 	void M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba);
-
 	void M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int rgba); //lying on xy
-
 	void M_DrawFont(Vec2d p, string str, T4Int rgba);
 	void M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba);
 	void M_DrawItem(Vec3d p, double r, int z);

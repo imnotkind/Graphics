@@ -6,6 +6,7 @@ CCharacter::CCharacter(T2Double p, int i, T4Int c, double r) : CSomething(p, i, 
 {
 	V_OldMP.set(0.5, 0.5);
 	V_Power = 0; V_InvTime = 0; V_SuperTime= 0;
+	V_LookAngle.set(0.0, 0.0);
 }
 void CCharacter::M_GetInvincible(int t)
 {
@@ -45,6 +46,7 @@ void CCharacter::M_Loop(double t)
 }
 void CCharacter::M_CalculateLook(void)
 {
+
 	T2Double mp = CUserInput::getInstance()->M_MouseGet_Normalized();
 	V_OldMP = V_OldMP *0.9 + mp*0.1;
 	mp = V_OldMP;
