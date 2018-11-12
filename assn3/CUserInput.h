@@ -2,6 +2,8 @@
 #include "CHandler.h"
 #include "MessageQueue.h"
 
+#define KEY_LEFT_CLICK (-1)
+
 struct SInputMessage
 {
 	string type;

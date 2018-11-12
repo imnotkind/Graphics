@@ -87,7 +87,16 @@ void cb_mousemove(int x, int y)
 {
 	auto iq = CUserInput::getInstance();
 	iq->M_MouseSet(T2Int(x, y));
-	
+}
+
+void cb_mouseclick(int button, int state, int x, int y)
+{
+	auto iq = CUserInput::getInstance();
+	if (button == GLUT_LEFT_BUTTON)
+	{
+		if (state == GLUT_DOWN) iq->M_PressDown(KEY_LEFT_CLICK, true);
+		if (state == GLUT_UP) iq->M_PressUp(KEY_LEFT_CLICK, true);
+	}
 }
 
 int main(int argc, char **argv) {
@@ -127,6 +136,7 @@ int main(int argc, char **argv) {
 
 	glutMotionFunc(cb_mousemove);
 	glutPassiveMotionFunc(cb_mousemove);
+	glutMouseFunc(cb_mouseclick);
 
 	
 	glewInit();

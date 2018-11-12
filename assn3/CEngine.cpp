@@ -45,6 +45,7 @@ void CEngine::M_ListenMessages(void)
 	//Input Messages;
 	auto iq = SIQueue::M_GetSingletone(0);
 	auto rq = SIQueue::M_GetSingletone(1);
+
 	while (!iq->M_Empty())
 	{
 		auto m = iq->M_Pop();
@@ -263,19 +264,19 @@ void CEngine::M_CheckKeyPress()
 
 	if (V_IS_Speed > 0.0) speed += sin(V_IS_Speed / 240.0 * PI) *0.15;
 
-	if (iq->M_IfPressed(GLUT_KEY_RIGHT, true))
+	if (iq->M_IfPressed('d', false))
 	{
 		M_MoveRequest(T2Double(0, -V_Grid_Size * speed));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_LEFT, true))
+	if (iq->M_IfPressed('a', false))
 	{
 		M_MoveRequest(T2Double(0, V_Grid_Size * speed));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_DOWN, true))
+	if (iq->M_IfPressed('s', false))
 	{
 		M_MoveRequest(T2Double(-V_Grid_Size * speed, 0));
 	}
-	if (iq->M_IfPressed(GLUT_KEY_UP, true))
+	if (iq->M_IfPressed('w', false))
 	{
 		M_MoveRequest(T2Double(V_Grid_Size * speed, 0));
 	}
@@ -312,13 +313,14 @@ void CEngine::M_ItemUse(list<int>& x)
 bool CEngine::M_Event_KeyPress(int key, bool special)
 {
 
-	if (key == 32 && !special)
+	if (key == KEY_LEFT_CLICK && special)
 	{
 		V_Animation_Temp = 30;
 		V_Player->M_Fire(); // Space bar
+		cout << "HIHI" << endl;
 		return true;
 	}
-	if (key == 'q' && !special)
+	if (key == 32 && !special)
 	{
 		M_ItemUse(V_Player->M_GetItemList());
 		return true;

@@ -61,15 +61,13 @@ void CCharacter::M_CalculateLook(void)
 	double yl = 25;
 
 
-	V_LookAngle[0] += -x *0.8;
-	V_LookAngle[1] += -y *0.8;
+	V_LookAngle[0] += -x *1.8;
+	V_LookAngle[1] += -y *1.8;
 
 	if (V_LookAngle[1] > DTR(yl)) V_LookAngle[1] = DTR(yl);
 	if (V_LookAngle[1] < -DTR(yl)) V_LookAngle[1] = -DTR(yl);
 
 	
-
-	cout << x << endl;
 }
 void CCharacter::M_SuperFire(void)
 {
@@ -110,7 +108,7 @@ void CCharacter::M_Fire(void)
 
 	for (int i = -1; i <= 1; i++)
 	{
-		double theta = V_Rotate + DTR(10) * i;
+		double theta = V_LookAngle[0] + DTR(10) * i;
 		double speed = 1;
 
 		message.type = "creation";
