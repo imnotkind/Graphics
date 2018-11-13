@@ -3,23 +3,30 @@
 #include "CHierModel.h"
 #include "OBJ_Loader.h"
 
+struct SMeshGroup
+{
+	set<int> group_members;
+	int group_parent;
+	glm::vec3 trans_origin;
+	pair<float, glm::vec3> rotate_origin;
+	glm::vec3 trans_parent;
+	pair<float, glm::vec3> rotate_parent;
+	
+};
+typedef pair<int, vector<int>> treenode;
 class CMesh :
 	public CHandler
 {
 	shared_ptr <CHierModel> V_Model;
-	
-	vector<objl::Mesh> V_LoadedMeshes;
+	vector<SMeshGroup> V_Groups;
 
-	int V_group_num;
-	vector<set<int>> V_group_info;
-	vector<glm::vec3> V_group_translation;
-	vector<pair<float, glm::vec3>> V_group_rotation;
+	string V_Name;
 
-	vector<int> V_parent_info;
-	vector<pair<float, glm::vec3>> V_parent_rotation;
-	vector<glm::vec3> V_parent_translation;
+	void M_ConstructHierModel(void);
+	void M_Rec_Construct(vector<SHierModelNode>& all, vector<treenode>& treenodes,
+		int root, int sibling);
 public:
-	CMesh(string obj, string meta);
+	CMesh(string meta);
 	shared_ptr<CHierModel> M_GetHierModel(void) { return V_Model; }
 	virtual ~CMesh() {}
 
