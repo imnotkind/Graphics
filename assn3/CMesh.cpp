@@ -9,7 +9,7 @@ CMesh::CMesh(string meta)
 	int V_group_num;
 	string V_obj_name;
 	string V_obj_file_path;
-	int V_group_port;
+	vector<int> V_group_port;
 	vector<set<int>> V_group_info;
 	vector<glm::vec3> V_group_translation;
 	vector<pair<float, glm::vec3>> V_group_rotation;
@@ -46,6 +46,16 @@ CMesh::CMesh(string meta)
 			{
 				getline(is, Line);
 				V_obj_name = Line;
+			}
+
+			if (Line == "%group_port")
+			{
+				getline(is, Line);
+				vector<string> l = StringHelper::M_split(Line,',');
+				for (auto s : l)
+				{
+					V_group_port.push_back(atoi(s.c_str()));
+				}
 			}
 
 			if (Line == "%group_info")
