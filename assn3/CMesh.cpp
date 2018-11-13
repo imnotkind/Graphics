@@ -154,12 +154,12 @@ CMesh::CMesh(string meta)
 
 		V_Groups.emplace_back(G);
 	}
-	
+	M_ConstructHierModel();
 }
 
 
 
-void CMesh::M_Rec_Construct(vector<SHierModelNode>& all, vector<treenode>& treenodes, int root, int sibling)
+void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& treenodes, int root, int sibling)
 {
 	ostringstream os;
 	os << V_Name << "_" << root;
@@ -181,7 +181,7 @@ void CMesh::M_Rec_Construct(vector<SHierModelNode>& all, vector<treenode>& treen
 	N.left_child = t.second.empty() ? -1 : t.second[0];
 	N.right_sibling = sibling;
 
-	all.push_back(N);
+	all[root] = N;
 	
 	for (int i = 0; i < t.second.size(); i++)
 	{
@@ -207,7 +207,12 @@ void CMesh::M_ConstructHierModel(void)
 		}
 		treenodes[V_Groups[i].group_parent].second.push_back(i);
 	}
-	vector<SHierModelNode> all;
+	map<int, SHierModelNode> all;
 	M_Rec_Construct(all, treenodes, root, -1);
-	V_Model.reset(new CHierModel(all));
+	vector<SHierModelNode> result;
+
+	for (int i = 0; i < N; i++)
+		result.push_back(all[i]);
+
+	V_Model.reset(new CHierModel(result));
 }

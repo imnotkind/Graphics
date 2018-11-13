@@ -30,4 +30,12 @@ void CGraphics::M_SetupHieraModels(void)
 		V_Models[k.first] = shared_ptr<CHierModel>(new CHierModel(node));
 	}
 
+	set<string> meshes;
+
+	for (auto k : meshes)
+	{
+		CMesh M(k);
+		V_Models[k] = M.M_GetHierModel();
+	}
+
 }
