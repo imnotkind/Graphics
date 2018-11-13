@@ -1,3 +1,4 @@
+#pragma once
 #include "MainHeader.h"
 
 class StringHelper
