@@ -37,7 +37,20 @@ void CShaderManager::M_LoadShader(string path, string name, int type)
 		V_FragShaders[name] = id;
 
 }
+void CShaderManager::M_LoadMesh(string path)
+{
+	objl::Loader loader;
+	loader.LoadFile(path);
+	auto mesh = loader.LoadedMeshes;
+	for (auto m : mesh)
+	{
+		m.Indices.size();
+		for (auto i : m.Indices)
+		{
 
+		}
+	}
+}
 void CShaderManager::M_LoadPolygon(string data, string name)
 {
 	//parse data string to float array

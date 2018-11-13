@@ -1,5 +1,6 @@
 #pragma once
 #include "CHandler.h"
+#include "CMesh.h"
 
 #include <fstream>
 #include <sstream>
@@ -16,12 +17,15 @@ class CShaderManager :
 	map<string, GLuint> V_Programs;
 	map<string, GLuint> V_VerShaders;
 	map<string, GLuint> V_FragShaders;
+
 	map<string, SVerArray> V_Polygons;
 	map<string, GLuint> V_Buffers;
 
 	void M_LoadShader(string path, string name, int type);
 	void M_LoadPolygon(string data, string name);
 	void M_LoadProgram(string name, string ver, string frag);
+
+	void M_LoadMesh(string path);
 
 	void M_ParseData(string respath, string line, map<string, string>& t, int mode);
 
