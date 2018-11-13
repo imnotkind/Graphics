@@ -53,32 +53,13 @@ void CShaderManager::M_LoadMesh(string path)
 }
 void CShaderManager::M_LoadPolygon(string data, string name)
 {
-	//parse data string to float array
-	size_t start = data.find("{");
-	size_t end = data.find("}", start + 1);
-	data = data.substr(start + 1, end - start - 1);
 
-	vector<size_t> positions;
-	size_t pos = data.find(",");
-	while (pos != string::npos)
+	vector<float> arr;
+	vector<string> l = StringHelper::M_split(data, ',');
+	for (auto k : l)
 	{
-		positions.push_back(pos);
-		pos = data.find(",", pos + 1);
+		arr.push_back(atof(k.c_str()));
 	}
-
-	int n = positions.size() + 1;
-
-	float * arr = (float *)malloc(n * sizeof(float));
-
-	int i = 0;
-	size_t prev = 0;
-	for (auto p : positions)
-	{
-		arr[i] = atof(data.substr(prev, p - prev).c_str());
-		i++;
-		prev = p + 1;
-	}
-	arr[i] = atof(data.substr(prev, string::npos).c_str());
 
 	GLuint vbid;
 	GLuint vaid;
@@ -87,9 +68,9 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 	glBindVertexArray(vaid);
 	glGenBuffers(1, &vbid);
 	glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * n, arr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, arr.size() * sizeof(float), &arr[0], GL_STATIC_DRAW);
 
-	SVerArray va; va.num = n / 4; va.aindex = vaid;
+	SVerArray va; va.num = l.size() / 4; va.aindex = vaid;
 	V_Polygons[name] = va;
 	V_Buffers[name] = vbid;
 }
@@ -131,7 +112,7 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 }
 
 
-void CShaderManager::M_ParseData(string res_path, string line, map<string, string>& t, int mode)
+void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 {
 	if (mode == 0) //direct
 	{
@@ -140,13 +121,13 @@ void CShaderManager::M_ParseData(string res_path, string line, map<string, strin
 			return;
 		string name = StringHelper::M_trim(l[0]);
 		string path = StringHelper::M_trim(l[1]);
-		t[name] = res_path + path;
+		t[name] = path;
 	}
 
 
 	if (mode == 1) //indirect
 	{
-		ifstream is((res_path+line).c_str(), std::ios::in);
+		ifstream is(line.c_str(), std::ios::in);
 		if (is.is_open())
 		{
 			string subLine = "";

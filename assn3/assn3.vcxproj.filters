@@ -58,6 +58,12 @@
     <Filter Include="Engine\Graphics\Mesh">
       <UniqueIdentifier>{55e65afa-2f8b-4a36-976c-82fd26ef02a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\pol">
+      <UniqueIdentifier>{e64106f8-f7b7-4a4d-8b47-0b10812f7280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\glsl">
+      <UniqueIdentifier>{5f07335c-2a16-47a9-aaf6-6b356b765c77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -197,23 +203,23 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resource\frag.glsl">
-      <Filter>Resource</Filter>
-    </None>
-    <None Include="resource\item.pol">
-      <Filter>Resource</Filter>
-    </None>
-    <None Include="resource\polygon.pol">
-      <Filter>Resource</Filter>
-    </None>
     <None Include="resource\program.prg">
       <Filter>Resource</Filter>
     </None>
-    <None Include="resource\ver.glsl">
-      <Filter>Resource</Filter>
-    </None>
     <None Include="resource\7seg.pol">
-      <Filter>Resource</Filter>
+      <Filter>Resource\pol</Filter>
+    </None>
+    <None Include="resource\item.pol">
+      <Filter>Resource\pol</Filter>
+    </None>
+    <None Include="resource\polygon.pol">
+      <Filter>Resource\pol</Filter>
+    </None>
+    <None Include="resource\ver.glsl">
+      <Filter>Resource\glsl</Filter>
+    </None>
+    <None Include="resource\frag.glsl">
+      <Filter>Resource\glsl</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,9 @@ CMesh::CMesh(string meta)
 	V_Name = meta; // TODO : FIX THIS
 
 	int V_group_num;
+	string V_obj_name;
+	string V_obj_file_path;
+	int V_group_port;
 	vector<set<int>> V_group_info;
 	vector<glm::vec3> V_group_translation;
 	vector<pair<float, glm::vec3>> V_group_rotation;
@@ -21,19 +24,30 @@ CMesh::CMesh(string meta)
 
 	ifstream is((meta).c_str(), std::ios::in);
 	if (is.is_open())
-	{
-		getline(is, Line);
-		if (Line == "%group_number")
-		{
-			getline(is, Line);
-			V_group_num = atoi(Line.c_str());
-			//if (V_group_num != V_LoadedMeshes.size())
-				//CError("Incorrect data format", true);
-		}
+	{	
 		
-
 		while (getline(is, Line))
 		{
+			if (Line == "%group_number")
+			{
+				getline(is, Line);
+				V_group_num = atoi(Line.c_str());
+				//if (V_group_num != V_LoadedMeshes.size())
+				//CError("Incorrect data format", true);
+			}
+
+			if (Line == "%obj_file_path")
+			{
+				getline(is, Line);
+				V_obj_file_path = Line;
+			}
+
+			if (Line == "%obj_name")
+			{
+				getline(is, Line);
+				V_obj_name = Line;
+			}
+
 			if (Line == "%group_info")
 			{
 				for (int i = 0; i < V_group_num; i++)

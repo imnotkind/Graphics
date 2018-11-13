@@ -1,3 +1,9 @@
+%obj_name
+godoku no gurume
+
+%obj_file_path
+resources/OBJ files/dummy_obj.obj
+
 %group_number
 15
 
@@ -51,6 +57,23 @@
 0, 0, 0, 1
 0, 0, 0, 1
 0, 0 ,0, 1
+
+%group_port
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
 
 %parent_info
 -1, 0, 1, 2, 3, 1, 5, 6, 1, 0, 9, 10, 0, 12, 13

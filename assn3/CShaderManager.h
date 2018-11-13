@@ -25,9 +25,9 @@ class CShaderManager :
 	void M_LoadPolygon(string data, string name);
 	void M_LoadProgram(string name, string ver, string frag);
 
-	void M_LoadMesh(string path);
+	void M_ParseData(string line, map<string, string>& t, int mode);
 
-	void M_ParseData(string respath, string line, map<string, string>& t, int mode);
+	void M_LoadMesh(string path);
 
 
 	GLuint V_CurrentProgram;
