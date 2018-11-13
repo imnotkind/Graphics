@@ -26,7 +26,6 @@
 
 #include "TVector.h"
 #include "Pointer.h"
-#include "OBJ_Loader.h"
 
 
 using namespace std;

@@ -136,6 +136,9 @@ CMesh::CMesh(string obj, string meta)
 	else CError("Config file " + meta + " not found.", true);
 
 	//create V_Model
+
+
+	Sleep(3000);
 	
 }
 

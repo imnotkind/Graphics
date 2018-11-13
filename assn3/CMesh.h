@@ -1,6 +1,8 @@
 #pragma once
 #include "CHandler.h"
 #include "CHierModel.h"
+#include "OBJ_Loader.h"
+
 class CMesh :
 	public CHandler
 {
