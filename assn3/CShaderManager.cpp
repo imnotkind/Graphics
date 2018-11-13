@@ -1,5 +1,4 @@
 #include "CShaderManager.h"
-#include "StringHelper.h"
 
 
 CShaderManager::CShaderManager(string res_path,string config_path)
