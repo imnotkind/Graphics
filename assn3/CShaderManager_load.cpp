@@ -37,18 +37,44 @@ void CShaderManager::M_LoadShader(string path, string name, int type)
 		V_FragShaders[name] = id;
 
 }
-void CShaderManager::M_LoadMesh(string path)
+void CShaderManager::M_LoadMesh(string path, string name)
 {
 	objl::Loader loader;
 	loader.LoadFile(path);
 	auto mesh = loader.LoadedMeshes;
+
+	int index = 0;
 	for (auto m : mesh)
 	{
-		m.Indices.size();
+		int n = m.Indices.size() * 4;
+		int k = 0;
+		float* arr = new float[n];
 		for (auto i : m.Indices)
 		{
-
+			arr[k + 0] = m.Vertices[i].Position.X;
+			arr[k + 1] = m.Vertices[i].Position.Y;
+			arr[k + 2] = m.Vertices[i].Position.Z;
+			arr[k + 3] = 1;
+			k += 4;
 		}
+
+		GLuint vbid;
+		GLuint vaid;
+
+		glGenVertexArrays(1, &vaid);
+		glBindVertexArray(vaid);
+		glGenBuffers(1, &vbid);
+		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(float), &arr[0], GL_STATIC_DRAW);
+		delete[] arr;
+
+		ostringstream os;
+		os << name << "_" << index;
+
+		SVerArray va; va.num = n/4; va.aindex = vaid;
+		V_Polygons[os.str()] = va;
+		V_Buffers[os.str()] = vbid;
+		index++;
 	}
 }
 void CShaderManager::M_LoadPolygon(string data, string name)
@@ -151,7 +177,7 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 				string data = StringHelper::M_trim(l[1]);
 
 				if (mode == 2)
-					V_Polygon_suggested_mode[name] = atoi(StringHelper::M_trim(l[2]).c_str);
+					V_Polygon_suggested_mode[name] = atoi(StringHelper::M_trim(l[2]).c_str());
 
 				//invalid string error catch needed
 				t[name] = data;

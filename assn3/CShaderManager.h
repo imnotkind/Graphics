@@ -1,7 +1,6 @@
 #pragma once
 #include "CHandler.h"
-#include "CMesh.h"
-
+#include "OBJ_Loader.h"
 #include <fstream>
 #include <sstream>
 
@@ -28,7 +27,7 @@ class CShaderManager :
 
 	void M_ParseData(string line, map<string, string>& t, int mode);
 
-	void M_LoadMesh(string path);
+	void M_LoadMesh(string path, string name);
 
 
 	GLuint V_CurrentProgram;

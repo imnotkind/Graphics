@@ -11,6 +11,7 @@ struct SMeshGroup
 	pair<float, glm::vec3> rotate_origin;
 	glm::vec3 trans_parent;
 	pair<float, glm::vec3> rotate_parent;
+	int port;
 	
 };
 typedef pair<int, vector<int>> treenode;

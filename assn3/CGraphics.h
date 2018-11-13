@@ -5,7 +5,7 @@
 #include "CHandler.h"
 #include "CShaderManager.h"
 #include "CHierModel.h"
-
+#include "CMesh.h"
 #include <ctime>
 
 class CGraphics : public CHandler
