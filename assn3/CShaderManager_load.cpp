@@ -179,7 +179,7 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 				string data = StringHelper::M_trim(l[1]);
 
 				if (mode == 1)
-					V_Polygon_suggested_mode[name] = atoi(StringHelper::M_trim(l[2]).c_str);
+					V_Polygon_suggested_mode[name] = atoi(StringHelper::M_trim(l[2]).c_str());
 
 				t[name] = data;
 			}
