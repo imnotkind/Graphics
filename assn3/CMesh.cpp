@@ -4,7 +4,7 @@
 //path of obj file and metadata file
 CMesh::CMesh(string meta)
 {
-	V_Name = meta; // TODO : FIX THIS
+	
 
 	int V_group_num;
 	string V_obj_name;
@@ -46,6 +46,7 @@ CMesh::CMesh(string meta)
 			{
 				getline(is, Line);
 				V_obj_name = Line;
+				V_Name = V_obj_name;
 			}
 
 			if (Line == "%group_port")
@@ -175,6 +176,7 @@ CMesh::CMesh(string meta)
 		G.rotate_origin = V_group_rotation[i];
 		G.trans_parent = V_parent_translation[i];
 		G.rotate_parent = V_parent_rotation[i];
+		G.port = V_group_port[i];
 
 		V_Groups.emplace_back(G);
 	}
@@ -198,8 +200,12 @@ void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& tre
 
 	N.draw.reset(new CDrawing(D));
 	N.port = 0; //TODO
+
 	N.trans = glm::translate(glm::mat4(1.0), V_Groups[root].trans_parent);
 	N.trans = glm::rotate(N.trans,V_Groups[root].rotate_parent.first, V_Groups[root].rotate_parent.second);
+
+	N.trans_s = glm::translate(glm::mat4(1.0), V_Groups[root].trans_origin);
+	N.trans_s = glm::rotate(N.trans, V_Groups[root].rotate_origin.first, V_Groups[root].rotate_origin.second);
 
 	treenode& t = treenodes[root];
 	N.left_child = t.second.empty() ? -1 : t.second[0];

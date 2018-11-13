@@ -41,8 +41,7 @@ void CGraphics::M_RenderGame(void)
 	V_Models["enemy"]->M_RegisterTrans2(2, am1);
 
 
-	auto old = V_CTM_Temp;
-	V_CTM_Temp = M_GetBillboardMat();
+	
 
 	//render objects
 	for (auto x : V_PEngine->V_Objects)
@@ -51,7 +50,10 @@ void CGraphics::M_RenderGame(void)
 		
 		if (3 <= d.img && d.img <= 7 ) //item
 		{
+			auto old = V_CTM_Temp;
+			V_CTM_Temp = M_GetBillboardMat();
 			M_DrawItem(d.pos.convert_gl(), d.size, d.img - 3);
+			V_CTM_Temp = old;
 		}
 		else if(d.img == 1)
 		{
@@ -78,7 +80,7 @@ void CGraphics::M_RenderGame(void)
 	
 	M_DrawModel(d.pos.convert_gl(), "player", d.size * 1.0, d.rotate, d.color);
 
-	V_CTM_Temp = old;
+	
 }
 
 void CGraphics::M_RenderUI(void)
