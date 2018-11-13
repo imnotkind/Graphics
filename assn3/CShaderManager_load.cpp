@@ -81,7 +81,7 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 {
 
 	vector<string> l = StringHelper::M_split(data, ',');
-	float* arr = new float[l.size() / 3 * 4]; //delete needed
+	float* arr = new float[l.size() / 3 * 4];
 
 	int k = 0;
 	for (int i = 1; i <= l.size(); i++)
@@ -170,16 +170,17 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 			{
 				vector<string> l = StringHelper::M_split(subLine, ':');
 
-				if (l.size() != 3)
+				if(mode == 1 && l.size() != 3)
+					CError("invalid data format", true);
+				if (mode == 2 && l.size() != 2)
 					CError("invalid data format", true);
 
 				string name = StringHelper::M_trim(l[0]);
 				string data = StringHelper::M_trim(l[1]);
 
-				if (mode == 2)
-					V_Polygon_suggested_mode[name] = atoi(StringHelper::M_trim(l[2]).c_str());
+				if (mode == 1)
+					V_Polygon_suggested_mode[name] = atoi(StringHelper::M_trim(l[2]).c_str);
 
-				//invalid string error catch needed
 				t[name] = data;
 			}
 			is.close();
