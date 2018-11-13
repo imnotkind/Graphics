@@ -52,7 +52,7 @@ CShaderManager::CShaderManager(string config_path)
 				while (Line != "%program_end")
 				{
 					
-					M_ParseData(Line, ProgramData, 1);
+					M_ParseData(Line, ProgramData, 2);
 					getline(is, Line);
 				}
 			}

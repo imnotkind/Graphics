@@ -20,6 +20,7 @@ class CShaderManager :
 
 	map<string, SVerArray> V_Polygons;
 	map<string, GLuint> V_Buffers;
+	map<string, int> V_Polygon_suggested_mode;
 
 	void M_LoadShader(string path, string name, int type);
 	void M_LoadPolygon(string data, string name);

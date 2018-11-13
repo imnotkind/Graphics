@@ -54,17 +54,17 @@ void CShaderManager::M_LoadMesh(string path)
 void CShaderManager::M_LoadPolygon(string data, string name)
 {
 
-	vector<float> arr;
 	vector<string> l = StringHelper::M_split(data, ',');
-	int i = 0;
-	for (auto s : l)
+	float* arr = new float[l.size() / 3 * 4]; //delete needed
+
+	int k = 0;
+	for (int i = 1; i <= l.size(); i++)
 	{
-		arr.push_back(atof(s.c_str()));
-		i++;
-		if (i == 3)
+		arr[i - 1 + k] = atof(l[i-1].c_str());
+		if (i % 3 == 0)
 		{
-			arr.push_back(1.0); // w value
-			i = 0;
+			arr[i + k] = 1.0;
+			k++;
 		}
 	}
 
@@ -75,7 +75,8 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 	glBindVertexArray(vaid);
 	glGenBuffers(1, &vbid);
 	glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
-	glBufferData(GL_ARRAY_BUFFER, arr.size() * sizeof(float), &arr[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, l.size() / 3 * 4 * sizeof(float), &arr[0], GL_STATIC_DRAW);
+	
 
 	SVerArray va; va.num = l.size() / 3; va.aindex = vaid;
 	V_Polygons[name] = va;
@@ -125,14 +126,14 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 	{
 		vector<string> l = StringHelper::M_split(line, ':');
 		if (l.size() != 2)
-			return;
+			CError("invalid data format", true);
 		string name = StringHelper::M_trim(l[0]);
 		string path = StringHelper::M_trim(l[1]);
 		t[name] = path;
 	}
 
 
-	if (mode == 1) //indirect
+	if (mode == 1 || mode == 2) //indirect
 	{
 		ifstream is(line.c_str(), std::ios::in);
 		if (is.is_open())
@@ -143,12 +144,13 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 				vector<string> l = StringHelper::M_split(subLine, ':');
 
 				if (l.size() != 3)
-				{
-					is.close();
-					return;
-				}
+					CError("invalid data format", true);
+
 				string name = StringHelper::M_trim(l[0]);
 				string data = StringHelper::M_trim(l[1]);
+
+				if (mode == 2)
+					V_Polygon_suggested_mode[name] = atoi(StringHelper::M_trim(l[2]).c_str);
 
 				//invalid string error catch needed
 				t[name] = data;
