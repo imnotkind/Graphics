@@ -1,7 +1,7 @@
 #include "CShaderManager.h"
 
 
-CShaderManager::CShaderManager(string res_path,string config_path)
+CShaderManager::CShaderManager(string config_path)
 {
 	//parse well and
 	map<string, string> VerShaderPaths;
@@ -10,7 +10,7 @@ CShaderManager::CShaderManager(string res_path,string config_path)
 	map<string, string> ProgramData;
 	string Line = "";
 
-	ifstream is((res_path+config_path).c_str(), std::ios::in);
+	ifstream is(config_path.c_str(), std::ios::in);
 	if (is.is_open())
 	{
 		while (getline(is, Line))
@@ -20,7 +20,7 @@ CShaderManager::CShaderManager(string res_path,string config_path)
 				getline(is, Line);
 				while (Line != "%vs_end")
 				{
-					M_ParseData(res_path, Line, VerShaderPaths, 0);
+					M_ParseData(Line, VerShaderPaths, 0);
 					getline(is, Line);
 				}
 			}
@@ -30,7 +30,7 @@ CShaderManager::CShaderManager(string res_path,string config_path)
 				getline(is, Line);
 				while (Line != "%fs_end")
 				{
-					M_ParseData(res_path, Line, FragShaderPaths, 0);
+					M_ParseData(Line, FragShaderPaths, 0);
 					getline(is, Line);
 				}
 			}
@@ -41,7 +41,7 @@ CShaderManager::CShaderManager(string res_path,string config_path)
 				while (Line != "%polygon_end")
 				{
 					
-					M_ParseData(res_path, Line, PolygonData, 1);
+					M_ParseData(Line, PolygonData, 1);
 					getline(is, Line);
 				}
 			}
@@ -52,7 +52,7 @@ CShaderManager::CShaderManager(string res_path,string config_path)
 				while (Line != "%program_end")
 				{
 					
-					M_ParseData(res_path, Line, ProgramData, 1);
+					M_ParseData(Line, ProgramData, 1);
 					getline(is, Line);
 				}
 			}

@@ -56,9 +56,16 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 
 	vector<float> arr;
 	vector<string> l = StringHelper::M_split(data, ',');
-	for (auto k : l)
+	int i = 0;
+	for (auto s : l)
 	{
-		arr.push_back(atof(k.c_str()));
+		arr.push_back(atof(s.c_str()));
+		i++;
+		if (i == 3)
+		{
+			arr.push_back(1.0); // w value
+			i = 0;
+		}
 	}
 
 	GLuint vbid;
@@ -70,7 +77,7 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 	glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
 	glBufferData(GL_ARRAY_BUFFER, arr.size() * sizeof(float), &arr[0], GL_STATIC_DRAW);
 
-	SVerArray va; va.num = l.size() / 4; va.aindex = vaid;
+	SVerArray va; va.num = l.size() / 3; va.aindex = vaid;
 	V_Polygons[name] = va;
 	V_Buffers[name] = vbid;
 }
@@ -135,7 +142,7 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 			{
 				vector<string> l = StringHelper::M_split(subLine, ':');
 
-				if (l.size() != 2)
+				if (l.size() != 3)
 				{
 					is.close();
 					return;
@@ -143,7 +150,7 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 				string name = StringHelper::M_trim(l[0]);
 				string data = StringHelper::M_trim(l[1]);
 
-				//invalid string error catch
+				//invalid string error catch needed
 				t[name] = data;
 			}
 			is.close();

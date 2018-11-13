@@ -34,7 +34,6 @@ class CShaderManager :
 
 	static CShaderManager* Instance;
 	CShaderManager(string config_path);
-	CShaderManager(string res_path, string config_path);
 	~CShaderManager();
 public:
 	SVerArray M_GetPolygon(string s) { return V_Polygons[s]; }
@@ -45,7 +44,7 @@ public:
 
 	static CShaderManager* getInstance(void)
 	{
-		if (Instance == NULL)Instance = new CShaderManager("resource/","config.txt");
+		if (Instance == NULL)Instance = new CShaderManager("resource/config.txt");
 		return Instance;
 	}
 	static void freeInstance(void)

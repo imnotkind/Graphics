@@ -64,6 +64,9 @@
     <Filter Include="Resource\glsl">
       <UniqueIdentifier>{5f07335c-2a16-47a9-aaf6-6b356b765c77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\obj">
+      <UniqueIdentifier>{16edca21-6857-4104-9b74-8db67e9991db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -228,6 +231,9 @@
     </Text>
     <Text Include="resource\config.txt">
       <Filter>Resource</Filter>
+    </Text>
+    <Text Include="resource\OBJ files\dummy_obj_meta.txt">
+      <Filter>Resource\obj</Filter>
     </Text>
   </ItemGroup>
 </Project>
