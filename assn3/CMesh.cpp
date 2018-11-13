@@ -4,7 +4,12 @@
 //path of obj file and metadata file
 CMesh::CMesh(string obj, string meta)
 {
-	//implement load ^_^
+	//obj load
+	objl::Loader loader;
+	loader.LoadFile(obj);
+	V_LoadedMeshes = loader.LoadedMeshes;
+
+	//metadata load
 	string Line = "";
 
 	ifstream is((meta).c_str(), std::ios::in);
@@ -15,6 +20,8 @@ CMesh::CMesh(string obj, string meta)
 		{
 			getline(is, Line);
 			V_group_num = atoi(Line.c_str());
+			if (V_group_num != V_LoadedMeshes.size())
+				CError("Incorrect data format", true);
 		}
 		
 
