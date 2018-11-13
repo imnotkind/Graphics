@@ -2,6 +2,7 @@
 #include "CMath.h"
 #include "CError.h"
 #include "CGeneral.h"
+#include "StringHelper.h"
 class CHandler
 {
 protected:

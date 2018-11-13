@@ -27,7 +27,7 @@
 #include "TVector.h"
 #include "Pointer.h"
 #include "OBJ_Loader.h"
-#include "StringHelper.h"
+
 
 using namespace std;
 using namespace glm;
