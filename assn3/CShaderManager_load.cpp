@@ -1,5 +1,4 @@
 #include "CShaderManager.h"
-#include "StringHelper.h"
 
 
 void CShaderManager::M_LoadShader(string path, string name, int type)

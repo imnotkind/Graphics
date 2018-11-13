@@ -192,6 +192,9 @@
     <ClInclude Include="CMesh.h">
       <Filter>Engine\Graphics\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="OBJ_Loader.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\frag.glsl">
