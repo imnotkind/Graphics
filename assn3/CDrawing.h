@@ -21,7 +21,7 @@ public:
 	SVerArray V_Array;
 	string V_Program; // what program should be used for this drawing
 	T4Double V_Color; // global color
-	int V_DrawMode; //0 : point, 1 : line, 2 : strip, 3 : strip + line
+	int V_DrawMode; //0 : point, 1 : line, 2 : strip, 3 : strip + line, 4 : triangles, 5: triangles + lines
 	T4Double V_LineColor;
 
 	CDrawing(const SDrawingInfo& s);

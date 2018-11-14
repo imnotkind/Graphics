@@ -46,6 +46,7 @@ void CCharacter::M_Loop(double t)
 }
 void CCharacter::M_CalculateLook(void)
 {
+	return;
 
 	T2Double mp = CUserInput::getInstance()->M_MouseGet_Normalized();
 	V_OldMP = V_OldMP *0.9 + mp*0.1;

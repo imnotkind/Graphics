@@ -35,6 +35,7 @@ protected:
 
 public:
 	void M_RegisterTrans2(int port, glm::mat4 t);
+	void M_ClearTrans2(void) { V_Trans2.clear(); }
 	void M_Draw(glm::mat4 CTM, T4Double color = T4Double(1.0, 1.0, 1.0, 1.0));
 
 	CHierModel(vector<SHierModelNode>& t) { V_Tree = t; }

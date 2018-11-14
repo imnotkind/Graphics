@@ -191,20 +191,25 @@ void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& tre
 
 	SHierModelNode N;
 	SDrawingInfo D;
-	D.DrawMode = 0; // FIX THIS
+	D.DrawMode = 5; // FIX THIS
 	D.Global_Color.set(1.0, 0.0, 1.0, 1.0);
 	D.Line_Color.set(0.0, 1.0, 0.0, 1.0);
 	D.PolygonName = os.str();
 	D.Program = "prg1";
 
+	//D.PolygonName = "square";
+
 	N.draw.reset(new CDrawing(D));
-	N.port = 0; //TODO
+	N.port = V_Groups[root].port; //TODO
 
 	N.trans = glm::translate(glm::mat4(1.0), V_Groups[root].trans_parent);
 	N.trans = glm::rotate(N.trans,V_Groups[root].rotate_parent.first, V_Groups[root].rotate_parent.second);
 
-	N.trans_s = glm::translate(glm::mat4(1.0), V_Groups[root].trans_origin);
-	N.trans_s = glm::rotate(N.trans, V_Groups[root].rotate_origin.first, V_Groups[root].rotate_origin.second);
+	//N.trans_s = glm::scale(glm::mat4(1.0), glm::vec3(10.0, 10.0, 10.0));
+	N.trans_s = glm::rotate(N.trans_s, V_Groups[root].rotate_origin.first, V_Groups[root].rotate_origin.second);
+	N.trans_s = glm::translate(N.trans_s, V_Groups[root].trans_origin);
+
+	
 
 	treenode& t = treenodes[root];
 	N.left_child = t.second.empty() ? -1 : t.second[0];
@@ -214,7 +219,7 @@ void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& tre
 	
 	for (int i = 0; i < t.second.size(); i++)
 	{
-		int next = i == t.second.size() - 1 ? -1 : i + 1;
+		int next = i == t.second.size() - 1 ? -1 : t.second[i + 1];
 		M_Rec_Construct(all, treenodes, t.second[i], next);
 	}
 }
@@ -225,23 +230,27 @@ void CMesh::M_ConstructHierModel(void)
 	vector<treenode> treenodes;
 	treenodes.resize(N);
 
-	int root;
+	for (int i = 0; i < N; i++) //find root and swap with 0th
+	{
+		if (V_Groups[i].group_parent == -1)
+		{
+			swap(V_Groups[i], V_Groups[0]);
+			continue;
+		}
+	}
 	for (int i = 0; i < N; i++)
 	{
 		treenodes[i].first = V_Groups[i].group_parent;
-		if (V_Groups[i].group_parent == -1)
-		{
-			root = i;
-			continue;
-		}
+		if (i == 0) continue;
 		treenodes[V_Groups[i].group_parent].second.push_back(i);
 	}
 	map<int, SHierModelNode> all;
-	M_Rec_Construct(all, treenodes, root, -1);
+	M_Rec_Construct(all, treenodes, 0, -1);
 	vector<SHierModelNode> result;
 
 	for (int i = 0; i < N; i++)
 		result.push_back(all[i]);
+
 
 	V_Model.reset(new CHierModel(result));
 }

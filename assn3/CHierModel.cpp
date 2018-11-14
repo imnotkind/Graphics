@@ -37,6 +37,6 @@ void CHierModel::M_Draw(glm::mat4 CTM, T4Double color)
 	V_NewColor = color;
 	auto s = CShaderManager::getInstance();
 	V_Program = s->M_GetProgram();
-	M_Draw_Rec(0, CTM);
+	M_Draw_Rec(0, CTM); // 0 is root
 }
 

@@ -34,14 +34,12 @@ void CGraphics::M_RenderGame(void)
 	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 
-	V_Models["man"]->M_RegisterTrans2(1, am1);
-	V_Models["man"]->M_RegisterTrans2(2, am2);
+	V_Models["man"]->M_RegisterTrans2(0, am1);
+	V_Models["man"]->M_RegisterTrans2(0, am2);
 
 	V_Models["man"]->M_RegisterTrans2(1, am2);
 	V_Models["man"]->M_RegisterTrans2(2, am1);
-
-
-	
+	V_Models["man"]->M_ClearTrans2();
 
 	//render objects
 	for (auto x : V_PEngine->V_Objects)
@@ -57,7 +55,7 @@ void CGraphics::M_RenderGame(void)
 		}
 		else if(d.img == 1)
 		{
-			M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.8,  d.rotate, d.color);
+			M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.02,  d.rotate, d.color);
 		}
 		else
 		{
@@ -78,7 +76,7 @@ void CGraphics::M_RenderGame(void)
 	V_Models["man"]->M_RegisterTrans2(1, am1);
 	V_Models["man"]->M_RegisterTrans2(2, am2);
 	
-	M_DrawModel(d.pos.convert_gl(), "man", d.size * 1.0, d.rotate, d.color);
+	M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.1, d.rotate, d.color);
 
 	
 }
