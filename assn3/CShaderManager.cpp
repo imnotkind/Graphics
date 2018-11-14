@@ -104,7 +104,7 @@ CShaderManager::CShaderManager(string config_path)
 		}
 		else CError("Mesh meta data " + p + " not found.", true);
 		M_LoadMesh(mpath, mname);
-		V_Meshes.insert(mpath);
+		V_Meshes.insert(p);
 	}
 }
 

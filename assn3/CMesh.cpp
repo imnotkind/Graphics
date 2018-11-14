@@ -166,7 +166,6 @@ CMesh::CMesh(string meta)
 		is.close();
 	}
 	else CError("Config file " + meta + " not found.", true);
-
 	for (int i = 0; i < V_group_num; i++)
 	{
 		SMeshGroup G;
