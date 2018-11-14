@@ -6,7 +6,6 @@
     <ClCompile Include="objloader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OBJ_Loader.h" />
     <ClInclude Include="objloader.hpp" />
   </ItemGroup>
   <ItemGroup>

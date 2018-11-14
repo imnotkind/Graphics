@@ -169,6 +169,7 @@
     <ClCompile Include="CUserInput.cpp" />
     <ClCompile Include="HieraModels.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OBJ_Loader.cpp" />
     <ClCompile Include="StringHelper.h" />
   </ItemGroup>
   <ItemGroup>

@@ -67,6 +67,9 @@
     <Filter Include="Resource\obj">
       <UniqueIdentifier>{16edca21-6857-4104-9b74-8db67e9991db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper\OBJLoader">
+      <UniqueIdentifier>{b34ba27f-9d0c-4946-afd2-8fe4eade3cda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -129,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
       <Filter>Engine\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJ_Loader.cpp">
+      <Filter>Helper\OBJLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,7 +208,7 @@
       <Filter>Engine\Graphics\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="OBJ_Loader.h">
-      <Filter>Helper</Filter>
+      <Filter>Helper\OBJLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

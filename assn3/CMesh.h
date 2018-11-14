@@ -1,7 +1,6 @@
 #pragma once
 #include "CHandler.h"
 #include "CHierModel.h"
-#include "OBJ_Loader.h"
 
 struct SMeshGroup
 {
@@ -27,6 +26,7 @@ class CMesh :
 	void M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& treenodes,
 		int root, int sibling);
 public:
+	string M_GetName(void) { return V_Name; }
 	CMesh(string meta);
 	shared_ptr<CHierModel> M_GetHierModel(void) { return V_Model; }
 	virtual ~CMesh() {}

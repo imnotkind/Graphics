@@ -8,6 +8,9 @@ CShaderManager::CShaderManager(string config_path)
 	map<string, string> FragShaderPaths;
 	map<string, string> PolygonData;
 	map<string, string> ProgramData;
+	
+	set<string> ObjData;
+
 	string Line = "";
 
 	ifstream is(config_path.c_str(), std::ios::in);
@@ -61,6 +64,8 @@ CShaderManager::CShaderManager(string config_path)
 	}
 	else CError("Config file " + config_path + " not found.", true);
 
+	ObjData.insert("resource/OBJ files/dummy_obj_meta.txt");
+
 	for (auto p : VerShaderPaths)
 	{
 		M_LoadShader(p.second, p.first, GL_VERTEX_SHADER);
@@ -76,8 +81,30 @@ CShaderManager::CShaderManager(string config_path)
 	for (auto p : ProgramData)
 	{
 		vector<string> v = StringHelper::M_split(p.second, ',');
-
 		M_LoadProgram(p.first, StringHelper::M_trim(v[0]), StringHelper::M_trim(v[1]));
+	}
+
+	for (auto p : ObjData)
+	{
+		string mname, mpath;
+		ifstream is(p.c_str(), std::ios::in);
+		if (is.is_open())
+		{
+			while (getline(is, Line))
+			{
+				if (Line == "%obj_name")
+				{
+					getline(is, mname);
+				}
+				if (Line == "%obj_file_path")
+				{
+					getline(is, mpath);
+				}
+			}
+		}
+		else CError("Mesh meta data " + p + " not found.", true);
+		M_LoadMesh(mpath, mname);
+		V_Meshes.insert(mpath);
 	}
 }
 

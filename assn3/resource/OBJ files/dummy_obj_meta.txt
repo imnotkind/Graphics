@@ -1,8 +1,8 @@
 %obj_name
-godoku no gurume
+man
 
 %obj_file_path
-resources/OBJ files/dummy_obj.obj
+resource/OBJ files/dummy_obj.obj
 
 %group_number
 15

@@ -34,11 +34,11 @@ void CGraphics::M_RenderGame(void)
 	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 
-	V_Models["player"]->M_RegisterTrans2(1, am1);
-	V_Models["player"]->M_RegisterTrans2(2, am2);
+	V_Models["man"]->M_RegisterTrans2(1, am1);
+	V_Models["man"]->M_RegisterTrans2(2, am2);
 
-	V_Models["enemy"]->M_RegisterTrans2(1, am2);
-	V_Models["enemy"]->M_RegisterTrans2(2, am1);
+	V_Models["man"]->M_RegisterTrans2(1, am2);
+	V_Models["man"]->M_RegisterTrans2(2, am1);
 
 
 	
