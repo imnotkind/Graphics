@@ -22,11 +22,19 @@ void CGraphics::M_RenderGame(void)
 	{
 		for (int j = 0; j < s[1]; j++)
 		{
+			int g = 10 * sin(i*j);
+			int r = 20 * cos(i*j);
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
 			{
 				T2Double cen = T2Double(i, j)*gsize;
 				auto p = cen.convert_gl();
-				M_DrawModel(p, "square", gsize / 2, 0, T4Int(125, 30, 255, 255));
+
+				auto old = V_CTM_Temp;
+				V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 3.0));
+
+				M_DrawModel(p, "cube", gsize / 2 * 0.99, 0, T4Int(125 + r, 30 + g, 255, 255));
+
+				V_CTM_Temp = old;
 			}
 		}
 	}
@@ -55,7 +63,8 @@ void CGraphics::M_RenderGame(void)
 		}
 		else if(d.img == 1)
 		{
-			M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.02,  d.rotate, d.color);
+
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "man", d.size * 0.02,  d.rotate, d.color);
 		}
 		else
 		{
@@ -76,7 +85,7 @@ void CGraphics::M_RenderGame(void)
 	V_Models["man"]->M_RegisterTrans2(1, am1);
 	V_Models["man"]->M_RegisterTrans2(2, am2);
 	
-	M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.1, d.rotate, d.color);
+	if(V_ViewMode) M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.1, d.rotate, d.color);
 
 	
 }
@@ -172,13 +181,18 @@ void CGraphics::M_Initialize2(void)
 void CGraphics::M_ListenMessages(void)
 {
 	auto iq = SIQueue::M_GetSingletone(0);
+	auto rq = SIQueue::M_GetSingletone(1);
 	while (!iq->M_Empty())
 	{
 		auto m = iq->M_Pop();
 		if (m.type == "down")
 		{
-			if (!M_Event_KeyPress(m.key, m.special)) iq->M_Push(m); //not mine!
+			if (!M_Event_KeyPress(m.key, m.special)) rq->M_Push(m); //not mine!
 		}
+	}
+	while (!rq->M_Empty())
+	{
+		iq->M_Push(rq->M_Pop());
 	}
 }
 
@@ -207,10 +221,20 @@ void CGraphics::M_MoveCamera(void)
 	
 	V_Camera_Look_Angle = V_PEngine->V_Player->M_GetLook().convert_gl();
 
-	auto p = V_PEngine->V_Player->M_GetPosition();
-	V_Camera_Pos[0] = p[0];
-	V_Camera_Pos[1] = p[1];
-	V_Camera_Pos[2] = 15;
+	if (V_ViewMode)
+	{
+		auto p = V_PEngine->V_Player->M_GetPosition();
+		V_Camera_Pos[0] = p[0] - cos(V_Camera_Look_Angle[0]) * 5;
+		V_Camera_Pos[1] = p[1] - sin(V_Camera_Look_Angle[0]) * 5;
+		V_Camera_Pos[2] = 15;
+	}
+	else
+	{
+		auto p = V_PEngine->V_Player->M_GetPosition();
+		V_Camera_Pos[0] = p[0];
+		V_Camera_Pos[1] = p[1];
+		V_Camera_Pos[2] = 5;
+	}
 
 	V_Camera_Look = V_Camera_Pos;
 	V_Camera_Look[0] += cos(V_Camera_Look_Angle[0]);
@@ -240,6 +264,8 @@ void CGraphics::M_MoveCamera(void)
 }
 void CGraphics::M_CallbackDisplay()
 {
+	M_ListenMessages();
+
 	V_CTM_Temp = glm::mat4(1.0);
 
 	static double count = 0;
@@ -280,6 +306,7 @@ void CGraphics::M_CallbackReshape(int w, int h)
 
 void CGraphics::M_CallbackIdle()
 {
+	
 	glutPostRedisplay();
 }
 

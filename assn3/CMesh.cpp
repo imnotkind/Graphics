@@ -108,7 +108,7 @@ CMesh::CMesh(string meta)
 						atof(l[3].c_str())
 					);
 
-					V_group_rotation.push_back(pair<float,glm::vec3>(atof(l[0].c_str()),v));
+					V_group_rotation.push_back(pair<float,glm::vec3>((float)DTR(atof(l[0].c_str())),v));
 				}
 			}
 
@@ -140,7 +140,7 @@ CMesh::CMesh(string meta)
 						atof(l[3].c_str())
 					);
 
-					V_parent_rotation.push_back(pair<float, glm::vec3>(atof(l[0].c_str()), v));
+					V_parent_rotation.push_back(pair<float, glm::vec3>((float)DTR(atof(l[0].c_str())), v));
 				}
 			}
 

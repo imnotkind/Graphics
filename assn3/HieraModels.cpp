@@ -20,7 +20,7 @@ void CGraphics::M_SetupHieraModels(void)
 	for (auto k : p->M_GetPolygonList())
 	{
 		SDrawingInfo di;
-		di.DrawMode = 2;
+		di.DrawMode = 3;
 		di.Global_Color = T4Double(1.0, 1.0, 1.0, 1.0);
 		di.PolygonName = k.first;
 		di.Program = "prg1";

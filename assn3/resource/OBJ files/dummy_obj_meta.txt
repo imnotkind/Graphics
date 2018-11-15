@@ -65,7 +65,7 @@ resource/OBJ files/dummy_obj.obj
 -1, 0, 1, 2, 3, 1, 5, 6, 1, 0, 9, 10, 0, 12, 13
 
 %parent_rotation
-0, 0, 0, 1
+90, 1, 0, 0
 180, 0, 0, 1
 90, 0, 0, 1
 0, 0, 0, 1
