@@ -249,10 +249,14 @@ void CMesh::M_ConstructHierModel(void)
 	}
 
 	int max = 29; //TO DO
+	for (int i = 0; i < N; i++)
+		for (auto j : V_Groups[i].group_members)
+			if (j > max) max = j;
+
 	vector<SHierModelNode> result;
 	map<int, SHierModelNode> all;
 
-	M_Rec_Construct(all, treenodes, 0, -1, max);
+	M_Rec_Construct(all, treenodes, 0, -1, N);
 	
 
 	for (int i = 0; i < N; i++)

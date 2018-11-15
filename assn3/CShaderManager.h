@@ -6,7 +6,7 @@
 
 struct SVerArray
 {
-	GLuint aindex;
+	int aindex;
 	int num;
 };
 class CShaderManager :
