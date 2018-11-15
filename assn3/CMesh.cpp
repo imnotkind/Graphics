@@ -184,17 +184,16 @@ CMesh::CMesh(string meta)
 
 
 
-void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& treenodes, int root, int sibling)
+void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& treenodes, int root, int sibling, int off)
 {
-	ostringstream os;
-	os << V_Name << "_" << root;
+	
 
 	SHierModelNode N;
 	SDrawingInfo D;
-	D.DrawMode = 5; // FIX THIS
-	D.Global_Color.set(1.0, 0.0, 1.0, 1.0);
-	D.Line_Color.set(0.0, 1.0, 0.0, 1.0);
-	D.PolygonName = os.str();
+	D.DrawMode = 0;
+	D.Global_Color.set(1.0, 0.0, 0.0, 1.0);
+	D.Line_Color.set(1.0, 1.0, 0.0, 1.0);
+	D.PolygonName = "NULL";
 	D.Program = "prg1";
 
 	//D.PolygonName = "square";
@@ -206,11 +205,15 @@ void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& tre
 	N.trans = glm::rotate(N.trans,V_Groups[root].rotate_parent.first, V_Groups[root].rotate_parent.second);
 
 	//N.trans_s = glm::scale(glm::mat4(1.0), glm::vec3(10.0, 10.0, 10.0));
-	N.trans_s = glm::rotate(N.trans_s, V_Groups[root].rotate_origin.first, V_Groups[root].rotate_origin.second);
+	N.trans_s = glm::rotate(glm::mat4(1.0), V_Groups[root].rotate_origin.first, V_Groups[root].rotate_origin.second);
 	N.trans_s = glm::translate(N.trans_s, V_Groups[root].trans_origin);
 
-	
+	for (auto f : V_Groups[root].group_members)
+	{
+		N.homos.push_back(f + off);
+	}
 
+	
 	treenode& t = treenodes[root];
 	N.left_child = t.second.empty() ? -1 : t.second[0];
 	N.right_sibling = sibling;
@@ -220,7 +223,7 @@ void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& tre
 	for (int i = 0; i < t.second.size(); i++)
 	{
 		int next = i == t.second.size() - 1 ? -1 : t.second[i + 1];
-		M_Rec_Construct(all, treenodes, t.second[i], next);
+		M_Rec_Construct(all, treenodes, t.second[i], next, off);
 	}
 }
 
@@ -244,12 +247,38 @@ void CMesh::M_ConstructHierModel(void)
 		if (i == 0) continue;
 		treenodes[V_Groups[i].group_parent].second.push_back(i);
 	}
-	map<int, SHierModelNode> all;
-	M_Rec_Construct(all, treenodes, 0, -1);
+
+	int max = 29; //TO DO
 	vector<SHierModelNode> result;
+	map<int, SHierModelNode> all;
+
+	M_Rec_Construct(all, treenodes, 0, -1, max);
+	
 
 	for (int i = 0; i < N; i++)
 		result.push_back(all[i]);
+
+	
+	for (int i = 0; i < max; i++)
+	{
+		ostringstream os;
+		os << V_Name << "_" << i;
+
+		SHierModelNode N;
+		SDrawingInfo D;
+		D.DrawMode = 5; // FIX THIS
+		D.Global_Color.set(1.0, 0.0, 0.0, 1.0);
+		D.Line_Color.set(1.0, 1.0, 0.0, 1.0);
+		D.PolygonName = os.str();
+		D.Program = "prg1";
+		
+		N.port = -1;
+		N.draw.reset(new CDrawing(D));
+		N.left_child = -1;
+		N.right_sibling = -1;
+
+		result.emplace_back(N);
+	}
 
 
 	V_Model.reset(new CHierModel(result));

@@ -15,6 +15,8 @@ struct SHierModelNode
 	int left_child;
 	int right_sibling;
 
+	vector<int> homos; // nodes that will be drawed in same time
+
 	SHierModelNode() {
 		trans = glm::mat4(1.0); trans_s = glm::mat4(1.0);  port = -1; left_child = -1; right_sibling = -1;}
 };

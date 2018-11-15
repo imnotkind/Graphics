@@ -24,7 +24,7 @@ class CMesh :
 
 	void M_ConstructHierModel(void);
 	void M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& treenodes,
-		int root, int sibling);
+		int root, int sibling, int off);
 public:
 	string M_GetName(void) { return V_Name; }
 	CMesh(string meta);

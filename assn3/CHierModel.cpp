@@ -26,6 +26,8 @@ void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 	auto temp = CTM * node.trans_s;
 
 	node.draw->M_Draw(temp, V_NewColor);
+	for (auto h : node.homos)
+		V_Tree[h].draw->M_Draw(temp, V_NewColor);
 
 	if (node.left_child != -1) M_Draw_Rec(node.left_child, CTM);
 	CTM = V_MatrixStack.top();  V_MatrixStack.pop();

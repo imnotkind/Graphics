@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objloader.hpp" />
+    <ClInclude Include="OBJ_Loader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="frag.glsl" />

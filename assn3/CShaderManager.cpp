@@ -109,8 +109,9 @@ CShaderManager::CShaderManager(string config_path)
 		vector<string> v = StringHelper::M_split(p.second, ',');
 		M_LoadProgram(p.first, StringHelper::M_trim(v[0]), StringHelper::M_trim(v[1]));
 	}
+	SVerArray temp; temp.aindex = -1; temp.num = 0;
+	V_Polygons["NULL"] = temp;
 
-	
 }
 
 CShaderManager::~CShaderManager()
