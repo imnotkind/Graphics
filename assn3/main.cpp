@@ -43,7 +43,7 @@ void cb_idle()
 		RECT r;
 		HWND h = GetForegroundWindow();
 		GetWindowRect(h, &r);
-		if(h == GetActiveWindow())
+		if(h == GetActiveWindow() && false)
 			glutWarpPointer(r.left + glutGet(GLUT_WINDOW_WIDTH)*0.5,
 				r.top + glutGet(GLUT_WINDOW_HEIGHT)*0.5);
 

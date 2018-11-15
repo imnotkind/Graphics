@@ -47,13 +47,26 @@ void CCharacter::M_Loop(double t)
 void CCharacter::M_CalculateLook(void)
 {
 
+	/*
+	T2Double cp = CUserInput::getInstance()->M_MouseGet_Normalized();
+	cp = cp * 2 - T2Double(1.0, 1.0);
+
+	V_LookAngle[0] = -cp[0] * 3;
+	V_LookAngle[1] = -cp[1] * 2;
+
+	double vl = 25;
+	if (V_LookAngle[1] > DTR(vl)) V_LookAngle[1] = DTR(vl);
+	if (V_LookAngle[1] < -DTR(vl)) V_LookAngle[1] = -DTR(vl);
+
+	return;
+	*/
+
 	T2Double mp = CUserInput::getInstance()->M_MouseGet_Normalized();
-	V_OldMP = V_OldMP *0.9 + mp*0.1;
-	mp = V_OldMP;
+	T2Double kp = mp - V_OldMP;
+	V_OldMP = mp;
 
-
-	double x = 2*mp[0]-1;// -V_OldMP[0];
-	double y = 2*mp[1]-1;// -V_OldMP[1];
+	double x = kp[0];// -V_OldMP[0];
+	double y = kp[1];// -V_OldMP[1];
 
 
 	//x = tanh(x);
@@ -63,8 +76,8 @@ void CCharacter::M_CalculateLook(void)
 	double yl = 25;
 
 
-	V_LookAngle[0] += -x *1.8;
-	V_LookAngle[1] += -y *1.8;
+	V_LookAngle[0] += -x *4.8;
+	V_LookAngle[1] += -y *4.8;
 
 	if (V_LookAngle[1] > DTR(yl)) V_LookAngle[1] = DTR(yl);
 	if (V_LookAngle[1] < -DTR(yl)) V_LookAngle[1] = -DTR(yl);
