@@ -169,7 +169,7 @@ void CEngine::M_CollisionTest(void)
 		if (V_Math->M_2CirclesCollsionTest(c1, r1, c2, r2))
 		{
 			V_Life--;
-			V_IS_Invincible = 40;
+			V_IS_Invincible = 200;
 			V_Player->M_GetInvincible(V_IS_Invincible);
 			if (V_Life == 0)
 			{
@@ -294,12 +294,12 @@ void CEngine::M_ItemUse(list<int>& x)
 	}
 	if (z == 1) // Camera up
 	{
-		V_IS_Camera = 300;
+		V_IS_Camera = 1200;
 	}
 	if (z == 2) // Invincible
 	{
-		V_IS_Invincible = 60 * 2;
-		V_Player->M_GetInvincible(60 * 2);
+		V_IS_Invincible = 200;
+		V_Player->M_GetInvincible(200);
 	}
 	if (z == 3) // Sppeed up
 	{
