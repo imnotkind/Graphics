@@ -250,5 +250,8 @@
     <Text Include="resource\OBJ files\Skeleton_meta.txt">
       <Filter>Resource\obj</Filter>
     </Text>
+    <Text Include="resource\OBJ files\sphere_meta.txt">
+      <Filter>Resource\obj</Filter>
+    </Text>
   </ItemGroup>
 </Project>
