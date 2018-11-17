@@ -82,6 +82,8 @@ void CCharacter::M_CalculateLook(void)
 	if (V_LookAngle[1] > DTR(yl)) V_LookAngle[1] = DTR(yl);
 	if (V_LookAngle[1] < -DTR(yl)) V_LookAngle[1] = -DTR(yl);
 
+	V_Rotate = V_LookAngle[0];
+
 	
 }
 void CCharacter::M_SuperFire(void)
