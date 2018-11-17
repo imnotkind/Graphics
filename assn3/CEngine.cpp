@@ -386,7 +386,14 @@ void CEngine::M_Initialize(void)
 	for (int i = 0; i < n_enm; i++)
 	{
 		auto p = M_GetEmptyPlace();
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
+		vector<int> pr; pr.push_back(5); pr.push_back(3);
+		int pick = V_Math->M_SelectOne(pr);
+		int type;
+		if (pick == 0)
+			type = 1;
+		else
+			type = 8;
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, type, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
 		//p.first->get()->~~ : some initialization
 	}
 
