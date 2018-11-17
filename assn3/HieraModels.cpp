@@ -45,7 +45,7 @@ void CGraphics::M_SetupHieraModels(void)
 	}
 
 	//some manual modifications
-	V_Models["gun"]->M_RegisterTrans2(0, glm::scale(glm::mat4(1.0), glm::vec3(2.0, 2.0, 2.0)));
+	V_Models["gun"]->M_RegisterTrans2(0, glm::scale(glm::mat4(1.0), glm::vec3(4.0, 4.0, 4.0)));
 	V_Models["man"]->M_ConcatHierModel(4, V_Models["gun"].get());
 
 }
