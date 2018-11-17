@@ -46,45 +46,8 @@ void CCharacter::M_Loop(double t)
 }
 void CCharacter::M_CalculateLook(void)
 {
-
-	/*
-	T2Double cp = CUserInput::getInstance()->M_MouseGet_Normalized();
-	cp = cp * 2 - T2Double(1.0, 1.0);
-
-	V_LookAngle[0] = -cp[0] * 3;
-	V_LookAngle[1] = -cp[1] * 2;
-
-	double vl = 25;
-	if (V_LookAngle[1] > DTR(vl)) V_LookAngle[1] = DTR(vl);
-	if (V_LookAngle[1] < -DTR(vl)) V_LookAngle[1] = -DTR(vl);
-
-	return;
-	*/
-
-	T2Double mp = CUserInput::getInstance()->M_MouseGet_Normalized();
-	T2Double kp = mp - V_OldMP;
-	V_OldMP = mp;
-
-	double x = kp[0];// -V_OldMP[0];
-	double y = kp[1];// -V_OldMP[1];
-
-
-	//x = tanh(x);
-	//y = tanh(y);
-
-	int xc = 1;
-	double yl = 25;
-
-
-	V_LookAngle[0] += -x *4.8;
-	V_LookAngle[1] += -y *4.8;
-
-	if (V_LookAngle[1] > DTR(yl)) V_LookAngle[1] = DTR(yl);
-	if (V_LookAngle[1] < -DTR(yl)) V_LookAngle[1] = -DTR(yl);
-
 	V_Rotate = V_LookAngle[0];
 
-	
 }
 void CCharacter::M_SuperFire(void)
 {
@@ -104,7 +67,6 @@ void CCharacter::M_MegaFire(void)
 		message.content = (void*) new CBullet(V_Position, 2, T4Int(255, 0, 0, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
 		mq->M_Push(message);
 	}
-
 	
 }
 
@@ -114,7 +76,8 @@ void CCharacter::M_MoveFirst(T2Double v)
 	double d = V_LookAngle[0];
 	p[0] = v[0] * cos(d) - v[1] * sin(d);
 	p[1] = v[0] * sin(d) + v[1] * cos(d);
-	M_Move(p);
+
+	V_Position += p;
 }
 
 void CCharacter::M_Fire(void)
@@ -125,7 +88,7 @@ void CCharacter::M_Fire(void)
 
 	for (int i = -1; i <= 1; i++)
 	{
-		double theta = V_LookAngle[0] + DTR(10) * i;
+		double theta = V_Rotate + DTR(10) * i;
 		double speed = 1;
 
 		message.type = "creation";

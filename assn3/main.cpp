@@ -40,13 +40,6 @@ void cb_idle()
 		//if ((new_count.QuadPart - old_count.QuadPart) / (freq.QuadPart/1000000.0) < 1000000.0 * (1 / 700.0)) return;
 		if (((new_count.QuadPart - old_count.QuadPart) * 1000000) / freq.QuadPart < 1000000 / 90) return;
 
-		RECT r;
-		HWND h = GetForegroundWindow();
-		GetWindowRect(h, &r);
-		if(h == GetActiveWindow() && false)
-			glutWarpPointer(r.left + glutGet(GLUT_WINDOW_WIDTH)*0.5,
-				r.top + glutGet(GLUT_WINDOW_HEIGHT)*0.5);
-
 		old_count = new_count;
 
 		Graphics.M_CallbackIdle();

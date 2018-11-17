@@ -24,6 +24,7 @@ public:
 	void M_GetInvincible(int t);
 
 	T2Double M_GetLook(void) { return V_LookAngle; }
+	void M_Rotate(double r) { V_LookAngle[0] += r; }
 	void M_MoveFirst(T2Double v); //with looking direction
 
 	list<int>& M_GetItemList(void) {return V_Items;}

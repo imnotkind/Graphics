@@ -44,10 +44,10 @@ void CGraphics::M_RenderGame(void)
 	auto am3 = glm::rotate(glm::mat4(1.0), (float)(sin(anim * 1.4) * 0.3 * PI), glm::vec3(0.0, 0.0, 1.0));
 	auto am4 = glm::rotate(glm::mat4(1.0), (float)(sin(anim * 1.4) * 0.3 * PI), glm::vec3(0.0, 0.0, 1.0));
 
-	V_Models["man"]->M_ClearTrans2();
-	V_Models["man"]->M_RegisterTrans2(0, am1);
-	V_Models["man"]->M_RegisterTrans2(1, am2);
-	V_Models["man"]->M_RegisterTrans2(2, am3);
+	V_Models["enemy"]->M_ClearTrans2();
+	V_Models["enemy"]->M_RegisterTrans2(0, am1);
+	V_Models["enemy"]->M_RegisterTrans2(1, am2);
+	V_Models["enemy"]->M_RegisterTrans2(2, am3);
 
 
 	//render objects
@@ -65,7 +65,7 @@ void CGraphics::M_RenderGame(void)
 		else if(d.img == 1)
 		{
 
-			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "man", d.size * 0.02,  d.rotate +DTR(90), d.color);
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "enemy", d.size * 0.02,  d.rotate +DTR(90), d.color);
 		}
 		else //bullet
 		{
@@ -86,12 +86,15 @@ void CGraphics::M_RenderGame(void)
 
 	if (V_PEngine->V_Animation_Temp > 0)
 	{
-		am1 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-100.0), glm::vec3(1.0, 0.0, 0.0));
+		double t = -(V_PEngine->V_Animation_Temp - 30) / 30.0;
+	
+		t = sin(log(t * 20 + 1));
+		am1 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-100.0 * t), glm::vec3(1.0, 0.0, 0.0));
 
 		//am1 = glm::rotate(am1, (float)glm::radians(70.0 - (V_PEngine->V_Animation_Temp) / 30.0 * 70.0), glm::vec3(0.0, 0.0, 1.0));
 
 
-		am2 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-100.0), glm::vec3(1.0, 0.0, 0.0));
+		am2 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-100.0 * t), glm::vec3(1.0, 0.0, 0.0));
 		//am1 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 0.0, 1.0));
 		//am2 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 1.0, 0.0));
 	}
@@ -105,7 +108,7 @@ void CGraphics::M_RenderGame(void)
 	
 	
 	if(V_ViewMode) 
-		M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.1, d.rotate + DTR(90), d.color);
+		M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.02, d.rotate + DTR(90), d.color);
 
 	
 }
@@ -238,15 +241,25 @@ glm::mat4 CGraphics::M_GetBillboardMat(void)
 }
 void CGraphics::M_MoveCamera(void)
 {
-	
+	double static olda = 0.0;
 	V_Camera_Look_Angle = V_PEngine->V_Player->M_GetLook().convert_gl();
+	olda = olda * 0.9 + V_Camera_Look_Angle[0]*0.1;
 
+	
 	if (V_ViewMode)
 	{
+		auto ui = CUserInput::getInstance();
+		double d = 1-ui->M_MouseGet_Normalized()[1];
+
 		auto p = V_PEngine->V_Player->M_GetPosition();
-		V_Camera_Pos[0] = p[0] - cos(V_Camera_Look_Angle[0]) * 15;
-		V_Camera_Pos[1] = p[1] - sin(V_Camera_Look_Angle[0]) * 15;
-		V_Camera_Pos[2] = 10;
+		V_Camera_Pos[0] = p[0] - cos(olda) * (15 + 15*d);
+		V_Camera_Pos[1] = p[1] - sin(olda) * (15 + 15*d);
+		V_Camera_Pos[2] = 20;
+
+		V_Camera_Look = V_Camera_Pos;
+		V_Camera_Look[0] += (20 + 15*d)*cos(V_Camera_Look_Angle[0]);
+		V_Camera_Look[1] += (20 + 15 * d)*sin(V_Camera_Look_Angle[0]);
+		V_Camera_Look[2] = 5;
 	}
 	else
 	{
@@ -254,32 +267,15 @@ void CGraphics::M_MoveCamera(void)
 		V_Camera_Pos[0] = p[0];
 		V_Camera_Pos[1] = p[1];
 		V_Camera_Pos[2] = 5;
+
+		V_Camera_Look = V_Camera_Pos;
+		V_Camera_Look[0] += cos(V_Camera_Look_Angle[0]);
+		V_Camera_Look[1] += sin(V_Camera_Look_Angle[0]);
+		V_Camera_Look[2] += sin(V_Camera_Look_Angle[1]);
 	}
-
-	V_Camera_Look = V_Camera_Pos;
-	V_Camera_Look[0] += cos(V_Camera_Look_Angle[0]);
-	V_Camera_Look[1] += sin(V_Camera_Look_Angle[0]);
-	V_Camera_Look[2] += sin(V_Camera_Look_Angle[1]);
-
 
 
 	return;
-
-	/*
-	auto p = V_PEngine->V_Player->M_GetPosition();
-	auto c = V_Camera_Pos;
-	
-	auto a = p - c;
-	a = V_Math->M_2TV_Normalize(a);
-	auto d = V_Math->M_2TV_Angle(p, c);
-	a *=  d[1];
-	a *= 0.003;
-
-	V_Camera_Speed += a;
-	V_Camera_Speed *= 0.9;
-	
-	V_Camera_Pos += V_Camera_Speed;
-	*/
 
 }
 void CGraphics::M_CallbackDisplay()

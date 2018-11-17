@@ -266,15 +266,15 @@ void CEngine::M_CheckKeyPress()
 
 	if (iq->M_IfPressed('d', false))
 	{
-		M_MoveRequest(T2Double(0, -V_Grid_Size * speed));
+		V_Player->M_Rotate(-0.03);
 	}
 	if (iq->M_IfPressed('a', false))
 	{
-		M_MoveRequest(T2Double(0, V_Grid_Size * speed));
+		V_Player->M_Rotate(0.03);
 	}
 	if (iq->M_IfPressed('s', false))
 	{
-		M_MoveRequest(T2Double(-V_Grid_Size * speed, 0));
+		//M_MoveRequest(T2Double(-V_Grid_Size * speed, 0));
 	}
 	if (iq->M_IfPressed('w', false))
 	{
@@ -369,7 +369,7 @@ void CEngine::M_Initialize(void)
 	int n_enm = V_Max_Enemies;
 	int n_itm = V_Max_Items;
 
-	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 255, 255, 255), V_Grid_Size * 0.1));
+	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3));
 
 	//place items
 	for (int i = 0; i < n_itm; i++)

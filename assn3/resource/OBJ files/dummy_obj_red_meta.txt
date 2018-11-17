@@ -1,8 +1,8 @@
 %obj_name
-man
+enemy
 
 %obj_file_path
-resource/OBJ files/dummy_obj.obj
+resource/OBJ files/dummy_obj_red.obj
 
 %group_number
 15
@@ -99,7 +99,7 @@ resource/OBJ files/dummy_obj.obj
 0, -40, 0
 
 %line_color
-0, 0, 0, 255
+255, 255, 0, 255
 
 %surface_color
-0, 0, 200, 255
+0, 50, 200, 255
