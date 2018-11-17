@@ -18,8 +18,8 @@ CMesh::CMesh(string meta)
 	vector<pair<float, glm::vec3>> parent_rotation;
 	vector<glm::vec3> parent_translation;
 
-	glm::vec4 line_color;
-	glm::vec4 surface_color;
+	T4Double line_color;
+	T4Double surface_color;
 
 
 	//metadata load
@@ -174,15 +174,12 @@ CMesh::CMesh(string meta)
 				if (l.size() != 4)
 					CError("Incorrect data format", true);
 
-				glm::vec4 v(
+				line_color.set(
 					atoi(l[0].c_str()) / 255.0,
 					atoi(l[1].c_str()) / 255.0,
 					atoi(l[2].c_str()) / 255.0,
 					atoi(l[3].c_str()) / 255.0
 				);
-
-				line_color = v;
-				
 			}
 
 			if (Line == "%surface_color")
@@ -193,14 +190,13 @@ CMesh::CMesh(string meta)
 				if (l.size() != 4)
 					CError("Incorrect data format", true);
 
-				glm::vec4 v(
+				surface_color.set(
 					atoi(l[0].c_str()) / 255.0,
 					atoi(l[1].c_str()) / 255.0,
 					atoi(l[2].c_str()) / 255.0,
 					atoi(l[3].c_str()) / 255.0
 				);
 
-				surface_color = v;
 
 			}
 		}
@@ -220,6 +216,9 @@ CMesh::CMesh(string meta)
 
 		V_Groups.emplace_back(G);
 	}
+
+	V_LineColor = line_color;
+	V_SurfaceColor = surface_color;
 	M_ConstructHierModel();
 }
 
@@ -313,8 +312,8 @@ void CMesh::M_ConstructHierModel(void)
 		SDrawingInfo D;
 
 		
-		D.Global_Color.set(1.0, 0.0, 0.0, 1.0);
-		D.Line_Color.set(1.0, 1.0, 0.0, 1.0);
+		D.Global_Color = V_SurfaceColor;
+		D.Line_Color = V_LineColor;
 		D.PolygonName = os.str();
 		D.Program = "prg1";
 

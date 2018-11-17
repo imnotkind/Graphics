@@ -17,6 +17,9 @@ typedef pair<int, vector<int>> treenode;
 class CMesh :
 	public CHandler
 {
+	T4Double V_LineColor;
+	T4Double V_SurfaceColor;
+
 	shared_ptr <CHierModel> V_Model;
 	vector<SMeshGroup> V_Groups;
 
