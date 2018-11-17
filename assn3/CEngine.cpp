@@ -204,7 +204,6 @@ void CEngine::M_ItemState(void)
 	if (V_IS_Invincible > 0) V_IS_Invincible -= 1.0;
 	if (V_IS_Speed > 0) V_IS_Speed -= 1.0;
 
-	if (V_IS_Camera < 0) V_IS_Camera = 0.0;
 }
 void CEngine::M_Defeat(void)
 {
@@ -294,7 +293,7 @@ void CEngine::M_ItemUse(list<int>& x)
 	}
 	if (z == 1) // Camera up
 	{
-		V_IS_Camera = 1200;
+		V_IS_Camera = 600;
 	}
 	if (z == 2) // Invincible
 	{
