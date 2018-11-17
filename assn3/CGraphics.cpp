@@ -15,32 +15,6 @@ void CGraphics::M_RenderGame(void)
 	static double anim = 0.0;
 	anim += 0.05;
 
-	//render map
-	double gsize = V_PEngine->V_Grid_Size;
-	auto s = V_PEngine->V_Map.size;
-	for (int i = 0; i < s[0]; i++)
-	{
-		for (int j = 0; j < s[1]; j++)
-		{
-			int g = 10 * sin(i*j);
-			int r = 20 * cos(i*j);
-			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
-			{
-				T2Double cen = T2Double(i, j)*gsize;
-				auto p = cen.convert_gl();
-
-				auto old = V_CTM_Temp;
-				V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 3.0));
-
-				if(V_PEngine->V_IS_Camera)
-					M_DrawModel(p, "cube0", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 200));
-				else
-					M_DrawModel(p, "cube1", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 255));
-
-				V_CTM_Temp = old;
-			}
-		}
-	}
 
 	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
@@ -80,8 +54,8 @@ void CGraphics::M_RenderGame(void)
 		}
 		
 	}
-	//render player
 
+	//render player
 	auto d = V_PEngine->V_Player->M_GetDrawData();
 	am1 = glm::rotate(glm::mat4(1.0), (float)glm::radians(70.0), glm::vec3(0.0, 0.0, 1.0));
 	am1 = glm::rotate(am1, (float)(sin(anim) * 0.2 * PI), glm::vec3(1.0, 0.0, 0.0));
@@ -106,11 +80,34 @@ void CGraphics::M_RenderGame(void)
 	V_Models["man"]->M_RegisterTrans2(12, am4);
 	
 	
-	
-	//if(V_ViewMode || true) 
-		M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.02, d.rotate + DTR(90), d.color);
+	M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.02, d.rotate + DTR(90), d.color);
 
-	
+	//render map
+	double gsize = V_PEngine->V_Grid_Size;
+	auto s = V_PEngine->V_Map.size;
+	for (int i = 0; i < s[0]; i++)
+	{
+		for (int j = 0; j < s[1]; j++)
+		{
+			int g = 10 * sin(i*j);
+			int r = 20 * cos(i*j);
+			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
+			{
+				T2Double cen = T2Double(i, j)*gsize;
+				auto p = cen.convert_gl();
+
+				auto old = V_CTM_Temp;
+				V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 3.0));
+
+				if(V_PEngine->V_IS_Camera)
+					M_DrawModel(p, "cube1", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 255 - 200 * sin((V_PEngine->V_IS_Camera / 600.0) * (PI))));
+				else
+					M_DrawModel(p, "cube1", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 255));
+
+				V_CTM_Temp = old;
+			}
+		}
+	}
 }
 
 void CGraphics::M_RenderUI(void)
