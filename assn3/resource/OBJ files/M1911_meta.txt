@@ -27,3 +27,9 @@ resource/OBJ files/M1911.obj
 
 %parent_translation
 0, 0, 0
+
+%line_color
+0, 0, 0, 255
+
+%surface_color
+0, 255, 0, 255

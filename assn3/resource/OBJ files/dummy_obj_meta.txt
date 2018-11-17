@@ -97,3 +97,9 @@ resource/OBJ files/dummy_obj.obj
 8, -8, 0
 0, -40, 0
 0, -40, 0
+
+%line_color
+0, 0, 0, 255
+
+%surface_color
+255, 0, 0, 255

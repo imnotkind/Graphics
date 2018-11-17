@@ -18,6 +18,9 @@ CMesh::CMesh(string meta)
 	vector<pair<float, glm::vec3>> parent_rotation;
 	vector<glm::vec3> parent_translation;
 
+	glm::vec4 line_color;
+	glm::vec4 surface_color;
+
 
 	//metadata load
 	string Line = "";
@@ -161,6 +164,44 @@ CMesh::CMesh(string meta)
 
 					parent_translation.push_back(v);
 				}
+			}
+
+			if (Line == "%line_color")
+			{
+
+				getline(is, Line);
+				vector<string> l = StringHelper::M_split(Line, ',');
+				if (l.size() != 4)
+					CError("Incorrect data format", true);
+
+				glm::vec4 v(
+					atoi(l[0].c_str()) / 255.0,
+					atoi(l[1].c_str()) / 255.0,
+					atoi(l[2].c_str()) / 255.0,
+					atoi(l[3].c_str()) / 255.0
+				);
+
+				line_color = v;
+				
+			}
+
+			if (Line == "%surface_color")
+			{
+
+				getline(is, Line);
+				vector<string> l = StringHelper::M_split(Line, ',');
+				if (l.size() != 4)
+					CError("Incorrect data format", true);
+
+				glm::vec4 v(
+					atoi(l[0].c_str()) / 255.0,
+					atoi(l[1].c_str()) / 255.0,
+					atoi(l[2].c_str()) / 255.0,
+					atoi(l[3].c_str()) / 255.0
+				);
+
+				surface_color = v;
+
 			}
 		}
 		is.close();
