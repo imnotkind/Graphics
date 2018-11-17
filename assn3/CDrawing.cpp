@@ -47,5 +47,9 @@ void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)
 		glDrawArrays(GL_TRIANGLES, 0, V_Array.num);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // back to default
 	}
+	else if (V_DrawMode == 6)
+	{
+		glDrawArrays(GL_LINES, 0, V_Array.num);
+	}
 }
 

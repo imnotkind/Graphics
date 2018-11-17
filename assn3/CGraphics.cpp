@@ -33,7 +33,7 @@ void CGraphics::M_RenderGame(void)
 				V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 3.0));
 
 				if(V_PEngine->V_IS_Camera)
-					M_DrawModel(p, "cube1", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 10));
+					M_DrawModel(p, "cube0", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 200));
 				else
 					M_DrawModel(p, "cube1", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 255));
 
