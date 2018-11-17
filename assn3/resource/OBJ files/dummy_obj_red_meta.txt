@@ -99,7 +99,7 @@ resource/OBJ files/dummy_obj_red.obj
 0, -40, 0
 
 %line_color
-255, 255, 0, 255
+255, 255, 255, 255
 
 %surface_color
-0, 50, 200, 255
+0, 0, 255, 255

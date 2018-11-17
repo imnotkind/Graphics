@@ -108,6 +108,15 @@ void CGraphics::M_RenderGame(void)
 			}
 		}
 	}
+
+	auto old = V_CTM_Temp;
+	auto midx = gsize * s[0] / 2.0;
+	auto midy = gsize * s[1] / 2.0;
+	V_CTM_Temp = glm::translate(V_CTM_Temp, glm::vec3(0, 0, -gsize*1.5));
+	V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 0.01));
+	
+	M_DrawModel(glm::vec3(midx, midy, 0), "cube1", midx, 0, T4Int(150, 150, 100, 255));
+	V_CTM_Temp = old;
 }
 
 void CGraphics::M_RenderUI(void)
