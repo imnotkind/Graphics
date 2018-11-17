@@ -66,9 +66,9 @@ void CGraphics::M_RenderGame(void)
 
 			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "man", d.size * 0.02,  d.rotate +DTR(90), d.color);
 		}
-		else
+		else //bullet
 		{
-			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.0), "square", d.size, d.rotate, d.color);
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.0), "cube", d.size, d.rotate, d.color);
 		}
 		
 	}
