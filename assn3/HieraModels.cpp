@@ -25,12 +25,11 @@ void CGraphics::M_SetupHieraModels(void)
 		di.PolygonName = k.first;
 		di.Program = "prg1";
 
-		auto m = p->V_Polygon_suggested_mode;
+		auto& m = p->V_Polygon_suggested_mode;
 		if (m.find(di.PolygonName) != m.end())
 			di.DrawMode = m[di.PolygonName];
 		else
 			di.DrawMode = 2;
-		
 
 		SHierModelNode node;
 		node.draw.reset(new CDrawing(di));
@@ -45,6 +44,8 @@ void CGraphics::M_SetupHieraModels(void)
 		V_Models[M.M_GetName()] = M.M_GetHierModel();
 	}
 
-	V_Models["gun"]->M_ConcatHierModel(4, V_Models["gun"].get());
+	//some manual modifications
+	V_Models["gun"]->M_RegisterTrans2(0, glm::scale(glm::mat4(1.0), glm::vec3(2.0, 2.0, 2.0)));
+	V_Models["man"]->M_ConcatHierModel(4, V_Models["gun"].get());
 
 }
