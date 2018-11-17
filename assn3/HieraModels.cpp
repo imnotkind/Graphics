@@ -24,6 +24,7 @@ void CGraphics::M_SetupHieraModels(void)
 		di.Global_Color = T4Double(1.0, 1.0, 1.0, 1.0);
 		di.PolygonName = k.first;
 		di.Program = "prg1";
+		di.Line_Color = T4Double(0.0, 0.0, 0.0, 1.0);
 
 		auto& m = p->V_Polygon_suggested_mode;
 		if (m.find(di.PolygonName) != m.end())
