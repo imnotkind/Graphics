@@ -84,8 +84,9 @@ void CGraphics::M_RenderGame(void)
 
 	V_Models["man"]->M_RegisterTrans2(1, am1);
 	V_Models["man"]->M_RegisterTrans2(2, am2);
+	V_Models["man"]->M_ClearTrans2();
 	
-	if(V_ViewMode) M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.1, d.rotate, d.color);
+	if(V_ViewMode) M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.1, d.rotate + DTR(90), d.color);
 
 	
 }
