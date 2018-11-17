@@ -55,115 +55,28 @@ objl::Loader loader;
 
 int meshcount = 0;
 
-set<int> group_info[15] = {
-	{ 0 },
-{ 1,2 },
-{ 3,4 },
-{ 5,6 },
-{ 7,8 },
-{ 9,10 },
-{ 11,12 },
-{ 13,14 },
-{ 15,16 },
-{ 17,18 },
-{ 19,20 },
-{ 21,22 },
-{ 23,24 },
-{ 25,26 },
-{ 27,28 }
+set<int> group_info[1] = {
+	{ 0, 1, 2, 3, 4, 5, 6 },
 };
 
-vec3 group_translation[15] = {
-	{ 0,-100,0 },
-{ 0,-115,0 },
-{ 20,-137.5,0 },
-{ 47,-137.5,0 },
-{ 73,-137.5,0 },
-{ -20,-137.5,0 },
-{ -47,-137.5,0 },
-{ -73,-137.5,0 },
-{ 0,-150,0 },
-{ 8,-93,0 },
-{ 8,-48,0 },
-{ 8,-8,0 },
-{ -8,-93,0 },
-{ -8,-48,0 },
-{ -8,-8,0 }
+vec3 group_translation[1] = {
+	{ 0,-7,-5 }
 };
 
-pair<float, vec3> group_rotation[15] = {
-	{ 0,{ 0,0,1 } },
-{ 180,{ 0,0,1 } },
-{ 90,{ 0,0,1 } },
-{ 90,{ 0,0,1 } },
-{ 90,{ 0,0,1 } },
-{ -90,{ 0,0,1 } },
-{ -90,{ 0,0,1 } },
-{ -90,{ 0,0,1 } },
-{ 180,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } }
+pair<float, vec3> group_rotation[1] = {
+	{ 180,{ 0,1,0 } }
 };
 
-int parent_info[15] = {
-	-1,
-	0,
-	1,
-	2,
-	3,
-	1,
-	5,
-	6,
-	1,
-	0,
-	9,
-	10,
-	0,
-	12,
-	13
+int parent_info[1] = {
+	-1
 };
 
-
-
-
-pair<float, vec3> parent_rotation[15] = {
-	{ 0,{ 0,0,1 } },
-{ 180,{ 0,0,1 } },
-{ 90,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ -90,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } },
-{ 0,{ 0,0,1 } }
+pair<float, vec3> parent_rotation[1] = {
+	{ 0,{ 0,0,1 } }
 };
 
-vec3 parent_translation[15] = {
-	{ 0,0,0 },
-{ 0,15,0 },
-{ 18,-23,0 },
-{ 0,-25,0 },
-{ 0,-25,0 },
-{ -18,-23,0 },
-{ 0,-25,0 },
-{ 0,-25,0 },
-{ 0,-35,0 },
-{ -8,-8,0 },
-{ 0,-40,0 },
-{ 0,-40,0 },
-{ 8,-8,0 },
-{ 0,-40,0 },
-{ 0,-40,0 }
+vec3 parent_translation[1] = {
+	{ 0,0,0 }
 };
 
 
@@ -287,7 +200,7 @@ void display1() {
 
 
 	glm::mat4 Projection = glm::perspective(glm::radians(100.0f), 1.0f, 0.1f, 1000.0f);
-	glm::mat4 View = glm::lookAt(glm::vec3(0, 0, 150), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glm::mat4 View = glm::lookAt(glm::vec3(0, 0, 30), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 mvp = Projection * View * Model;
 
@@ -328,6 +241,7 @@ void display1() {
 
 	//our object
 	Model = glm::mat4(1.0f);
+	//Model = glm::scale(glm::mat4(1.0f), glm::vec3(10, 10, 10));
 	mvp = Projection * View * Model;
 
 	glBindVertexArray(VertexArrayID3);
@@ -335,11 +249,13 @@ void display1() {
 	glUniform4f(colorLoc, 1.0, 1.0, 0.0, 1.0);
 	glDrawArrays(GL_LINES, 0, vertices.size());
 
-	//Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.95, 0.95, 0.95));
-	//mvp = Projection * View * Model;
+	/*
+	Model = glm::scale(glm::mat4(1.0f), glm::vec3(10, 10, 10));
+	mvp = Projection * View * Model;
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glUniform4f(colorLoc, 1.0, 0.0, 0.0, 1.0);
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	*/
 
 
 
@@ -463,7 +379,7 @@ void init_shader(int p)
 
 	if (p == -1)
 	{
-		for (int i = 0; i < 29; i++)
+		for (int i = 0; i < 8; i++)
 		{
 			objl::Mesh m = loader.LoadedMeshes[i];
 			cout << m.MeshName << endl;
@@ -478,17 +394,21 @@ void init_shader(int p)
 			}
 		}
 	}
-	else if (0 <= p && p <= 14)
+	else
 	{
-		translatetoorigin(p);
-	}
-	else if (15 <= p && p <= 29)
-	{
-		int l = parent_info[p - 15];
-		if (l != -1) {
-			translatetoorigin(l);
+		objl::Mesh m = loader.LoadedMeshes[p];
+		cout << m.MeshName << endl;
+		for (unsigned int t : m.Indices)
+		{
+			objl::Vertex v = m.Vertices[t];
+			glm::vec3 gv;
+			gv.x = v.Position.X;
+			gv.y = v.Position.Y;
+			gv.z = v.Position.Z;
+			vertices.push_back(gv);
 		}
-		translatetoparent(p - 15);
+		//translatetoorigin(p);
+		
 	}
 
 
@@ -549,7 +469,7 @@ int main(int argc, char **argv)
 	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
 	// Create and compile our GLSL program from the shaders
-	loader.LoadFile("OBJ files/dummy_obj.obj");
+	loader.LoadFile("OBJ files/Skeleton.obj");
 	init_shader(-1);
 
 
