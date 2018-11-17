@@ -69,7 +69,7 @@ void CGraphics::M_RenderGame(void)
 		}
 		else //bullet
 		{
-			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.0), "cube1", d.size, d.rotate, d.color);
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.0), "sphere", d.size, d.rotate, d.color);
 		}
 		
 	}
@@ -87,16 +87,9 @@ void CGraphics::M_RenderGame(void)
 	if (V_PEngine->V_Animation_Temp > 0)
 	{
 		double t = -(V_PEngine->V_Animation_Temp - 30) / 30.0;
-	
 		t = sin(log(t * 20 + 1));
 		am1 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-100.0 * t), glm::vec3(1.0, 0.0, 0.0));
-
-		//am1 = glm::rotate(am1, (float)glm::radians(70.0 - (V_PEngine->V_Animation_Temp) / 30.0 * 70.0), glm::vec3(0.0, 0.0, 1.0));
-
-
 		am2 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-100.0 * t), glm::vec3(1.0, 0.0, 0.0));
-		//am1 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 0.0, 1.0));
-		//am2 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 1.0, 0.0));
 	}
 
 	V_Models["man"]->M_ClearTrans2();
