@@ -100,7 +100,7 @@ void CGraphics::M_RenderGame(void)
 	
 	
 	
-	if(V_ViewMode) 
+	//if(V_ViewMode || true) 
 		M_DrawModel(d.pos.convert_gl(), "man", d.size * 0.02, d.rotate + DTR(90), d.color);
 
 	
@@ -257,14 +257,14 @@ void CGraphics::M_MoveCamera(void)
 	else
 	{
 		auto p = V_PEngine->V_Player->M_GetPosition();
-		V_Camera_Pos[0] = p[0];
-		V_Camera_Pos[1] = p[1];
-		V_Camera_Pos[2] = 5;
+		V_Camera_Pos[0] = p[0] + 0.8*cos(V_Camera_Look_Angle[0]);
+		V_Camera_Pos[1] = p[1] + 0.8*sin(V_Camera_Look_Angle[0]);
+		V_Camera_Pos[2] = 3;
 
 		V_Camera_Look = V_Camera_Pos;
-		V_Camera_Look[0] += cos(V_Camera_Look_Angle[0]);
-		V_Camera_Look[1] += sin(V_Camera_Look_Angle[0]);
-		V_Camera_Look[2] += sin(V_Camera_Look_Angle[1]);
+		V_Camera_Look[0] += 5 * cos(V_Camera_Look_Angle[0]);
+		V_Camera_Look[1] += 5 * sin(V_Camera_Look_Angle[0]);
+		V_Camera_Look[2] += 2 * sin(V_Camera_Look_Angle[1]);
 	}
 
 
