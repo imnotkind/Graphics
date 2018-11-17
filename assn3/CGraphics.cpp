@@ -32,7 +32,7 @@ void CGraphics::M_RenderGame(void)
 				auto old = V_CTM_Temp;
 				V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 3.0));
 
-				M_DrawModel(p, "cube", gsize / 2 * 0.99, 0, T4Int(125 + r, 30 + g, 255, 255));
+				M_DrawModel(p, "cube1", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 255));
 
 				V_CTM_Temp = old;
 			}
@@ -68,7 +68,7 @@ void CGraphics::M_RenderGame(void)
 		}
 		else //bullet
 		{
-			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.0), "cube", d.size, d.rotate, d.color);
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.0), "cube1", d.size, d.rotate, d.color);
 		}
 		
 	}

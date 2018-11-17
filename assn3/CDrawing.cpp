@@ -30,7 +30,10 @@ void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, V_Array.num);
 		for (int i = 0; i < 4; i++) col[i] = V_LineColor[i];// *color[i];
 		glUniform4fv(q, 1, col);
-		glDrawArrays(GL_LINE_STRIP, 0, V_Array.num);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // no fill
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, V_Array.num);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // back to default
 	}
 	else if (V_DrawMode == 0)glDrawArrays(GL_POINTS, 0, V_Array.num); 
 	else if (V_DrawMode == 4)glDrawArrays(GL_TRIANGLES, 0, V_Array.num);
@@ -39,7 +42,10 @@ void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)
 		glDrawArrays(GL_TRIANGLES, 0, V_Array.num);
 		for (int i = 0; i < 4; i++) col[i] = V_LineColor[i];// *color[i];
 		glUniform4fv(q, 1, col);
-		glDrawArrays(GL_LINES, 0, V_Array.num);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // no fill
+		glDrawArrays(GL_TRIANGLES, 0, V_Array.num);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // back to default
 	}
 }
 
