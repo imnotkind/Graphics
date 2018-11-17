@@ -42,6 +42,7 @@ void CGraphics::M_RenderGame(void)
 	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 	auto am2 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
 	auto am3 = glm::rotate(glm::mat4(1.0), (float)(sin(anim * 1.4) * 0.3 * PI), glm::vec3(0.0, 0.0, 1.0));
+	auto am4 = glm::rotate(glm::mat4(1.0), (float)(sin(anim * 1.4) * 0.3 * PI), glm::vec3(0.0, 0.0, 1.0));
 
 	V_Models["man"]->M_ClearTrans2();
 	V_Models["man"]->M_RegisterTrans2(0, am1);
@@ -75,20 +76,31 @@ void CGraphics::M_RenderGame(void)
 	//render player
 
 	auto d = V_PEngine->V_Player->M_GetDrawData();
+	am1 = glm::rotate(glm::mat4(1.0), (float)glm::radians(70.0), glm::vec3(0.0, 0.0, 1.0));
+	am1 = glm::rotate(am1, (float)(sin(anim) * 0.2 * PI), glm::vec3(1.0, 0.0, 0.0));
+	am2 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-70.0), glm::vec3(0.0, 0.0, 1.0));
+	am2 = glm::rotate(am2, (float)(-sin(anim) * 0.2 * PI), glm::vec3(1.0, 0.0, 0.0));
 
-	
-
+	am3 = glm::rotate(glm::mat4(1.0), (float)(-sin(anim) * 0.2 * PI), glm::vec3(1.0, 0.0, 0.0));
+	am4 = glm::rotate(glm::mat4(1.0), (float)(sin(anim) * 0.2 * PI), glm::vec3(1.0, 0.0, 0.0));
 
 	if (V_PEngine->V_Animation_Temp > 0)
 	{
-		am1 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-90.0), glm::vec3(1.0, 0.0, 0.0));
+		am1 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-100.0), glm::vec3(1.0, 0.0, 0.0));
+
+		//am1 = glm::rotate(am1, (float)glm::radians(70.0 - (V_PEngine->V_Animation_Temp) / 30.0 * 70.0), glm::vec3(0.0, 0.0, 1.0));
+
+
+		am2 = glm::rotate(glm::mat4(1.0), (float)glm::radians(-100.0), glm::vec3(1.0, 0.0, 0.0));
 		//am1 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 0.0, 1.0));
 		//am2 = glm::rotate(glm::mat4(1.0), (float)(0.5 * PI *(V_PEngine->V_Animation_Temp) / 30), glm::vec3(0.0, 1.0, 0.0));
 	}
 
 	V_Models["man"]->M_ClearTrans2();
 	V_Models["man"]->M_RegisterTrans2(2, am1);
-	V_Models["man"]->M_RegisterTrans2(5, am1);
+	V_Models["man"]->M_RegisterTrans2(5, am2);
+	V_Models["man"]->M_RegisterTrans2(9, am3);
+	V_Models["man"]->M_RegisterTrans2(12, am4);
 	
 	
 	
