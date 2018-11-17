@@ -67,9 +67,13 @@ void CGraphics::M_RenderGame(void)
 
 			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "enemy", d.size * 0.02,  d.rotate +DTR(90), d.color);
 		}
-		else //bullet
+		else if(d.img == 2)//bullet
 		{
 			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.0), "sphere", d.size, d.rotate, d.color);
+		}
+		else if (d.img == 8) //skeleton
+		{
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "skeleton", d.size * 0.02, d.rotate + DTR(90), d.color);
 		}
 		
 	}
