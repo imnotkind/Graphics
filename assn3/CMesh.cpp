@@ -6,17 +6,17 @@ CMesh::CMesh(string meta)
 {
 	
 
-	int V_group_num;
-	string V_obj_name;
-	string V_obj_file_path;
-	vector<int> V_group_port;
-	vector<set<int>> V_group_info;
-	vector<glm::vec3> V_group_translation;
-	vector<pair<float, glm::vec3>> V_group_rotation;
+	int group_num;
+	string obj_name;
+	string obj_file_path;
+	vector<int> group_port;
+	vector<set<int>> group_info;
+	vector<glm::vec3> group_translation;
+	vector<pair<float, glm::vec3>> group_rotation;
 
-	vector<int> V_parent_info;
-	vector<pair<float, glm::vec3>> V_parent_rotation;
-	vector<glm::vec3> V_parent_translation;
+	vector<int> parent_info;
+	vector<pair<float, glm::vec3>> parent_rotation;
+	vector<glm::vec3> parent_translation;
 
 
 	//metadata load
@@ -31,7 +31,7 @@ CMesh::CMesh(string meta)
 			if (Line == "%group_number")
 			{
 				getline(is, Line);
-				V_group_num = atoi(Line.c_str());
+				group_num = atoi(Line.c_str());
 				//if (V_group_num != V_LoadedMeshes.size())
 				//CError("Incorrect data format", true);
 			}
@@ -39,14 +39,14 @@ CMesh::CMesh(string meta)
 			if (Line == "%obj_file_path")
 			{
 				getline(is, Line);
-				V_obj_file_path = Line;
+				obj_file_path = Line;
 			}
 
 			if (Line == "%obj_name")
 			{
 				getline(is, Line);
-				V_obj_name = Line;
-				V_Name = V_obj_name;
+				obj_name = Line;
+				V_Name = obj_name;
 			}
 
 			if (Line == "%group_port")
@@ -55,13 +55,13 @@ CMesh::CMesh(string meta)
 				vector<string> l = StringHelper::M_split(Line,',');
 				for (auto s : l)
 				{
-					V_group_port.push_back(atoi(s.c_str()));
+					group_port.push_back(atoi(s.c_str()));
 				}
 			}
 
 			if (Line == "%group_info")
 			{
-				for (int i = 0; i < V_group_num; i++)
+				for (int i = 0; i < group_num; i++)
 				{
 					getline(is, Line);
 					vector<string> l = StringHelper::M_split(Line, ',');
@@ -70,13 +70,13 @@ CMesh::CMesh(string meta)
 					{
 						il.insert(atoi(s.c_str()));
 					}
-					V_group_info.push_back(il);
+					group_info.push_back(il);
 				}
 			}
 
 			if (Line == "%group_translation")
 			{
-				for (int i = 0; i < V_group_num; i++)
+				for (int i = 0; i < group_num; i++)
 				{
 					getline(is, Line);
 					vector<string> l = StringHelper::M_split(Line, ',');
@@ -89,13 +89,13 @@ CMesh::CMesh(string meta)
 						atof(l[2].c_str())
 					);
 
-					V_group_translation.push_back(v);
+					group_translation.push_back(v);
 				}
 			}
 
 			if (Line == "%group_rotation")
 			{
-				for (int i = 0; i < V_group_num; i++)
+				for (int i = 0; i < group_num; i++)
 				{
 					getline(is, Line);
 					vector<string> l = StringHelper::M_split(Line, ',');
@@ -108,7 +108,7 @@ CMesh::CMesh(string meta)
 						atof(l[3].c_str())
 					);
 
-					V_group_rotation.push_back(pair<float,glm::vec3>((float)DTR(atof(l[0].c_str())),v));
+					group_rotation.push_back(pair<float,glm::vec3>((float)DTR(atof(l[0].c_str())),v));
 				}
 			}
 
@@ -116,18 +116,18 @@ CMesh::CMesh(string meta)
 			{
 				getline(is, Line);
 				vector<string> l = StringHelper::M_split(Line, ',');
-				if (l.size() != V_group_num)
+				if (l.size() != group_num)
 					CError("Incorrect data format", true);
 
 				for (string s : l)
 				{
-					V_parent_info.push_back(atoi(s.c_str()));
+					parent_info.push_back(atoi(s.c_str()));
 				}
 			}
 
 			if (Line == "%parent_rotation")
 			{
-				for (int i = 0; i < V_group_num; i++)
+				for (int i = 0; i < group_num; i++)
 				{
 					getline(is, Line);
 					vector<string> l = StringHelper::M_split(Line, ',');
@@ -140,13 +140,13 @@ CMesh::CMesh(string meta)
 						atof(l[3].c_str())
 					);
 
-					V_parent_rotation.push_back(pair<float, glm::vec3>((float)DTR(atof(l[0].c_str())), v));
+					parent_rotation.push_back(pair<float, glm::vec3>((float)DTR(atof(l[0].c_str())), v));
 				}
 			}
 
 			if (Line == "%parent_translation")
 			{
-				for (int i = 0; i < V_group_num; i++)
+				for (int i = 0; i < group_num; i++)
 				{
 					getline(is, Line);
 					vector<string> l = StringHelper::M_split(Line, ',');
@@ -159,23 +159,23 @@ CMesh::CMesh(string meta)
 						atof(l[2].c_str())
 					);
 
-					V_parent_translation.push_back(v);
+					parent_translation.push_back(v);
 				}
 			}
 		}
 		is.close();
 	}
 	else CError("Config file " + meta + " not found.", true);
-	for (int i = 0; i < V_group_num; i++)
+	for (int i = 0; i < group_num; i++)
 	{
 		SMeshGroup G;
-		G.group_members = V_group_info[i];
-		G.group_parent = V_parent_info[i];
-		G.trans_origin = V_group_translation[i];
-		G.rotate_origin = V_group_rotation[i];
-		G.trans_parent = V_parent_translation[i];
-		G.rotate_parent = V_parent_rotation[i];
-		G.port = V_group_port[i];
+		G.group_members = group_info[i];
+		G.group_parent = parent_info[i];
+		G.trans_origin = group_translation[i];
+		G.rotate_origin = group_rotation[i];
+		G.trans_parent = parent_translation[i];
+		G.rotate_parent = parent_rotation[i];
+		G.port = group_port[i];
 
 		V_Groups.emplace_back(G);
 	}
@@ -270,11 +270,20 @@ void CMesh::M_ConstructHierModel(void)
 
 		SHierModelNode N;
 		SDrawingInfo D;
-		D.DrawMode = 5; // FIX THIS
+
+		
 		D.Global_Color.set(1.0, 0.0, 0.0, 1.0);
 		D.Line_Color.set(1.0, 1.0, 0.0, 1.0);
 		D.PolygonName = os.str();
 		D.Program = "prg1";
+
+		auto p = CShaderManager::getInstance();
+		auto m = p->V_Polygon_suggested_mode;
+
+		if (m.find(D.PolygonName) != m.end())
+			D.DrawMode = m[D.PolygonName];
+		else
+			D.DrawMode = 5;
 		
 		N.port = -1;
 		N.draw.reset(new CDrawing(D));

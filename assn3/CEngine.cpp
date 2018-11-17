@@ -317,7 +317,6 @@ bool CEngine::M_Event_KeyPress(int key, bool special)
 	{
 		V_Animation_Temp = 30;
 		V_Player->M_Fire(); // Space bar
-		cout << "HIHI" << endl;
 		return true;
 	}
 	if (key == 32 && !special)
