@@ -384,7 +384,7 @@ void CGraphics::M_DrawItem(Vec3d p, double r, int z)
 	if (z == 1) // Camera up
 	{
 		M_DrawModel(p, "circle", r*0.4, 0, T4Int(255, 255, 255, 255));
-		M_DrawModel(p + Vec3d(r*0.7, r*0.5, 0), "circle", r*0.1, 0, T4Int(255, 255, 255, 255));
+		//M_DrawModel(p + Vec3d(r*0.7, r*0.5, 0), "circle", r*0.1, 0, T4Int(255, 255, 255, 255)); fix this
 		M_DrawModel(p, "rectangle", r*0.9, 0, T4Int(90, 90, 90, 255));
 
 	}
