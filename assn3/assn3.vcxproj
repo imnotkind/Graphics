@@ -210,7 +210,9 @@
     <Text Include="resource\config.txt" />
     <Text Include="resource\map.txt" />
     <Text Include="resource\OBJ files\dummy_obj_meta.txt" />
+    <Text Include="resource\OBJ files\dummy_obj_red_meta.txt" />
     <Text Include="resource\OBJ files\M1911_meta.txt" />
+    <Text Include="resource\OBJ files\Skeleton_meta.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -56,15 +56,15 @@ objl::Loader loader;
 int meshcount = 0;
 
 set<int> group_info[1] = {
-	{ 0, 1, 2, 3, 4, 5, 6 },
+	{ 0, 1, 2, 3, 4, 5, 6, 7 },
 };
 
 vec3 group_translation[1] = {
-	{ 0,-7,-5 }
+	{ 0,0, 0 }
 };
 
 pair<float, vec3> group_rotation[1] = {
-	{ 180,{ 0,1,0 } }
+	{ 0,{ 1,0,0 } }
 };
 
 int parent_info[1] = {
@@ -200,7 +200,7 @@ void display1() {
 
 
 	glm::mat4 Projection = glm::perspective(glm::radians(100.0f), 1.0f, 0.1f, 1000.0f);
-	glm::mat4 View = glm::lookAt(glm::vec3(0, 0, 30), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glm::mat4 View = glm::lookAt(glm::vec3(30, 30, 30), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 mvp = Projection * View * Model;
 
@@ -396,18 +396,8 @@ void init_shader(int p)
 	}
 	else
 	{
-		objl::Mesh m = loader.LoadedMeshes[p];
-		cout << m.MeshName << endl;
-		for (unsigned int t : m.Indices)
-		{
-			objl::Vertex v = m.Vertices[t];
-			glm::vec3 gv;
-			gv.x = v.Position.X;
-			gv.y = v.Position.Y;
-			gv.z = v.Position.Z;
-			vertices.push_back(gv);
-		}
-		//translatetoorigin(p);
+
+		translatetoorigin(p);
 		
 	}
 
