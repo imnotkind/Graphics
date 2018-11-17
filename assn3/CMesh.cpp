@@ -226,8 +226,6 @@ CMesh::CMesh(string meta)
 
 void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& treenodes, int root, int sibling, int off)
 {
-	
-
 	SHierModelNode N;
 	SDrawingInfo D;
 	D.DrawMode = 0;
@@ -236,24 +234,18 @@ void CMesh::M_Rec_Construct(map<int, SHierModelNode>& all, vector<treenode>& tre
 	D.PolygonName = "NULL";
 	D.Program = "prg1";
 
-	//D.PolygonName = "square";
 
 	N.draw.reset(new CDrawing(D));
-	N.port = V_Groups[root].port; //TODO
+	N.port = V_Groups[root].port; 
 
 	N.trans = glm::translate(glm::mat4(1.0), V_Groups[root].trans_parent);
 	N.trans = glm::rotate(N.trans,V_Groups[root].rotate_parent.first, V_Groups[root].rotate_parent.second);
 
-	//N.trans_s = glm::scale(glm::mat4(1.0), glm::vec3(10.0, 10.0, 10.0));
 	N.trans_s = glm::rotate(glm::mat4(1.0), V_Groups[root].rotate_origin.first, V_Groups[root].rotate_origin.second);
 	N.trans_s = glm::translate(N.trans_s, V_Groups[root].trans_origin);
 
-	for (auto f : V_Groups[root].group_members)
-	{
-		N.homos.push_back(f + off);
-	}
+	for (auto f : V_Groups[root].group_members) N.homos.push_back(f + off);
 
-	
 	treenode& t = treenodes[root];
 	N.left_child = t.second.empty() ? -1 : t.second[0];
 	N.right_sibling = sibling;
