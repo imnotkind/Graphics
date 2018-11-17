@@ -65,7 +65,7 @@ void CGraphics::M_RenderGame(void)
 		else if(d.img == 1)
 		{
 
-			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "enemy", d.size * 0.02,  d.rotate +DTR(90), d.color);
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.5), "enemy", d.size * 0.04,  d.rotate +DTR(90), d.color);
 		}
 		else if(d.img == 2)//bullet
 		{
@@ -73,7 +73,7 @@ void CGraphics::M_RenderGame(void)
 		}
 		else if (d.img == 8) //skeleton
 		{
-			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "skeleton", d.size * 0.02, d.rotate + DTR(90), d.color);
+			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 2.5), "skeleton", d.size * 0.01, d.rotate + DTR(90), d.color);
 		}
 		
 	}
@@ -247,7 +247,7 @@ void CGraphics::M_MoveCamera(void)
 	{
 		auto ui = CUserInput::getInstance();
 		double d = 1-ui->M_MouseGet_Normalized()[1];
-
+		d *= 2;
 		auto p = V_PEngine->V_Player->M_GetPosition();
 		V_Camera_Pos[0] = p[0] - cos(olda) * (15 + 15*d);
 		V_Camera_Pos[1] = p[1] - sin(olda) * (15 + 15*d);
