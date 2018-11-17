@@ -241,5 +241,8 @@
     <Text Include="resource\OBJ files\dummy_obj_meta.txt">
       <Filter>Resource\obj</Filter>
     </Text>
+    <Text Include="resource\OBJ files\M1911_meta.txt">
+      <Filter>Resource\obj</Filter>
+    </Text>
   </ItemGroup>
 </Project>
