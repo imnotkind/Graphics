@@ -38,4 +38,6 @@ void CGraphics::M_SetupHieraModels(void)
 		V_Models[M.M_GetName()] = M.M_GetHierModel();
 	}
 
+	V_Models["gun"]->M_ConcatHierModel(4, V_Models["gun"].get());
+
 }

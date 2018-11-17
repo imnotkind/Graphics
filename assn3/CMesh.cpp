@@ -248,8 +248,8 @@ void CMesh::M_ConstructHierModel(void)
 		treenodes[V_Groups[i].group_parent].second.push_back(i);
 	}
 
-	int max = 29; //TO DO
-	for (int i = 0; i < N; i++)
+	int max = 29;
+	for (int i = 0; i < N; i++) //most among sub-meshes that are member of some group
 		for (auto j : V_Groups[i].group_members)
 			if (j > max) max = j;
 

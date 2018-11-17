@@ -27,6 +27,8 @@ protected:
 	GLuint V_Program;
 
 	map<int, glm::mat4> V_Trans2; //transforms applied after hiera transform, according to port. (for animation)
+	map<int, CHierModel*> V_Concat;
+	
 	stack<glm::mat4> V_MatrixStack;
 	vector<SHierModelNode> V_Tree;
 	void M_Release(void);
@@ -39,6 +41,8 @@ public:
 	void M_RegisterTrans2(int port, glm::mat4 t);
 	void M_ClearTrans2(void) { V_Trans2.clear(); }
 	void M_Draw(glm::mat4 CTM, T4Double color = T4Double(1.0, 1.0, 1.0, 1.0));
+
+	void M_ConcatHierModel(int index, CHierModel* c); // concat two hiermodel so that can be drawn together
 
 	CHierModel(vector<SHierModelNode>& t) { V_Tree = t; }
 	CHierModel(SHierModelNode& t) { V_Tree.push_back(t); }

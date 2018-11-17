@@ -15,6 +15,10 @@ void CHierModel::M_RegisterTrans2(int port, glm::mat4 t)
 {
 	V_Trans2[port] = t;
 }
+void CHierModel::M_ConcatHierModel(int index, CHierModel* c)
+{
+	V_Concat[index] = c;
+}
 void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 {
 	V_MatrixStack.push(CTM);
@@ -28,6 +32,11 @@ void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 	node.draw->M_Draw(temp, V_NewColor);
 	for (auto h : node.homos)
 		V_Tree[h].draw->M_Draw(temp, V_NewColor);
+
+	auto i = V_Concat.find(index); //draw concated model
+	if (i != V_Concat.end() && i->second != NULL)
+		i->second->M_Draw(CTM, V_NewColor);
+
 
 	if (node.left_child != -1) M_Draw_Rec(node.left_child, CTM);
 	CTM = V_MatrixStack.top();  V_MatrixStack.pop();
