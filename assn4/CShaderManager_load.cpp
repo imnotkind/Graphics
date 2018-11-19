@@ -79,30 +79,52 @@ void CShaderManager::M_LoadMesh(string path, string name)
 }
 void CShaderManager::M_LoadPolygon(string data, string name)
 {
-
 	vector<string> l = StringHelper::M_split(data, ',');
-	float* arr = new float[l.size() / 3 * 4];
 
-	int k = 0;
-	for (int i = 1; i <= l.size(); i++)
+	vector<float> fa(l.size());
+	transform(l.begin(), l.end(), fa.begin(), [](string s)->float {return atof(s.c_str()); });
+
+	vector<Vec4d> temp_arr;
+	for (int i = 0; i < fa.size() / 3; i++)
 	{
-		arr[i - 1 + k] = atof(l[i-1].c_str());
-		if (i % 3 == 0)
-		{
-			arr[i + k] = 1.0;
-			k++;
-		}
+		int k = i * 3;
+		temp_arr.emplace_back(fa[k], fa[k + 1], fa[k + 2], 1);
+	}
+
+	int n = temp_arr.size();
+	float* arr = new float[n*4];
+
+	for (int i = 0; i < n; i++)
+	{
+		int k = i * 4;
+		for (int j = 0; j < 4; j++)
+			arr[k + j] = temp_arr[i][j];
 	}
 
 	GLuint vbid;
 	GLuint vaid;
 
-	glGenVertexArrays(1, &vaid);
-	glBindVertexArray(vaid);
-	glGenBuffers(1, &vbid);
-	glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
-	glBufferData(GL_ARRAY_BUFFER, l.size() / 3 * 4 * sizeof(float), &arr[0], GL_STATIC_DRAW);
-	delete[] arr;
+
+	if (name == "square")
+	{
+		glGenVertexArrays(1, &vaid);
+		glBindVertexArray(vaid);
+		glGenBuffers(1, &vbid);
+		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
+		glBufferData(GL_ARRAY_BUFFER, l.size() / 3 * 4 * sizeof(float), &arr[0], GL_STATIC_DRAW);
+		delete[] arr;
+	}
+	else
+	{
+		glGenVertexArrays(1, &vaid);
+		glBindVertexArray(vaid);
+		glGenBuffers(1, &vbid);
+		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
+		glBufferData(GL_ARRAY_BUFFER, l.size() / 3 * 4 * sizeof(float), &arr[0], GL_STATIC_DRAW);
+		delete[] arr;
+	}
+
+	
 	
 
 	SVerArray va; va.num = l.size() / 3; va.aindex = vaid;
