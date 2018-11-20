@@ -105,24 +105,39 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 	GLuint vaid;
 
 
-	if (name == "square")
+	float* tex = new float[n * 2];
+	if (name == "square") //test for tex coordinate
 	{
-		glGenVertexArrays(1, &vaid);
-		glBindVertexArray(vaid);
-		glGenBuffers(1, &vbid);
-		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
-		glBufferData(GL_ARRAY_BUFFER, l.size() / 3 * 4 * sizeof(float), &arr[0], GL_STATIC_DRAW);
-		delete[] arr;
+		for (int i = 0; i < n; i++)
+		{
+			int k = i * 2;
+			tex[k + 0] = temp_arr[i][0] * 0.5 + 0.5;
+			tex[k + 1] = temp_arr[i][1] * 0.5 + 0.5;
+		}
 	}
 	else
 	{
-		glGenVertexArrays(1, &vaid);
-		glBindVertexArray(vaid);
-		glGenBuffers(1, &vbid);
-		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
-		glBufferData(GL_ARRAY_BUFFER, l.size() / 3 * 4 * sizeof(float), &arr[0], GL_STATIC_DRAW);
-		delete[] arr;
+		for (int i = 0; i < n; i++)
+		{
+			int k = i * 2;
+			tex[k + 0] = 0;
+			tex[k + 1] = 0;
+		}
 	}
+
+	glGenVertexArrays(1, &vaid);
+	glBindVertexArray(vaid);
+	glGenBuffers(1, &vbid);
+	glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
+		
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (n * 4 + n * 2), NULL, GL_STATIC_DRAW);
+
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* (n * 4), arr);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(float)* (n * 4), sizeof(float)* (n * 2), tex);
+	delete[] tex;
+	delete[] arr;
+
+
 
 	
 	
@@ -154,6 +169,8 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 
 	V_Programs[name] = id;
 	auto vl = glGetAttribLocation(id, "position");
+	auto tl = glGetAttribLocation(id, "texcoord");
+
 	for (auto p : V_Polygons)
 	{
 		auto a = p.second;
@@ -164,6 +181,9 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 
 		glEnableVertexAttribArray(vl);
 		glVertexAttribPointer(vl, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+		glEnableVertexAttribArray(tl);
+		glVertexAttribPointer(tl, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float)*4*a.num));
 	}
 
 }
