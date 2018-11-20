@@ -310,7 +310,7 @@ void CMesh::M_ConstructHierModel(void)
 		D.Program = "prg1";
 
 		auto p = CShaderManager::getInstance();
-		auto m = p->V_Polygon_suggested_mode;
+		auto& m = p->V_Polygon_suggested_mode;
 
 		if (m.find(D.PolygonName) != m.end())
 			D.DrawMode = m[D.PolygonName];

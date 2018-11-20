@@ -202,7 +202,7 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 	}
 
 
-	if (mode == 1 || mode == 2) //indirect
+	if (mode == 1 || mode == 2) //indirect // mode 1 : polygon, mode 2 : program
 	{
 		ifstream is(line.c_str(), std::ios::in);
 		if (is.is_open())
@@ -212,16 +212,25 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 			{
 				vector<string> l = StringHelper::M_split(subLine, ':');
 
+				/*
 				if(mode == 1 && l.size() != 3)
 					CError("invalid data format", true);
 				if (mode == 2 && l.size() != 2)
 					CError("invalid data format", true);
+				*/
 
 				string name = StringHelper::M_trim(l[0]);
 				string data = StringHelper::M_trim(l[1]);
 
 				if (mode == 1)
+				{
 					V_Polygon_suggested_mode[name] = atoi(StringHelper::M_trim(l[2]).c_str());
+
+					vector<string> ll = StringHelper::M_split(l[3] , ',');
+					V_Polygon_aux[name] = T3Int(atoi(StringHelper::M_trim(ll[0]).c_str()), atoi(StringHelper::M_trim(ll[1]).c_str()), atoi(StringHelper::M_trim(ll[2]).c_str()));
+					cout << name << V_Polygon_aux[name][0] << V_Polygon_aux[name][1] << V_Polygon_aux[name][2] << endl;
+				}
+				
 
 				t[name] = data;
 			}
