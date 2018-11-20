@@ -8,6 +8,6 @@ out vec4 vocolor;
 
 void main()
 {
-    vocolor = vicolor;// * texcoord[0] * texcoord[1];
+    vocolor = vicolor * texcoord[0] * texcoord[1];
     gl_Position = trans*position ;
 }

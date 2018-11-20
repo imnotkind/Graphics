@@ -201,10 +201,12 @@
   <ItemGroup>
     <None Include="resource\7seg.pol" />
     <None Include="resource\frag.glsl" />
+    <None Include="resource\frag2.glsl" />
     <None Include="resource\item.pol" />
     <None Include="resource\polygon.pol" />
     <None Include="resource\program.prg" />
     <None Include="resource\ver.glsl" />
+    <None Include="resource\ver2.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\config.txt" />

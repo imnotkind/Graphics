@@ -104,16 +104,38 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 	GLuint vbid;
 	GLuint vaid;
 
+	cout << "DEBUG" << endl;
 
 	float* tex = new float[n * 2];
-	if (name == "square") //test for tex coordinate
+	if (name == "cube1") //test for tex coordinate
 	{
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < 6; i++)
 		{
-			int k = i * 2;
-			tex[k + 0] = temp_arr[i][0] * 0.5 + 0.5;
-			tex[k + 1] = temp_arr[i][1] * 0.5 + 0.5;
+			int k = i * 6;
+			float test[3];
+
+			for (int d = 0; d < 3; d++)
+			{
+				test[d] = temp_arr[k][d];
+				for (int j = 0; j < 6; j++)
+					if (test[d] != temp_arr[k + j][d]) test[d] = -5;
+			}
+
+			int exam[2]; int count = 0;
+			for (int d = 0; d < 3; d++)
+			{
+				if (test[d] < -4) exam[count] = d, count++;
+			}
+			
+			for (int j = 0; j < 6; j++)
+			{
+				tex[2 * (k + j) + 0] = temp_arr[k + j][exam[0]] * 0.5 + 0.5;
+				tex[2 * (k + j) + 1] = temp_arr[k + j][exam[1]] * 0.5 + 0.5;
+			}
 		}
+
+		//for (int j = 0; j < n * 2; j++)
+		//	cout << tex[j] << endl;
 	}
 	else
 	{
@@ -167,24 +189,49 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 		CError("Program " + name + " can't be linked", true);
 	}
 
-	V_Programs[name] = id;
-	auto vl = glGetAttribLocation(id, "position");
-	auto tl = glGetAttribLocation(id, "texcoord");
-
-	for (auto p : V_Polygons)
+	if (name == "prg1")
 	{
-		auto a = p.second;
-		auto b = V_Buffers[p.first];
+		V_Programs[name] = id;
+		auto vl = glGetAttribLocation(id, "position");
+		auto tl = glGetAttribLocation(id, "texcoord");
 
-		glBindVertexArray(a.aindex);
-		glBindBuffer(GL_ARRAY_BUFFER, b);
+		for (auto p : V_Polygons)
+		{
+			auto a = p.second;
+			auto b = V_Buffers[p.first];
 
-		glEnableVertexAttribArray(vl);
-		glVertexAttribPointer(vl, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glBindVertexArray(a.aindex);
+			glBindBuffer(GL_ARRAY_BUFFER, b);
 
-		glEnableVertexAttribArray(tl);
-		glVertexAttribPointer(tl, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float)*4*a.num));
+			glEnableVertexAttribArray(vl);
+			glVertexAttribPointer(vl, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+			glEnableVertexAttribArray(tl);
+			glVertexAttribPointer(tl, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 4 * a.num));
+		}
 	}
+	else if(name == "prg2")
+	{
+		V_Programs[name] = id;
+		auto vl = glGetAttribLocation(id, "position");
+		auto tl = glGetAttribLocation(id, "texcoord");
+
+		for (auto p : V_Polygons)
+		{
+			auto a = p.second;
+			auto b = V_Buffers[p.first];
+
+			glBindVertexArray(a.aindex);
+			glBindBuffer(GL_ARRAY_BUFFER, b);
+
+			glEnableVertexAttribArray(vl);
+			glVertexAttribPointer(vl, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+			glEnableVertexAttribArray(tl);
+			glVertexAttribPointer(tl, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 4 * a.num));
+		}
+	}
+	
 
 }
 
@@ -228,7 +275,6 @@ void CShaderManager::M_ParseData(string line, map<string, string>& t, int mode)
 
 					vector<string> ll = StringHelper::M_split(l[3] , ',');
 					V_Polygon_aux[name] = T3Int(atoi(StringHelper::M_trim(ll[0]).c_str()), atoi(StringHelper::M_trim(ll[1]).c_str()), atoi(StringHelper::M_trim(ll[2]).c_str()));
-					cout << name << V_Polygon_aux[name][0] << V_Polygon_aux[name][1] << V_Polygon_aux[name][2] << endl;
 				}
 				
 

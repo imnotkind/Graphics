@@ -230,6 +230,12 @@
     <None Include="resource\frag.glsl">
       <Filter>Resource\glsl</Filter>
     </None>
+    <None Include="resource\ver2.glsl">
+      <Filter>Resource\glsl</Filter>
+    </None>
+    <None Include="resource\frag2.glsl">
+      <Filter>Resource\glsl</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\map.txt">

@@ -1,9 +1,11 @@
 %vs_start
 ver : resource/ver.glsl
+ver2 : resource/ver2.glsl
 %vs_end
 
 %fs_start
 frag : resource/frag.glsl
+frag2 : resource/frag.glsl
 %fs_end
 
 %polygon_start

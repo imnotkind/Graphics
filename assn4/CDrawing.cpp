@@ -14,6 +14,8 @@ void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)
 {
 	if (V_Array.aindex == -1) return; //dummy draw
 
+	V_PSM->M_UseProgram(V_Program);
+
 	glBindVertexArray(V_Array.aindex);
 	GLuint p = glGetUniformLocation(V_PSM->M_GetProgram() , "trans");
 	GLuint q = glGetUniformLocation(V_PSM->M_GetProgram(), "vicolor");
