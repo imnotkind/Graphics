@@ -20,6 +20,7 @@ class CShaderManager :
 	map<string, SVerArray> V_Polygons;
 	map<string, GLuint> V_Buffers;
 
+	map<string, T3Int> V_Polygon_aux;
 	
 
 	void M_LoadShader(string path, string name, int type);
@@ -40,7 +41,7 @@ public:
 
 	set<string> V_Meshes; // meta path
 	map<string, int> V_Polygon_suggested_mode;
-	map<string, T3Int> V_Polygon_aux;
+	
 
 	SVerArray M_GetPolygon(string s) { return V_Polygons[s]; }
 	const map<string, SVerArray>& M_GetPolygonList(void) { return V_Polygons; }
