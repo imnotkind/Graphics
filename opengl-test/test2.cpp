@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #define _CRT_SECURE_NO_WARNINGS
+#define TINYOBJLOADER_IMPLEMENTATION
 
 // Include all GLM core / GLSL features
 #include <glm/glm.hpp> // vec2, vec3, mat4, radians
@@ -59,7 +60,6 @@ tinyobj::attrib_t attrib;
 std::vector<tinyobj::shape_t> shapes;
 std::vector<tinyobj::material_t> materials;
 std::string warn, err;
-const std::string MODEL_PATH = "models/chalet.obj";
 
 
 
@@ -391,13 +391,17 @@ void init_shader(int p)
 	{
 		for (int i = 0; i < 29; i++)
 		{
-			cout << "OOO: " << shapes[i].name << endl;
-			for (size_t f = 0; f < shapes[i].mesh.indices.size() / 3; f++) 
+			cout << shapes[i].name << endl;
+			for (tinyobj::index_t index : shapes[i].mesh.indices)
 			{
 				glm::vec3 gv;
-				shapes[i].mesh.indices[3 * f + 0];
-				shapes[i].mesh.positions
+				gv.x = attrib.vertices[3 * index.vertex_index + 0];
+				gv.y = attrib.vertices[3 * index.vertex_index + 1];
+				gv.z = attrib.vertices[3 * index.vertex_index + 2];
+
+				vertices.push_back(gv);
 			}
+
 		}
 
 		/*
