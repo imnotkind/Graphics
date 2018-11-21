@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "OBJ_Loader.h"
 #include "objloader.hpp"
+#include "tinyobjloader.h"
 
 
 #pragma comment(lib, "glew32.lib")
@@ -52,6 +53,15 @@ std::vector<glm::vec2> uvs;
 std::vector<glm::vec3> normals; // Won't be used at the moment.
 
 objl::Loader loader;
+
+
+tinyobj::attrib_t attrib;
+std::vector<tinyobj::shape_t> shapes;
+std::vector<tinyobj::material_t> materials;
+std::string warn, err;
+const std::string MODEL_PATH = "models/chalet.obj";
+
+
 
 int meshcount = 0;
 
@@ -200,7 +210,7 @@ void display1() {
 
 
 	glm::mat4 Projection = glm::perspective(glm::radians(100.0f), 1.0f, 0.1f, 1000.0f);
-	glm::mat4 View = glm::lookAt(glm::vec3(30, 30, 30), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glm::mat4 View = glm::lookAt(glm::vec3(200, 200, 200), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 mvp = Projection * View * Model;
 
@@ -379,7 +389,19 @@ void init_shader(int p)
 
 	if (p == -1)
 	{
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 29; i++)
+		{
+			cout << "OOO: " << shapes[i].name << endl;
+			for (size_t f = 0; f < shapes[i].mesh.indices.size() / 3; f++) 
+			{
+				glm::vec3 gv;
+				shapes[i].mesh.indices[3 * f + 0];
+				shapes[i].mesh.positions
+			}
+		}
+
+		/*
+		for (int i = 0; i < 29; i++)
 		{
 			objl::Mesh m = loader.LoadedMeshes[i];
 			cout << m.MeshName << endl;
@@ -393,6 +415,8 @@ void init_shader(int p)
 				vertices.push_back(gv);
 			}
 		}
+		*/
+
 	}
 	else
 	{
@@ -459,7 +483,13 @@ int main(int argc, char **argv)
 	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
 	// Create and compile our GLSL program from the shaders
-	loader.LoadFile("OBJ files/Skeleton.obj");
+	loader.LoadFile("OBJ files/dummy_obj.obj");
+	bool hae = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, "OBJ files/dummy_obj.obj");
+	if (hae)
+		cout << "yes" << shapes.size() << materials.size() << endl;
+	else
+		cout << "no" << endl;
+
 	init_shader(-1);
 
 

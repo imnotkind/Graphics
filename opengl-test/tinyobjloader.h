@@ -123,6 +123,8 @@ namespace tinyobj {
 	//   'sRGB` or 'linear'
 	//
 
+#define TINYOBJLOADER_USE_DOUBLE
+
 #ifdef TINYOBJLOADER_USE_DOUBLE
 	//#pragma message "using double"
 	typedef double real_t;
@@ -402,6 +404,8 @@ namespace tinyobj {
 }  // namespace tinyobj
 
 #endif  // TINY_OBJ_LOADER_H_
+
+#define TINYOBJLOADER_IMPLEMENTATION
 
 #ifdef TINYOBJLOADER_IMPLEMENTATION
 #include <cassert>
