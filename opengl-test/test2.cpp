@@ -11,8 +11,8 @@
 #include <glm/ext.hpp> // perspective, translate, rotate
 #include <glm/gtc/matrix_transform.hpp>
 #include "OBJ_Loader.h"
-#include "objloader.hpp"
 #include "tinyobjloader.h"
+#include "CImg.h"
 
 
 #pragma comment(lib, "glew32.lib")
@@ -22,6 +22,7 @@
 
 using namespace std;
 using namespace glm;
+using namespace cimg_library;
 
 #include <string>
 #include <fstream>
@@ -420,10 +421,6 @@ void init_shader(int p)
 				normals.push_back(tmp1+tmp3*10.0f);
 			}
 
-
-			
-			
-
 		}
 
 	}
@@ -510,7 +507,13 @@ int main(int argc, char **argv)
 
 	init_shader(-1);
 
+	CImg<unsigned char> src("OBJ files/wall/normal.bmp");
+	int width = src.width();
+	int height = src.height();
 
+	cout << width << "/" << height << endl;
+	unsigned char* ptr = src.data(10, 10); // get pointer to pixel @ 10,10
+	unsigned char pixel = *ptr;
 
 	glutMainLoop();
 
