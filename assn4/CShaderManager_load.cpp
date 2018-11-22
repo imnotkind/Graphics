@@ -41,9 +41,13 @@ void CShaderManager::M_LoadShader(string path, string name, int type)
 void CShaderManager::M_LoadMesh(string path, string name)
 {
 	tinyobj::attrib_t attrib;
-	std::vector<tinyobj::shape_t> shapes;
-	std::vector<tinyobj::material_t> materials;
-	std::string warn, err;
+	vector<tinyobj::shape_t> shapes;
+	vector<tinyobj::material_t> materials;
+	string warn, err;
+
+	vector<Vec4d> vertices;
+	vector<Vec4d> uvs;
+	vector<Vec4d> normals;
 
 	bool loaded = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str());
 
@@ -83,6 +87,60 @@ void CShaderManager::M_LoadMesh(string path, string name)
 		V_Buffers[os.str()] = vbid;
 		index++;
 	}
+
+	/*
+	int index = 0;
+	for (auto s : shapes)
+	{
+		for (auto idx : s.mesh.indices)
+		{
+			vertices.emplace_back(
+				attrib.vertices[3 * idx.vertex_index + 0], 
+				attrib.vertices[3 * idx.vertex_index + 1], 
+				attrib.vertices[3 * idx.vertex_index + 2], 
+				1);
+
+			uvs.emplace_back(
+				attrib.texcoords[2 * idx.texcoord_index + 0], 
+				attrib.texcoords[2 * idx.texcoord_index + 1], 
+				1, 1);
+			
+			normals.emplace_back(
+				attrib.normals[3 * idx.normal_index + 0], 
+				attrib.normals[3 * idx.normal_index + 1], 
+				attrib.normals[3 * idx.normal_index + 2], 
+				1);
+		}
+
+		int n = s.mesh.indices.size();
+		float* arr = new float[n * 4];
+
+		for (int i = 0; i < n; i++)
+		{
+			int k = i * 4;
+			for (int j = 0; j < 4; j++)
+				arr[k + j] = vertices[i][j];
+		}
+
+		GLuint vbid;
+		GLuint vaid;
+
+		glGenVertexArrays(1, &vaid);
+		glBindVertexArray(vaid);
+		glGenBuffers(1, &vbid);
+		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(float), &arr[0], GL_STATIC_DRAW);
+		delete[] arr;
+
+		ostringstream os;
+		os << name << "_" << index;
+
+		SVerArray va; va.num = n / 4; va.aindex = vaid;
+		V_Polygons[os.str()] = va;
+		V_Buffers[os.str()] = vbid;
+		index++;
+	}
+	*/
 
 }
 void CShaderManager::M_LoadPolygon(string data, string name)
