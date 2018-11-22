@@ -1,6 +1,5 @@
 #pragma once
 #include "CHandler.h"
-#include "OBJ_Loader.h"
 #include <fstream>
 #include <sstream>
 

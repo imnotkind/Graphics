@@ -133,9 +133,6 @@
     <ClCompile Include="CMesh.cpp">
       <Filter>Engine\Graphics\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="OBJ_Loader.cpp">
-      <Filter>Helper\OBJLoader</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEngine.h">
@@ -207,7 +204,7 @@
     <ClInclude Include="CMesh.h">
       <Filter>Engine\Graphics\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="OBJ_Loader.h">
+    <ClInclude Include="tinyobjloader.h">
       <Filter>Helper\OBJLoader</Filter>
     </ClInclude>
   </ItemGroup>

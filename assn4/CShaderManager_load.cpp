@@ -1,5 +1,6 @@
 #include "CShaderManager.h"
-
+#define TINYOBJLOADER_IMPLEMENTATION
+#include "tinyobjloader.h"
 
 void CShaderManager::M_LoadShader(string path, string name, int type)
 {
@@ -39,21 +40,27 @@ void CShaderManager::M_LoadShader(string path, string name, int type)
 }
 void CShaderManager::M_LoadMesh(string path, string name)
 {
-	objl::Loader loader;
-	loader.LoadFile(path);
-	auto mesh = loader.LoadedMeshes;
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string warn, err;
+
+	bool loaded = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str());
+
+	if (loaded == false)
+		CError("obj file not found :" + path, true);
 
 	int index = 0;
-	for (auto m : mesh)
+	for (auto s : shapes)
 	{
-		int n = m.Indices.size() * 4;
+		int n = s.mesh.indices.size() * 4;
 		int k = 0;
 		float* arr = new float[n];
-		for (auto i : m.Indices)
+		for (auto idx : s.mesh.indices)
 		{
-			arr[k + 0] = m.Vertices[i].Position.X;
-			arr[k + 1] = m.Vertices[i].Position.Y;
-			arr[k + 2] = m.Vertices[i].Position.Z;
+			arr[k + 0] = attrib.vertices[3 * idx.vertex_index + 0];
+			arr[k + 1] = attrib.vertices[3 * idx.vertex_index + 1];
+			arr[k + 2] = attrib.vertices[3 * idx.vertex_index + 2];
 			arr[k + 3] = 1;
 			k += 4;
 		}
@@ -71,11 +78,12 @@ void CShaderManager::M_LoadMesh(string path, string name)
 		ostringstream os;
 		os << name << "_" << index;
 
-		SVerArray va; va.num = n/4; va.aindex = vaid;
+		SVerArray va; va.num = n / 4; va.aindex = vaid;
 		V_Polygons[os.str()] = va;
 		V_Buffers[os.str()] = vbid;
 		index++;
 	}
+
 }
 void CShaderManager::M_LoadPolygon(string data, string name)
 {
