@@ -41,10 +41,12 @@ GLuint colorLoc;
 GLuint vertexbuffer;
 GLuint vertexbuffer2;
 GLuint vertexbuffer3;
+GLuint vertexbuffer4;
 
 GLuint VertexArrayID;
 GLuint VertexArrayID2;
 GLuint VertexArrayID3;
+GLuint VertexArrayID4;
 
 GLuint MatrixID;
 
@@ -210,7 +212,7 @@ void display1() {
 
 
 	glm::mat4 Projection = glm::perspective(glm::radians(100.0f), 1.0f, 0.1f, 1000.0f);
-	glm::mat4 View = glm::lookAt(glm::vec3(200, 200, 200), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glm::mat4 View = glm::lookAt(glm::vec3(150, 150, 150), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 mvp = Projection * View * Model;
 
@@ -268,7 +270,10 @@ void display1() {
 	*/
 
 
-
+	glBindVertexArray(VertexArrayID4);
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glUniform4f(colorLoc, 0.0, 1.0, 0.0, 1.0);
+	glDrawArrays(GL_LINES, 0, normals.size());
 
 
 	glutSwapBuffers();
@@ -364,7 +369,10 @@ void init_shader(int p)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-
+	glBindVertexArray(VertexArrayID);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glEnableVertexAttribArray(vertexLoc);
+	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	glGenVertexArrays(1, &VertexArrayID2);
 	glBindVertexArray(VertexArrayID2);
@@ -372,12 +380,6 @@ void init_shader(int p)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer2);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data2), g_vertex_buffer_data2, GL_STATIC_DRAW);
 
-
-
-	glBindVertexArray(VertexArrayID);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glEnableVertexAttribArray(vertexLoc);
-	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	glBindVertexArray(VertexArrayID2);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer2);
@@ -394,32 +396,35 @@ void init_shader(int p)
 			cout << shapes[i].name << endl;
 			for (tinyobj::index_t index : shapes[i].mesh.indices)
 			{
-				glm::vec3 gv;
-				gv.x = attrib.vertices[3 * index.vertex_index + 0];
-				gv.y = attrib.vertices[3 * index.vertex_index + 1];
-				gv.z = attrib.vertices[3 * index.vertex_index + 2];
+				
+				glm::vec3 tmp1;
+				tmp1.x = attrib.vertices[3 * index.vertex_index + 0];
+				tmp1.y = attrib.vertices[3 * index.vertex_index + 1];
+				tmp1.z = attrib.vertices[3 * index.vertex_index + 2];
 
-				vertices.push_back(gv);
+				vertices.push_back(tmp1);
+
+				glm::vec2 tmp2;
+				tmp2.x = attrib.texcoords[2 * index.texcoord_index + 0];
+				tmp2.y = attrib.texcoords[2 * index.texcoord_index + 1];
+
+				uvs.push_back(tmp2);
+
+				glm::vec3 tmp3;
+				tmp3.x = attrib.normals[3 * index.normal_index + 0];
+				tmp3.y = attrib.normals[3 * index.normal_index + 1];
+				tmp3.z = attrib.normals[3 * index.normal_index + 2];
+
+
+				normals.push_back(tmp1);
+				normals.push_back(tmp1+tmp3*10.0f);
 			}
 
-		}
 
-		/*
-		for (int i = 0; i < 29; i++)
-		{
-			objl::Mesh m = loader.LoadedMeshes[i];
-			cout << m.MeshName << endl;
-			for (unsigned int t : m.Indices)
-			{
-				objl::Vertex v = m.Vertices[t];
-				glm::vec3 gv;
-				gv.x = v.Position.X;
-				gv.y = v.Position.Y;
-				gv.z = v.Position.Z;
-				vertices.push_back(gv);
-			}
+			
+			
+
 		}
-		*/
 
 	}
 	else
@@ -442,6 +447,20 @@ void init_shader(int p)
 
 	glBindVertexArray(VertexArrayID3);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer3);
+	glEnableVertexAttribArray(vertexLoc);
+	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+
+	glGenVertexArrays(1, &VertexArrayID4);
+	glBindVertexArray(VertexArrayID4);
+
+	glGenBuffers(1, &vertexbuffer4);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer4);
+	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
+
+
+	glBindVertexArray(VertexArrayID4);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer4);
 	glEnableVertexAttribArray(vertexLoc);
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
@@ -487,12 +506,7 @@ int main(int argc, char **argv)
 	glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
 	// Create and compile our GLSL program from the shaders
-	loader.LoadFile("OBJ files/dummy_obj.obj");
 	bool hae = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, "OBJ files/dummy_obj.obj");
-	if (hae)
-		cout << "yes" << shapes.size() << materials.size() << endl;
-	else
-		cout << "no" << endl;
 
 	init_shader(-1);
 
