@@ -1,5 +1,5 @@
 #include "CTexture.h"
-#include "CImg.h"
+
 
 
 CTexture::CTexture()
@@ -11,13 +11,13 @@ CTexture::~CTexture()
 {
 }
 
-void CTexture::Image_Load(string path)
+void CTexture::M_LoadTexture(string path)
 {
-	CImg<unsigned char> src(path);
-	int width = src.width();
-	int height = src.height();
+	Image im;
+	int res = ImageLoad(path.c_str(), &im);
 
-	cout << width << "/" << height << endl;
-	unsigned char* ptr = src.data(10, 10); // get pointer to pixel @ 10,10
-	unsigned char pixel = *ptr;
+	if (res == 0)
+		CError("texture load fail", true);
+
+
 }

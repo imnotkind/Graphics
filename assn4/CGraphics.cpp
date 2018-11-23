@@ -172,6 +172,8 @@ void CGraphics::M_RenderUI(void)
 
 int CGraphics::M_Initialize(CEngine * P)
 {
+	CTexture t;
+	t.M_LoadTexture("resource/OBJ files/wall/normal.bmp");
 
 	V_PEngine = P;
 	V_Screen_Size = T2Double(1080, 1080);
