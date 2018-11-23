@@ -126,13 +126,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="objloader.cpp" />
     <ClCompile Include="sltest.cpp" />
     <ClCompile Include="test2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="objloader.hpp" />
+    <ClInclude Include="CImg.h" />
     <ClInclude Include="OBJ_Loader.h" />
+    <ClInclude Include="tinyobjloader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="frag.glsl" />

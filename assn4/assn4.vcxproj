@@ -169,7 +169,6 @@
     <ClCompile Include="CUserInput.cpp" />
     <ClCompile Include="HieraModels.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="OBJ_Loader.cpp" />
     <ClCompile Include="StringHelper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +191,9 @@
     <ClInclude Include="CUserInput.h" />
     <ClInclude Include="MainHeader.h" />
     <ClInclude Include="MessageQueue.h" />
-    <ClInclude Include="OBJ_Loader.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="TGrid.h" />
+    <ClInclude Include="tinyobjloader.h" />
     <ClInclude Include="TVector.h" />
     <ClInclude Include="TVector_speical.h" />
   </ItemGroup>
