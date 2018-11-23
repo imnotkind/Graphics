@@ -182,6 +182,7 @@
     <ClInclude Include="CGraphics.h" />
     <ClInclude Include="CHandler.h" />
     <ClInclude Include="CHierModel.h" />
+    <ClInclude Include="CImg.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CMath.h" />
     <ClInclude Include="CMesh.h" />

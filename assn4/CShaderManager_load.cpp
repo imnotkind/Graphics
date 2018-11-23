@@ -53,7 +53,7 @@ void CShaderManager::M_LoadMesh(string path, string name)
 
 	if (loaded == false)
 		CError("obj file not found :" + path, true);
-
+	/*
 	int index = 0;
 	for (auto s : shapes)
 	{
@@ -87,8 +87,9 @@ void CShaderManager::M_LoadMesh(string path, string name)
 		V_Buffers[os.str()] = vbid;
 		index++;
 	}
+	*/
 
-	/*
+	
 	int index = 0;
 	for (auto s : shapes)
 	{
@@ -99,7 +100,7 @@ void CShaderManager::M_LoadMesh(string path, string name)
 				attrib.vertices[3 * idx.vertex_index + 1], 
 				attrib.vertices[3 * idx.vertex_index + 2], 
 				1);
-
+			/*
 			uvs.emplace_back(
 				attrib.texcoords[2 * idx.texcoord_index + 0], 
 				attrib.texcoords[2 * idx.texcoord_index + 1], 
@@ -110,6 +111,7 @@ void CShaderManager::M_LoadMesh(string path, string name)
 				attrib.normals[3 * idx.normal_index + 1], 
 				attrib.normals[3 * idx.normal_index + 2], 
 				1);
+				*/
 		}
 
 		int n = s.mesh.indices.size();
@@ -129,18 +131,18 @@ void CShaderManager::M_LoadMesh(string path, string name)
 		glBindVertexArray(vaid);
 		glGenBuffers(1, &vbid);
 		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
-		glBufferData(GL_ARRAY_BUFFER, n * sizeof(float), &arr[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, n * 4 * sizeof(float), &arr[0], GL_STATIC_DRAW);
 		delete[] arr;
 
 		ostringstream os;
 		os << name << "_" << index;
 
-		SVerArray va; va.num = n / 4; va.aindex = vaid;
+		SVerArray va; va.num = n; va.aindex = vaid;
 		V_Polygons[os.str()] = va;
 		V_Buffers[os.str()] = vbid;
 		index++;
 	}
-	*/
+	
 
 }
 void CShaderManager::M_LoadPolygon(string data, string name)
