@@ -207,6 +207,9 @@
     <ClInclude Include="tinyobjloader.h">
       <Filter>Helper\OBJLoader</Filter>
     </ClInclude>
+    <ClInclude Include="CImg.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\program.prg">
