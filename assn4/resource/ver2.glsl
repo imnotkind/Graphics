@@ -4,6 +4,8 @@ in vec2 texcoord;
 
 uniform mat4 trans;
 uniform vec4 vicolor;
+
+
 out vec4 vocolor;
 
 void main()

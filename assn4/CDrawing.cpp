@@ -8,6 +8,7 @@ CDrawing::CDrawing(const SDrawingInfo& s)
 	V_Program = s.Program;
 	V_DrawMode = s.DrawMode;
 	V_LineColor = s.Line_Color;
+	V_Texture = s.V_Texture;
 }
 
 void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)

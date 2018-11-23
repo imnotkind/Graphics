@@ -10,6 +10,8 @@ struct SDrawingInfo
 	int DrawMode;
 	//optional
 	T4Double Line_Color;
+
+	GLuint V_Texture;  // -1 : no tex
 };
 
 class CDrawing :
@@ -23,6 +25,8 @@ public:
 	T4Double V_Color; // global color
 	int V_DrawMode; //0 : point, 1 : line, 2 : strip, 3 : strip + line, 4 : triangles, 5: triangles + lines
 	T4Double V_LineColor;
+
+	GLuint V_Texture;
 
 	CDrawing(const SDrawingInfo& s);
 	void M_Draw(const glm::mat4& mat, T4Double color);
