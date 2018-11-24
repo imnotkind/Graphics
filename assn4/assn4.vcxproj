@@ -169,6 +169,7 @@
     <ClCompile Include="CUserInput.cpp" />
     <ClCompile Include="HieraModels.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="readbmp.cpp" />
     <ClCompile Include="StringHelper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -182,7 +183,6 @@
     <ClInclude Include="CGraphics.h" />
     <ClInclude Include="CHandler.h" />
     <ClInclude Include="CHierModel.h" />
-    <ClInclude Include="CImg.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CMath.h" />
     <ClInclude Include="CMesh.h" />
@@ -193,6 +193,7 @@
     <ClInclude Include="MainHeader.h" />
     <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="Pointer.h" />
+    <ClInclude Include="readbmp.h" />
     <ClInclude Include="TGrid.h" />
     <ClInclude Include="tinyobjloader.h" />
     <ClInclude Include="TVector.h" />
@@ -213,6 +214,7 @@
   <ItemGroup>
     <Text Include="resource\config.txt" />
     <Text Include="resource\map.txt" />
+    <Text Include="resource\OBJ files\cube_meta.txt" />
     <Text Include="resource\OBJ files\dummy_obj_meta.txt" />
     <Text Include="resource\OBJ files\dummy_obj_red_meta.txt" />
     <Text Include="resource\OBJ files\M1911_meta.txt" />

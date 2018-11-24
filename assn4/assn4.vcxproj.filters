@@ -70,6 +70,9 @@
     <Filter Include="Helper\OBJLoader">
       <UniqueIdentifier>{b34ba27f-9d0c-4946-afd2-8fe4eade3cda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper\IMGLoader">
+      <UniqueIdentifier>{dcf0c691-86e2-4a7b-aba1-d2d2ad21d3af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEngine.cpp">
@@ -132,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
       <Filter>Engine\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="readbmp.cpp">
+      <Filter>Helper\IMGLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -207,8 +213,8 @@
     <ClInclude Include="tinyobjloader.h">
       <Filter>Helper\OBJLoader</Filter>
     </ClInclude>
-    <ClInclude Include="CImg.h">
-      <Filter>Helper</Filter>
+    <ClInclude Include="readbmp.h">
+      <Filter>Helper\IMGLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +269,9 @@
       <Filter>Resource\obj</Filter>
     </Text>
     <Text Include="resource\OBJ files\sphere_meta.txt">
+      <Filter>Resource\obj</Filter>
+    </Text>
+    <Text Include="resource\OBJ files\cube_meta.txt">
       <Filter>Resource\obj</Filter>
     </Text>
   </ItemGroup>

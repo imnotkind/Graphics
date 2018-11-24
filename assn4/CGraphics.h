@@ -4,7 +4,7 @@
 #include "CEngine.h"
 #include "CHandler.h"
 #include "CShaderManager.h"
-
+#include "CTexture.h"
 #include "CMesh.h"
 #include "CHierModel.h"
 

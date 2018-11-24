@@ -69,6 +69,7 @@ CShaderManager::CShaderManager(string config_path)
 	ObjData.insert("resource/OBJ files/M1911_meta.txt");
 	ObjData.insert("resource/OBJ files/Skeleton_meta.txt");
 	ObjData.insert("resource/OBJ files/sphere_meta.txt");
+	ObjData.insert("resource/OBJ files/cube_meta.txt");
 	
 
 	for (auto p : VerShaderPaths)
