@@ -32,20 +32,25 @@ void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 	auto temp = CTM * node.trans_s;
 
 	tri.modelview = temp;
+	tri.normtrans = tri.modelview;
 
 	node.draw->M_Draw(tri);
 	for (auto h : node.homos)
 		V_Tree[h].draw->M_Draw(tri);
 
 	tri.modelview = CTM;
+	tri.normtrans = tri.modelview;
+
 	auto i = V_Concat.find(index); //draw concated model
 	if (i != V_Concat.end() && i->second != NULL)
 		i->second->M_Draw(tri);
 
-
 	if (node.left_child != -1) M_Draw_Rec(node.left_child, CTM);
 	CTM = V_MatrixStack.top();  V_MatrixStack.pop();
+
 	tri.modelview = CTM;
+	tri.normtrans = tri.modelview;
+
 	if (node.right_sibling != -1) M_Draw_Rec(node.right_sibling, CTM);
 }
 

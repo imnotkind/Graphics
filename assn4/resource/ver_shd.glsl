@@ -24,6 +24,7 @@ void main()
 {
     vnormal = normalize(normaltrans * vec4(normal, 0.0)).xyz;
 
-    gl_Position = projection * modelview * position ;
-	vpos = gl_Position;
+	vpos = modelview * position;
+    gl_Position = projection * vpos;
+	
 }

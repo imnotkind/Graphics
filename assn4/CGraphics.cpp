@@ -101,9 +101,21 @@ void CGraphics::M_RenderGame(void)
 				V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 3.0));
 
 				if(V_PEngine->V_IS_Camera)
-					M_DrawModel(p, "cube1", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, MC_R(255 - 200 * sin(V_PEngine->V_IS_Camera / 600.0 * PI))));
+					M_DrawModel(p, "cubeobj", gsize , 0, T4Int(125 + r, 30 + g, 255, MC_R(255 - 200 * sin(V_PEngine->V_IS_Camera / 600.0 * PI))));
 				else
-					M_DrawModel(p, "cube1", gsize / 2, 0, T4Int(125 + r, 30 + g, 255, 255));
+					M_DrawModel(p, "cubeobj", gsize , 0, T4Int(125 + r, 30 + g, 255, 255));
+
+				V_CTM_Temp = old;
+			}
+			else
+			{
+				T2Double cen = T2Double(i, j)*gsize;
+				auto p = cen.convert_gl() + Vec3d(0.0, 0.0, -2 * gsize);
+
+				auto old = V_CTM_Temp;
+				V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 1.0));
+
+				M_DrawModel(p, "cubeobj", gsize, 0, T4Int(125 + r, 30 + g, 255, 255));
 
 				V_CTM_Temp = old;
 			}
@@ -189,7 +201,7 @@ int CGraphics::M_Initialize(CEngine * P)
 	cout << id << endl;
 
 	glClearColor(1, 1, 1, 1); //background white
-	glClearColor(0.8f, 0.8f, 0.8f, 0.5f);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -369,11 +381,9 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 	ri.keeplight = false;
 	ri.amb = Vec4d(0.1, 0.1, 0.1, 1.0);
 	ri.dif = Vec4d(0.5, 0.5, 0.5, 1.0);
-	ri.spc = Vec4d(0.5, 0.1, 0.1, 1.0);
-	ri.light1 = Vec4d(V_Light1[0], V_Light1[1], V_Light1[2], 1);
+	ri.spc = Vec4d(0.0, 0.0, 0.0, 1.0);
+	ri.light1 = V_CTM_View * Vec4d(V_Light1[0], V_Light1[1], V_Light1[2], 1);
 	ri.normtrans = m;
-	for (int i = 0; i < 3; i++) ri.normtrans[i][3] = 0, ri.normtrans[3][i] = 0;
-
 	
 
 	for (int i = 0; i < 4; i++) ri.color[i] = rgba[i] / 255.0;

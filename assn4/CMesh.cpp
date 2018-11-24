@@ -317,7 +317,7 @@ void CMesh::M_ConstructHierModel(void)
 		if (m.find(D.PolygonName) != m.end())
 			D.DrawMode = m[D.PolygonName];
 		else
-			D.DrawMode = 5;
+			D.DrawMode = 4;
 		
 		N.port = -1;
 		N.draw.reset(new CDrawing(D));
