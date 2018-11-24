@@ -200,16 +200,16 @@
     <ClInclude Include="TVector_speical.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="frag_shd.glsl" />
     <None Include="resource\7seg.pol" />
     <None Include="resource\frag.glsl" />
     <None Include="resource\frag2.glsl" />
+    <None Include="resource\frag_shd.glsl" />
     <None Include="resource\item.pol" />
     <None Include="resource\polygon.pol" />
     <None Include="resource\program.prg" />
     <None Include="resource\ver.glsl" />
     <None Include="resource\ver2.glsl" />
-    <None Include="ver_shd.glsl" />
+    <None Include="resource\ver_shd.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\config.txt" />

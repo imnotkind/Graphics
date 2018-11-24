@@ -47,48 +47,12 @@ void CShaderManager::M_LoadMesh(string path, string name)
 
 	vector<Vec4d> vertices;
 	vector<Vec4d> uvs;
-	vector<Vec4d> normals;
+	vector<Vec3d> normals;
 
 	bool loaded = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str());
 
 	if (loaded == false)
 		CError("obj file not found :" + path, true);
-	/*
-	int index = 0;
-	for (auto s : shapes)
-	{
-		int n = s.mesh.indices.size() * 4;
-		int k = 0;
-		float* arr = new float[n];
-		for (auto idx : s.mesh.indices)
-		{
-			arr[k + 0] = attrib.vertices[3 * idx.vertex_index + 0];
-			arr[k + 1] = attrib.vertices[3 * idx.vertex_index + 1];
-			arr[k + 2] = attrib.vertices[3 * idx.vertex_index + 2];
-			arr[k + 3] = 1;
-			k += 4;
-		}
-
-		GLuint vbid;
-		GLuint vaid;
-
-		glGenVertexArrays(1, &vaid);
-		glBindVertexArray(vaid);
-		glGenBuffers(1, &vbid);
-		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
-		glBufferData(GL_ARRAY_BUFFER, n * sizeof(float), &arr[0], GL_STATIC_DRAW);
-		delete[] arr;
-
-		ostringstream os;
-		os << name << "_" << index;
-
-		SVerArray va; va.num = n / 4; va.aindex = vaid;
-		V_Polygons[os.str()] = va;
-		V_Buffers[os.str()] = vbid;
-		index++;
-	}
-	*/
-
 	
 	int index = 0;
 	for (auto s : shapes)
@@ -112,24 +76,30 @@ void CShaderManager::M_LoadMesh(string path, string name)
 					1, 1);
 			
 
-			if(idx.normal_index != -1)
+			if (idx.normal_index != -1)
 				normals.emplace_back(
 					attrib.normals[3 * idx.normal_index + 0],
 					attrib.normals[3 * idx.normal_index + 1],
-					attrib.normals[3 * idx.normal_index + 2],
-					1);
+					attrib.normals[3 * idx.normal_index + 2]);
+			else
+				normals.emplace_back(1, 0, 0);
 
 			
 		}
 
 		int n = s.mesh.indices.size();
 		float* arr = new float[n * 4];
+		float* norm = new float[n * 3];
 
 		for (int i = 0; i < n; i++)
 		{
 			int k = i * 4;
+			int q = i * 3;
+
 			for (int j = 0; j < 4; j++)
 				arr[k + j] = vertices[i][j];
+			for (int j = 0; j < 3; j++)
+				norm[q + j] = normals[i][j];
 		}
 
 		GLuint vbid;
@@ -139,8 +109,13 @@ void CShaderManager::M_LoadMesh(string path, string name)
 		glBindVertexArray(vaid);
 		glGenBuffers(1, &vbid);
 		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
-		glBufferData(GL_ARRAY_BUFFER, n * 4 * sizeof(float), &arr[0], GL_STATIC_DRAW);
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (n * 4 + n * 3), NULL, GL_STATIC_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* (n * 4), arr);
+		glBufferSubData(GL_ARRAY_BUFFER, sizeof(float)* (n * 4), sizeof(float)* (n * 3), norm);
+
 		delete[] arr;
+		delete[] norm;
 
 		ostringstream os;
 		os << name << "_" << index;
@@ -305,6 +280,27 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 
 			glEnableVertexAttribArray(tl);
 			glVertexAttribPointer(tl, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 4 * a.num));
+		}
+	}
+	else if (name == "prg3")
+	{
+		V_Programs[name] = id;
+		auto vl = glGetAttribLocation(id, "position");
+		auto nl = glGetAttribLocation(id, "normal");
+
+		for (auto p : V_Polygons)
+		{
+			auto a = p.second;
+			auto b = V_Buffers[p.first];
+
+			glBindVertexArray(a.aindex);
+			glBindBuffer(GL_ARRAY_BUFFER, b);
+
+			glEnableVertexAttribArray(vl);
+			glVertexAttribPointer(vl, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+			glEnableVertexAttribArray(nl);
+			glVertexAttribPointer(nl, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 4 * a.num));
 		}
 	}
 	

@@ -35,12 +35,12 @@ protected:
 
 	void M_Draw_Rec(int index, glm::mat4 CTM);
 
-	T4Double V_NewColor;
+	SRenderInfo V_RenderInfo;
 
 public:
 	void M_RegisterTrans2(int port, glm::mat4 t);
 	void M_ClearTrans2(void) { V_Trans2.clear(); }
-	void M_Draw(glm::mat4 CTM, T4Double color = T4Double(1.0, 1.0, 1.0, 1.0));
+	void M_Draw(const SRenderInfo& r);
 
 	void M_ConcatHierModel(int index, CHierModel* c); // concat two hiermodel so that can be drawn together
 

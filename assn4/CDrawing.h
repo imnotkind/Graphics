@@ -11,7 +11,27 @@ struct SDrawingInfo
 	//optional
 	T4Double Line_Color;
 
-	GLuint V_Texture;  // -1 : no tex
+	GLuint texture;  // -1 : no tex
+	bool light;
+};
+
+struct SRenderInfo
+{
+	glm::mat4 modelview;
+	glm::mat4 projection;
+
+	glm::mat4 normtrans;
+
+	glm::vec4 light1;
+	glm::vec4 light2;
+	glm::vec4 light3; //directional
+
+	glm::vec4 amb;
+	glm::vec4 dif;
+	glm::vec4 spc;
+
+	T4Double color;
+	bool keeplight;
 };
 
 class CDrawing :
@@ -27,9 +47,10 @@ public:
 	T4Double V_LineColor;
 
 	GLuint V_Texture;
+	bool V_Light;
 
 	CDrawing(const SDrawingInfo& s);
-	void M_Draw(const glm::mat4& mat, T4Double color);
+	void M_Draw(const SRenderInfo& r);
 	virtual ~CDrawing() {}
 };
 

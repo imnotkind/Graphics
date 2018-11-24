@@ -8,22 +8,49 @@ CDrawing::CDrawing(const SDrawingInfo& s)
 	V_Program = s.Program;
 	V_DrawMode = s.DrawMode;
 	V_LineColor = s.Line_Color;
-	V_Texture = s.V_Texture;
+	V_Texture = s.texture;
+	V_Light = s.light;
 }
 
-void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)
+void CDrawing::M_Draw(const SRenderInfo& r)
 {
 	if (V_Array.aindex == -1) return; //dummy draw
 
 	V_PSM->M_UseProgram(V_Program);
 
 	glBindVertexArray(V_Array.aindex);
-	GLuint p = glGetUniformLocation(V_PSM->M_GetProgram() , "trans");
-	GLuint q = glGetUniformLocation(V_PSM->M_GetProgram(), "vicolor");
-	glUniformMatrix4fv(p, 1, GL_FALSE, &mat[0][0]);
+
+	GLuint p;
+	p = glGetUniformLocation(V_PSM->M_GetProgram(), "projection");
+	glUniformMatrix4fv(p, 1, GL_FALSE, &r.projection[0][0]);
+	p = glGetUniformLocation(V_PSM->M_GetProgram(), "modelview");
+	glUniformMatrix4fv(p, 1, GL_FALSE, &r.modelview[0][0]);
+
+	p = glGetUniformLocation(V_PSM->M_GetProgram(), "vicolor");
 	float col[4];
-	for (int i = 0; i< 4; i++) col[i] = V_Color[i] * color[i];
-	glUniform4fv(q, 1, col);
+	for (int i = 0; i< 4; i++) col[i] = V_Color[i] * r.color[i];
+	glUniform4fv(p, 1, col);
+
+	if (V_Light && !r.keeplight)
+	{
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "normaltrans");
+		glUniformMatrix4fv(p, 1, GL_FALSE, &r.normtrans[0][0]);
+
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "ambient");
+		glUniform4fv(p, 1, &r.amb[0]);
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "diffuse");
+		glUniform4fv(p, 1, &r.dif[0]);
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "specular");
+		glUniform4fv(p, 1, &r.spc[0]);
+
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "light1");
+		glUniform4fv(p, 1, &r.light1[0]);
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "light2");
+		glUniform4fv(p, 1, &r.light2[0]);
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "lgiht3");
+		glUniform4fv(p, 1, &r.light3[0]);
+
+	}
 
 
 	if (V_DrawMode == 2) glDrawArrays(GL_TRIANGLE_STRIP, 0, V_Array.num); 
@@ -32,7 +59,8 @@ void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)
 	{
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, V_Array.num);
 		for (int i = 0; i < 4; i++) col[i] = V_LineColor[i];// *color[i];
-		glUniform4fv(q, 1, col);
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "vicolor");
+		glUniform4fv(p, 1, col);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // no fill
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, V_Array.num);
@@ -44,7 +72,8 @@ void CDrawing::M_Draw(const glm::mat4& mat, T4Double color)
 	{
 		glDrawArrays(GL_TRIANGLES, 0, V_Array.num);
 		for (int i = 0; i < 4; i++) col[i] = V_LineColor[i];// *color[i];
-		glUniform4fv(q, 1, col);
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "vicolor");
+		glUniform4fv(p, 1, col);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // no fill
 		glDrawArrays(GL_TRIANGLES, 0, V_Array.num);

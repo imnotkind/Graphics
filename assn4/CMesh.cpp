@@ -307,7 +307,9 @@ void CMesh::M_ConstructHierModel(void)
 		D.Global_Color = V_SurfaceColor;
 		D.Line_Color = V_LineColor;
 		D.PolygonName = os.str();
-		D.Program = "prg1";
+		D.Program = "prg3";
+		D.light = true;
+
 
 		auto p = CShaderManager::getInstance();
 		auto& m = p->V_Polygon_suggested_mode;

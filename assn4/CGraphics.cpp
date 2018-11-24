@@ -12,6 +12,8 @@ CGraphics::~CGraphics()
 
 void CGraphics::M_RenderGame(void)
 {
+	V_Light1 = Vec3d(0.0, 0.0, 5.0) + V_PEngine->V_Player->M_GetDrawData().pos.convert_gl();
+
 	static double anim = 0.0;
 	anim += 0.05;
 
@@ -41,7 +43,6 @@ void CGraphics::M_RenderGame(void)
 		}
 		else if(d.img == 1)
 		{
-
 			M_DrawModel(d.pos.convert_gl() + glm::vec3(0.0, 0.0, 1.5), "enemy", d.size * 0.04,  d.rotate +DTR(90), d.color);
 		}
 		else if(d.img == 2)//bullet
@@ -336,17 +337,24 @@ void CGraphics::M_CallbackIdle()
 
 void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 {
+	SRenderInfo r;
+
 	glm::mat4 m;
-	m = V_CTM_Project * V_CTM_View;
+	m = V_CTM_View;
 	m = glm::translate(m, glm::vec3(p1));
 	m = glm::scale(m, glm::vec3(p2 - p1));
-	T4Double c;
-	for (int i = 0; i < 4; i++) c[i] = rgba[i] / 255.0;
-	V_Models["line"]->M_Draw(m, c);
+
+	r.modelview = m;
+	r.projection = V_CTM_Project;
+	
+	for (int i = 0; i < 4; i++) r.color[i] = rgba[i] / 255.0;
+	V_Models["line"]->M_Draw(r);
 }
 
 void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int rgba)
 {
+
+	SRenderInfo ri;
 
 	glm::mat4 m;
 	m = V_CTM_Project * V_CTM_View;
@@ -354,12 +362,23 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 
 	m = m * V_CTM_Temp; //billboard
 
+	ri.modelview = m;
+	ri.projection = V_CTM_Project;
+
+	ri.keeplight = false;
+	ri.amb = Vec4d(0.1, 0.1, 0.1, 1.0);
+	ri.dif = Vec4d(0.1, 0.1, 0.1, 1.0);
+	ri.spc = Vec4d(0.1, 0.1, 0.1, 1.0);
+	ri.light1 = Vec4d(V_Light1[0], V_Light1[1], V_Light1[2], 1);
+	ri.normtrans = m;
+	for (int i = 0; i < 3; i++) ri.normtrans[i][3] = 0, ri.normtrans[3][i] = 0;
+
 	m = glm::rotate(m, float(rotate), glm::vec3(0.0f,0.0f,1.0f));
 	m = glm::scale(m, glm::vec3(r, r, r));
 
 	T4Double c;
 	for (int i = 0; i < 4; i++) c[i] = rgba[i] / 255.0;
-	V_Models[name]->M_Draw(m, c);
+	V_Models[name]->M_Draw(ri);
 }
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
 {
