@@ -93,25 +93,33 @@ void CShaderManager::M_LoadMesh(string path, string name)
 	int index = 0;
 	for (auto s : shapes)
 	{
+		vertices.clear();
+		uvs.clear();
+		normals.clear();
 		for (auto idx : s.mesh.indices)
 		{
-			vertices.emplace_back(
-				attrib.vertices[3 * idx.vertex_index + 0], 
-				attrib.vertices[3 * idx.vertex_index + 1], 
-				attrib.vertices[3 * idx.vertex_index + 2], 
-				1);
-			/*
-			uvs.emplace_back(
-				attrib.texcoords[2 * idx.texcoord_index + 0], 
-				attrib.texcoords[2 * idx.texcoord_index + 1], 
-				1, 1);
+			if(idx.vertex_index != -1)
+				vertices.emplace_back(
+					attrib.vertices[3 * idx.vertex_index + 0], 
+					attrib.vertices[3 * idx.vertex_index + 1], 
+					attrib.vertices[3 * idx.vertex_index + 2], 
+					1);
 			
-			normals.emplace_back(
-				attrib.normals[3 * idx.normal_index + 0], 
-				attrib.normals[3 * idx.normal_index + 1], 
-				attrib.normals[3 * idx.normal_index + 2], 
-				1);
-				*/
+			if(idx.texcoord_index != -1)
+				uvs.emplace_back(
+					attrib.texcoords[2 * idx.texcoord_index + 0], 
+					attrib.texcoords[2 * idx.texcoord_index + 1], 
+					1, 1);
+			
+
+			if(idx.normal_index != -1)
+				normals.emplace_back(
+					attrib.normals[3 * idx.normal_index + 0],
+					attrib.normals[3 * idx.normal_index + 1],
+					attrib.normals[3 * idx.normal_index + 2],
+					1);
+
+			
 		}
 
 		int n = s.mesh.indices.size();
