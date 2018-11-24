@@ -21,6 +21,8 @@ void CHierModel::M_ConcatHierModel(int index, CHierModel* c)
 }
 void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 {
+	SRenderInfo tri = V_RenderInfo;
+
 	V_MatrixStack.push(CTM);
 	SHierModelNode& node = V_Tree[index];
 
@@ -29,20 +31,21 @@ void CHierModel::M_Draw_Rec(int index, glm::mat4 CTM)
 	CTM = CTM * node.trans * trans2;
 	auto temp = CTM * node.trans_s;
 
-	V_RenderInfo.modelview = temp;
+	tri.modelview = temp;
 
-	node.draw->M_Draw(V_RenderInfo);
+	node.draw->M_Draw(tri);
 	for (auto h : node.homos)
-		V_Tree[h].draw->M_Draw(V_RenderInfo);
+		V_Tree[h].draw->M_Draw(tri);
 
+	tri.modelview = CTM;
 	auto i = V_Concat.find(index); //draw concated model
 	if (i != V_Concat.end() && i->second != NULL)
-		i->second->M_Draw(V_RenderInfo);
+		i->second->M_Draw(tri);
 
 
 	if (node.left_child != -1) M_Draw_Rec(node.left_child, CTM);
 	CTM = V_MatrixStack.top();  V_MatrixStack.pop();
-	V_RenderInfo.modelview = CTM;
+	tri.modelview = CTM;
 	if (node.right_sibling != -1) M_Draw_Rec(node.right_sibling, CTM);
 }
 

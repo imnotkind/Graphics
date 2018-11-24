@@ -28,7 +28,7 @@ void main()
 	vec3 E = normalize(-vpos.xyz); //vector of eye (since eye is in origin)
 	vec3 R = normalize(-reflect(L,vnormal));
 	
-	float katt = 1.0/length(light1 - vpos);
+	float katt = 1.0;//1.0/length(light1 - vpos);
 
 	vec4 amb_r = ambient;
 	vec4 dif_r = diffuse * katt * max(dot(vnormal,L), 0.0); // NL is negative : backside

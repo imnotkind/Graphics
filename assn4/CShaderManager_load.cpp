@@ -155,7 +155,6 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 	GLuint vbid;
 	GLuint vaid;
 
-	cout << "DEBUG" << endl;
 
 	float* tex = new float[n * 2];
 	if (name == "cube1") //test for tex coordinate
@@ -184,9 +183,6 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 				tex[2 * (k + j) + 1] = temp_arr[k + j][exam[1]] * 0.5 + 0.5;
 			}
 		}
-
-		//for (int j = 0; j < n * 2; j++)
-		//	cout << tex[j] << endl;
 	}
 	else
 	{
@@ -215,7 +211,7 @@ void CShaderManager::M_LoadPolygon(string data, string name)
 	
 	
 
-	SVerArray va; va.num = l.size() / 3; va.aindex = vaid;
+	SVerArray va; va.num = n; va.aindex = vaid;
 	V_Polygons[name] = va;
 	V_Buffers[name] = vbid;
 }

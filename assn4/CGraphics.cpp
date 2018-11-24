@@ -308,6 +308,7 @@ void CGraphics::M_CallbackDisplay()
 	V_CTM_View = glm::mat4(1.0f);
 	M_RenderUI();
 
+	
 	V_CurrentDrawing = true;
 
 	glm::vec3 v(0.0f);
@@ -339,7 +340,7 @@ void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 {
 	SRenderInfo r;
 
-	glm::mat4 m;
+	glm::mat4 m = V_CTM_View;
 	m = V_CTM_View;
 	m = glm::translate(m, glm::vec3(p1));
 	m = glm::scale(m, glm::vec3(p2 - p1));
@@ -356,10 +357,10 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 
 	SRenderInfo ri;
 
-	glm::mat4 m;
-	m = V_CTM_Project * V_CTM_View;
+	glm::mat4 m = V_CTM_View;
 	m = glm::translate(m, glm::vec3(p));
-
+	m = glm::rotate(m, float(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
+	m = glm::scale(m, glm::vec3(r, r, r));
 	m = m * V_CTM_Temp; //billboard
 
 	ri.modelview = m;
@@ -367,17 +368,15 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 
 	ri.keeplight = false;
 	ri.amb = Vec4d(0.1, 0.1, 0.1, 1.0);
-	ri.dif = Vec4d(0.1, 0.1, 0.1, 1.0);
-	ri.spc = Vec4d(0.1, 0.1, 0.1, 1.0);
+	ri.dif = Vec4d(0.5, 0.5, 0.5, 1.0);
+	ri.spc = Vec4d(0.5, 0.1, 0.1, 1.0);
 	ri.light1 = Vec4d(V_Light1[0], V_Light1[1], V_Light1[2], 1);
 	ri.normtrans = m;
 	for (int i = 0; i < 3; i++) ri.normtrans[i][3] = 0, ri.normtrans[3][i] = 0;
 
-	m = glm::rotate(m, float(rotate), glm::vec3(0.0f,0.0f,1.0f));
-	m = glm::scale(m, glm::vec3(r, r, r));
+	
 
-	T4Double c;
-	for (int i = 0; i < 4; i++) c[i] = rgba[i] / 255.0;
+	for (int i = 0; i < 4; i++) ri.color[i] = rgba[i] / 255.0;
 	V_Models[name]->M_Draw(ri);
 }
 void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)

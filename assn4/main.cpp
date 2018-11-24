@@ -94,6 +94,7 @@ void cb_mouseclick(int button, int state, int x, int y)
 
 int main(int argc, char **argv) {
 
+
 	if (QueryPerformanceFrequency(&freq))
 	{
 		cout << freq.QuadPart << endl;

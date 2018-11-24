@@ -16,7 +16,7 @@ SDrawingInfo temptemp(string s, T4Double c)
 void CGraphics::M_SetupHieraModels(void)
 {
 	auto p = CShaderManager::getInstance();
-
+	V_Models.clear();
 	for (auto k : p->M_GetPolygonList())
 	{
 		
