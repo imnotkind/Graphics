@@ -12,7 +12,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "OBJ_Loader.h"
 #include "tinyobjloader.h"
-#include "CImg.h"
 
 
 #pragma comment(lib, "glew32.lib")
@@ -22,7 +21,7 @@
 
 using namespace std;
 using namespace glm;
-using namespace cimg_library;
+
 
 #include <string>
 #include <fstream>
@@ -37,17 +36,22 @@ GLuint FragmentShaderID;
 GLuint programID;
 GLuint vertexLoc;
 GLuint colorLoc;
-
+GLuint uvLoc;
 
 GLuint vertexbuffer;
 GLuint vertexbuffer2;
 GLuint vertexbuffer3;
 GLuint vertexbuffer4;
+GLuint vertexbuffer5;
 
 GLuint VertexArrayID;
 GLuint VertexArrayID2;
 GLuint VertexArrayID3;
 GLuint VertexArrayID4;
+GLuint VertexArrayID5;
+
+GLuint Texture;
+GLuint TextureID;
 
 GLuint MatrixID;
 
@@ -91,6 +95,191 @@ pair<float, vec3> parent_rotation[1] = {
 vec3 parent_translation[1] = {
 	{ 0,0,0 }
 };
+
+
+GLuint loadBMP_custom(const char * imagepath) {
+
+	printf("Reading image %s\n", imagepath);
+
+	// Data read from the header of the BMP file
+	unsigned char header[54];
+	unsigned int dataPos;
+	unsigned int imageSize;
+	unsigned int width, height;
+	// Actual RGB data
+	unsigned char * data;
+
+	// Open the file
+	FILE * file = fopen(imagepath, "rb");
+	if (!file) {
+		printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath);
+		getchar();
+		return 0;
+	}
+
+	// Read the header, i.e. the 54 first bytes
+
+	// If less than 54 bytes are read, problem
+	if (fread(header, 1, 54, file) != 54) {
+		printf("Not a correct BMP file\n");
+		fclose(file);
+		return 0;
+	}
+	// A BMP files always begins with "BM"
+	if (header[0] != 'B' || header[1] != 'M') {
+		printf("Not a correct BMP file\n");
+		fclose(file);
+		return 0;
+	}
+	// Make sure this is a 24bpp file
+	if (*(int*)&(header[0x1E]) != 0) { printf("Not a correct BMP file\n");    fclose(file); return 0; }
+	if (*(int*)&(header[0x1C]) != 24) { printf("Not a correct BMP file\n");    fclose(file); return 0; }
+
+	// Read the information about the image
+	dataPos = *(int*)&(header[0x0A]);
+	imageSize = *(int*)&(header[0x22]);
+	width = *(int*)&(header[0x12]);
+	height = *(int*)&(header[0x16]);
+
+	// Some BMP files are misformatted, guess missing information
+	if (imageSize == 0)    imageSize = width * height * 3; // 3 : one byte for each Red, Green and Blue component
+	if (dataPos == 0)      dataPos = 54; // The BMP header is done that way
+
+										 // Create a buffer
+	data = new unsigned char[imageSize];
+
+	// Read the actual data from the file into the buffer
+	fread(data, 1, imageSize, file);
+
+	// Everything is in memory now, the file can be closed.
+	fclose(file);
+
+	// Create one OpenGL texture
+	GLuint textureID;
+	glGenTextures(1, &textureID);
+
+	// "Bind" the newly created texture : all future texture functions will modify this texture
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	// Give the image to OpenGL
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+
+	// OpenGL has now copied the data. Free our own version
+	delete[] data;
+
+	// Poor filtering, or ...
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
+
+	// ... nice trilinear filtering ...
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	// ... which requires mipmaps. Generate them automatically.
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	// Return the ID of the texture we just created
+	return textureID;
+}
+
+
+#define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
+#define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
+#define FOURCC_DXT5 0x35545844 // Equivalent to "DXT5" in ASCII
+
+GLuint loadDDS(const char * imagepath) {
+
+	unsigned char header[124];
+
+	FILE *fp;
+
+	/* try to open the file */
+	fp = fopen(imagepath, "rb");
+	if (fp == NULL) {
+		printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar();
+		return 0;
+	}
+
+	/* verify the type of file */
+	char filecode[4];
+	fread(filecode, 1, 4, fp);
+	if (strncmp(filecode, "DDS ", 4) != 0) {
+		fclose(fp);
+		return 0;
+	}
+
+	/* get the surface desc */
+	fread(&header, 124, 1, fp);
+
+	unsigned int height = *(unsigned int*)&(header[8]);
+	unsigned int width = *(unsigned int*)&(header[12]);
+	unsigned int linearSize = *(unsigned int*)&(header[16]);
+	unsigned int mipMapCount = *(unsigned int*)&(header[24]);
+	unsigned int fourCC = *(unsigned int*)&(header[80]);
+
+
+	unsigned char * buffer;
+	unsigned int bufsize;
+	/* how big is it going to be including all mipmaps? */
+	bufsize = mipMapCount > 1 ? linearSize * 2 : linearSize;
+	buffer = (unsigned char*)malloc(bufsize * sizeof(unsigned char));
+	fread(buffer, 1, bufsize, fp);
+	/* close the file pointer */
+	fclose(fp);
+
+	unsigned int components = (fourCC == FOURCC_DXT1) ? 3 : 4;
+	unsigned int format;
+	switch (fourCC)
+	{
+	case FOURCC_DXT1:
+		format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		break;
+	case FOURCC_DXT3:
+		format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+		break;
+	case FOURCC_DXT5:
+		format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		break;
+	default:
+		free(buffer);
+		return 0;
+	}
+
+	// Create one OpenGL texture
+	GLuint textureID;
+	glGenTextures(1, &textureID);
+
+	// "Bind" the newly created texture : all future texture functions will modify this texture
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	unsigned int blockSize = (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) ? 8 : 16;
+	unsigned int offset = 0;
+
+	/* load the mipmaps */
+	for (unsigned int level = 0; level < mipMapCount && (width || height); ++level)
+	{
+		unsigned int size = ((width + 3) / 4)*((height + 3) / 4)*blockSize;
+		glCompressedTexImage2D(GL_TEXTURE_2D, level, format, width, height,
+			0, size, buffer + offset);
+
+		offset += size;
+		width /= 2;
+		height /= 2;
+
+		// Deal with Non-Power-Of-Two textures. This code is not included in the webpage to reduce clutter.
+		if (width < 1) width = 1;
+		if (height < 1) height = 1;
+
+	}
+
+	free(buffer);
+
+	return textureID;
+
+
+}
 
 
 GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path) {
@@ -210,7 +399,11 @@ void display1() {
 
 	glUseProgram(programID);
 
-
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, Texture);
+	// Set our "myTextureSampler" sampler to use Texture Unit 0
+	glUniform1i(TextureID, 0);
 
 	glm::mat4 Projection = glm::perspective(glm::radians(100.0f), 1.0f, 0.1f, 1000.0f);
 	glm::mat4 View = glm::lookAt(glm::vec3(150, 150, 150), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
@@ -274,7 +467,7 @@ void display1() {
 	glBindVertexArray(VertexArrayID4);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glUniform4f(colorLoc, 0.0, 1.0, 0.0, 1.0);
-	glDrawArrays(GL_LINES, 0, normals.size());
+	//glDrawArrays(GL_LINES, 0, normals.size());
 
 
 	glutSwapBuffers();
@@ -362,6 +555,9 @@ void init_shader(int p)
 	MatrixID = glGetUniformLocation(programID, "trans");
 	vertexLoc = glGetAttribLocation(programID, "position");
 	colorLoc = glGetUniformLocation(programID, "vicolor");
+	uvLoc = glGetAttribLocation(programID, "uv");
+	Texture = loadBMP_custom("OBJ files/dummy_wood.bmp");
+	TextureID = glGetUniformLocation(programID, "myTextureSampler");
 
 	//https://stackoverflow.com/questions/45860198/glgenvertexarrays-and-glgenbuffers-arguments
 	glGenVertexArrays(1, &VertexArrayID);
@@ -461,6 +657,20 @@ void init_shader(int p)
 	glEnableVertexAttribArray(vertexLoc);
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
+	
+	glGenVertexArrays(1, &VertexArrayID5);
+	glBindVertexArray(VertexArrayID5);
+
+	glGenBuffers(1, &vertexbuffer5);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer5);
+	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
+
+
+	glBindVertexArray(VertexArrayID5);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer5);
+	glEnableVertexAttribArray(uvLoc);
+	glVertexAttribPointer(uvLoc, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	
 }
 
 
@@ -505,15 +715,9 @@ int main(int argc, char **argv)
 	// Create and compile our GLSL program from the shaders
 	bool hae = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, "OBJ files/dummy_obj.obj");
 
+	
+
 	init_shader(-1);
-
-	CImg<unsigned char> src("OBJ files/wall/normal.bmp");
-	int width = src.width();
-	int height = src.height();
-
-	cout << width << "/" << height << endl;
-	unsigned char* ptr = src.data(10, 10); // get pointer to pixel @ 10,10
-	unsigned char pixel = *ptr;
 
 	glutMainLoop();
 

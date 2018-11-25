@@ -202,7 +202,6 @@ int CGraphics::M_Initialize(CEngine * P)
 
 	glClearColor(1, 1, 1, 1); //background white
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-	glShadeModel(GL_FLAT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 	glEnable(GL_MULTISAMPLE);

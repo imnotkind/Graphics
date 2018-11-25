@@ -7,7 +7,6 @@
   <ItemGroup>
     <ClInclude Include="OBJ_Loader.h" />
     <ClInclude Include="tinyobjloader.h" />
-    <ClInclude Include="CImg.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ver.glsl" />
