@@ -11,7 +11,7 @@ void main()
 {
 
 	// Output color
-	//color = vocolor;
+	//color = vocolor.xyz;
 	color = texture(myTextureSampler, UV).rgb;
 
 }
