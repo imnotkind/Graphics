@@ -453,15 +453,15 @@ void display1() {
 	glBindVertexArray(VertexArrayID3);
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glUniform4f(colorLoc, 1.0, 1.0, 0.0, 1.0);
-	glDrawArrays(GL_LINES, 0, vertices.size());
+	//glDrawArrays(GL_LINES, 0, vertices.size());
 
-	/*
-	Model = glm::scale(glm::mat4(1.0f), glm::vec3(10, 10, 10));
+	
+	//Model = glm::scale(glm::mat4(1.0f), glm::vec3(10, 10, 10));
 	mvp = Projection * View * Model;
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-	glUniform4f(colorLoc, 1.0, 0.0, 0.0, 1.0);
+	//glUniform4f(colorLoc, 1.0, 0.0, 0.0, 1.0);
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-	*/
+	
 
 
 	glBindVertexArray(VertexArrayID4);
