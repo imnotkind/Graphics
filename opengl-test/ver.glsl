@@ -12,5 +12,6 @@ void main()
 {
 	vocolor = vicolor;
     gl_Position = trans*position ;
+	//UV = position.xy * 0.01;
 	UV = uv;
 }

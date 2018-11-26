@@ -658,12 +658,20 @@ void init_shader(int p)
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	
+	float * uv_arr = new float[uvs.size() * 2];
+	for (int i = 0; i < uvs.size(); i++)
+	{
+		uv_arr[2 * i] = uvs[i].x;
+		uv_arr[2 * i + 1] = uvs[i].y;
+	}
+
 	glGenVertexArrays(1, &VertexArrayID5);
 	glBindVertexArray(VertexArrayID5);
 
 	glGenBuffers(1, &vertexbuffer5);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer5);
-	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(uv_arr), uv_arr, GL_STATIC_DRAW);
+
 
 
 	glBindVertexArray(VertexArrayID5);
