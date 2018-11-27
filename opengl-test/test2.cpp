@@ -48,7 +48,6 @@ GLuint VertexArrayID;
 GLuint VertexArrayID2;
 GLuint VertexArrayID3;
 GLuint VertexArrayID4;
-GLuint VertexArrayID5;
 
 GLuint Texture;
 GLuint TextureID;
@@ -470,6 +469,7 @@ void display1() {
 	//glDrawArrays(GL_LINES, 0, normals.size());
 
 
+
 	glutSwapBuffers();
 }
 
@@ -638,8 +638,8 @@ void init_shader(int p)
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
 
 
-	glBindVertexArray(VertexArrayID3);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer3);
+	//glBindVertexArray(VertexArrayID3);
+	//glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer3);
 	glEnableVertexAttribArray(vertexLoc);
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
@@ -658,23 +658,13 @@ void init_shader(int p)
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	
-	float * uv_arr = new float[uvs.size() * 2];
-	for (int i = 0; i < uvs.size(); i++)
-	{
-		uv_arr[2 * i] = uvs[i].x;
-		uv_arr[2 * i + 1] = uvs[i].y;
-	}
-
-	glGenVertexArrays(1, &VertexArrayID5);
-	glBindVertexArray(VertexArrayID5);
-
+	glBindVertexArray(VertexArrayID3);
 	glGenBuffers(1, &vertexbuffer5);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer5);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(uv_arr), uv_arr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
 
 
-
-	glBindVertexArray(VertexArrayID5);
+	
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer5);
 	glEnableVertexAttribArray(uvLoc);
 	glVertexAttribPointer(uvLoc, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
