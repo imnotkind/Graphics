@@ -1,6 +1,5 @@
 #pragma once
 #include "CHandler.h"
-#include "readbmp.h"
 
 class CTexture
 {

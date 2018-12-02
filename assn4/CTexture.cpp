@@ -13,7 +13,7 @@ CTexture::~CTexture()
 
 void CTexture::M_LoadBMP(string imagepath) {
 
-	printf("Reading image %s\n", imagepath);
+	printf("Reading image %s\n", imagepath.c_str());
 
 	// Data read from the header of the BMP file
 	unsigned char header[54];
@@ -45,8 +45,8 @@ void CTexture::M_LoadBMP(string imagepath) {
 		return;
 	}
 	// Make sure this is a 24bpp file
-	if (*(int*)&(header[0x1E]) != 0) { printf("Not a correct BMP file\n");    fclose(file); return 0; }
-	if (*(int*)&(header[0x1C]) != 24) { printf("Not a correct BMP file\n");    fclose(file); return 0; }
+	if (*(int*)&(header[0x1E]) != 0) { printf("Not a correct BMP file\n");    fclose(file); return; }
+	if (*(int*)&(header[0x1C]) != 24) { printf("Not a correct BMP file\n");    fclose(file); return; }
 
 	// Read the information about the image
 	dataPos = *(int*)&(header[0x0A]);
