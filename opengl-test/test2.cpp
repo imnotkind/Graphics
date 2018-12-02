@@ -405,7 +405,7 @@ void display1() {
 	glUniform1i(TextureID, 0);
 
 	glm::mat4 Projection = glm::perspective(glm::radians(100.0f), 1.0f, 0.1f, 1000.0f);
-	glm::mat4 View = glm::lookAt(glm::vec3(150, 150, 150), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glm::mat4 View = glm::lookAt(glm::vec3(100, 100, 100), glm::vec3(0, 50, 0), glm::vec3(0, 1, 0));
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 mvp = Projection * View * Model;
 
