@@ -185,9 +185,6 @@ void CGraphics::M_RenderUI(void)
 
 int CGraphics::M_Initialize(CEngine * P)
 {
-	CTexture t;
-	t.M_LoadBMP("resource/OBJ files/wall/normal.bmp");
-
 	V_PEngine = P;
 	V_Screen_Size = T2Double(1080, 1080);
 	auto ui = CUserInput::getInstance();
@@ -219,6 +216,7 @@ void CGraphics::M_Initialize2(void)
 	V_CurrentDrawing = false;
 
 	M_SetupHieraModels();
+
 }
 
 void CGraphics::M_ListenMessages(void)
