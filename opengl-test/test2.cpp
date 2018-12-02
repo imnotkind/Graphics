@@ -50,7 +50,7 @@ GLuint VertexArrayID3;
 GLuint VertexArrayID4;
 
 GLuint Texture;
-GLuint TextureID;
+GLuint TextureLoc;
 
 GLuint MatrixID;
 
@@ -402,7 +402,7 @@ void display1() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, Texture);
 	// Set our "myTextureSampler" sampler to use Texture Unit 0
-	glUniform1i(TextureID, 0);
+	glUniform1i(TextureLoc, 0);
 
 	glm::mat4 Projection = glm::perspective(glm::radians(100.0f), 1.0f, 0.1f, 1000.0f);
 	glm::mat4 View = glm::lookAt(glm::vec3(100, 100, 100), glm::vec3(0, 50, 0), glm::vec3(0, 1, 0));
@@ -557,7 +557,7 @@ void init_shader(int p)
 	colorLoc = glGetUniformLocation(programID, "vicolor");
 	uvLoc = glGetAttribLocation(programID, "uv");
 	Texture = loadBMP_custom("OBJ files/dummy_wood.bmp");
-	TextureID = glGetUniformLocation(programID, "myTextureSampler");
+	TextureLoc = glGetUniformLocation(programID, "myTextureSampler");
 
 	//https://stackoverflow.com/questions/45860198/glgenvertexarrays-and-glgenbuffers-arguments
 	glGenVertexArrays(1, &VertexArrayID);
