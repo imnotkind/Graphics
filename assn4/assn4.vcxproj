@@ -169,7 +169,6 @@
     <ClCompile Include="CUserInput.cpp" />
     <ClCompile Include="HieraModels.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="readbmp.cpp" />
     <ClCompile Include="StringHelper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -193,7 +192,6 @@
     <ClInclude Include="MainHeader.h" />
     <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="Pointer.h" />
-    <ClInclude Include="readbmp.h" />
     <ClInclude Include="TGrid.h" />
     <ClInclude Include="tinyobjloader.h" />
     <ClInclude Include="TVector.h" />

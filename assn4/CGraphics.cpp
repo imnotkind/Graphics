@@ -198,9 +198,6 @@ void CGraphics::M_RenderUI(void)
 
 int CGraphics::M_Initialize(CEngine * P)
 {
-	CTexture t;
-	t.M_LoadTexture("resource/OBJ files/wall/normal.bmp");
-
 	V_PEngine = P;
 	V_Screen_Size = T2Double(1080, 1080);
 	auto ui = CUserInput::getInstance();
@@ -235,6 +232,7 @@ void CGraphics::M_Initialize2(void)
 	for (auto& l : V_Lights)
 		l.dif = Vec4d(0, 0, 0, 0), l.spc = Vec4d(0, 0, 0, 0);
 	M_SetupHieraModels();
+
 }
 
 void CGraphics::M_ListenMessages(void)
