@@ -38,17 +38,23 @@ void CDrawing::M_Draw(const SRenderInfo& r)
 
 		p = glGetUniformLocation(V_PSM->M_GetProgram(), "ambient");
 		glUniform4fv(p, 1, &r.amb[0]);
-		p = glGetUniformLocation(V_PSM->M_GetProgram(), "diffuse");
-		glUniform4fv(p, 1, &r.dif[0]);
-		p = glGetUniformLocation(V_PSM->M_GetProgram(), "specular");
-		glUniform4fv(p, 1, &r.spc[0]);
 
-		p = glGetUniformLocation(V_PSM->M_GetProgram(), "light1");
-		glUniform4fv(p, 1, &r.light1[0]);
-		p = glGetUniformLocation(V_PSM->M_GetProgram(), "light2");
-		glUniform4fv(p, 1, &r.light2[0]);
-		p = glGetUniformLocation(V_PSM->M_GetProgram(), "lgiht3");
-		glUniform4fv(p, 1, &r.light3[0]);
+		for (int i = 0; i < r.lights.size(); i++)
+		{
+			auto l = r.lights[i];
+			char buf[30];
+			sprintf(buf, "light[%d].%s", i, "diffuse"); //WTF sprintf is too slow
+			p = glGetUniformLocation(V_PSM->M_GetProgram(), buf);
+			glUniform4fv(p, 1, &l.dif[0]);
+			
+			sprintf(buf, "light[%d].%s", i, "specular");
+			p = glGetUniformLocation(V_PSM->M_GetProgram(), buf);
+			glUniform4fv(p, 1, &l.spc[0]);
+
+			sprintf(buf, "light[%d].%s", i, "pos");
+			p = glGetUniformLocation(V_PSM->M_GetProgram(), buf);
+			glUniform4fv(p, 1, &l.pos[0]);
+		}
 
 	}
 

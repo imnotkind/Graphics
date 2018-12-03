@@ -49,6 +49,17 @@ void cb_idle()
 	else {
 		cout << "counter fail" << endl;
 	}
+	return;
+	POINT mouse_coord;
+	auto iq = CUserInput::getInstance();
+	if (iq->V_MousePrison == false) return;
+	GetCursorPos(&mouse_coord);
+	T2Int mouse_diff = T2Int((int)mouse_coord.x - 500, (int)mouse_coord.y - 500);
+	SetCursorPos(500, 500);
+
+
+	T2Int m = iq->M_MouseGet();
+	iq->M_MouseSet(m + mouse_diff);
 	
 }
 

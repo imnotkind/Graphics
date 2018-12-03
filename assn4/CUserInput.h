@@ -21,7 +21,7 @@ class CUserInput : public CHandler
 	T2Int V_MousePos;
 	T2Double V_WinSize;
 public:
-	
+	bool V_MousePrison;
 
 	static CUserInput* getInstance(void)
 	{

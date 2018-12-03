@@ -99,7 +99,33 @@ void CShaderManager::M_LoadMesh(string path, string name)
 			for (int j = 0; j < 4; j++)
 				arr[k + j] = vertices[i][j];
 			for (int j = 0; j < 3; j++)
-				norm[q + j] = normals[i][j];
+				norm[q + j] = 0;// normals[i][j];
+		}
+
+		bool flat = true;
+		if (flat)
+		{
+			glm::vec4 p[3];
+			for (int i = 0; i < n/12; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					for (int d = 0; d < 4; d++)
+					{
+						p[j][d] = arr[i * 12 * 4 + 4 * j + d];
+					}
+				}
+
+				glm::vec3 v1 = p[0] - p[1];
+				glm::vec3 v2 = p[1] - p[2];
+
+				glm::vec3 fn = glm::normalize(glm::cross(v1, v2));
+
+				for (int j = 0; j < 9; j++)
+				{
+					norm[i * 9 + j] = fn[j % 3];
+				}
+			}
 		}
 
 		GLuint vbid;

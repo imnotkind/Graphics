@@ -25,7 +25,8 @@ class CGraphics : public CHandler
 
 	Vec3d V_Camera_Speed;
 
-	Vec3d V_Light1;
+	vector<SLight> V_Lights;
+	bool V_KeepLight;
 
 
 	glm::mat4 V_CTM_View;

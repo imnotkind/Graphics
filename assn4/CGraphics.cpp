@@ -12,8 +12,21 @@ CGraphics::~CGraphics()
 
 void CGraphics::M_RenderGame(void)
 {
-	V_Light1 = Vec3d(0.0, 0.0, 5.0) + V_PEngine->V_Player->M_GetDrawData().pos.convert_gl();
+	auto xx = V_PEngine->V_Player->M_GetDrawData().pos.convert_gl();
+	V_Lights[0].pos = Vec4d(xx[0], xx[1], 5.0, 1.0);
+	V_Lights[0].dif = Vec4d(0.5, 0.5, 0.5, 1);
+	V_Lights[0].spc = Vec4d(0.5, 0.5, 0.5, 1);
 
+	V_Lights[1].pos = Vec4d(xx[1], xx[0], 5.0, 1.0);
+	V_Lights[1].dif = Vec4d(0.5, 0.5, 0.5, 1);
+	V_Lights[1].spc = Vec4d(0.5, 0.5, 0.5, 1);
+
+	for (auto l : V_Lights)
+	{
+		M_DrawModel(l.pos, "star", 1.0, 0.0, T4Int(255, 60, 255, 255));
+	}
+	M_DrawModel(Vec4d(0,0,-100,0), "sphere", 1.0, 0.0, T4Int(255, 60, 255, 255)); //light setup
+	V_KeepLight = true;
 	static double anim = 0.0;
 	anim += 0.05;
 
@@ -218,6 +231,9 @@ void CGraphics::M_Initialize2(void)
 	V_ViewMode = false;
 	V_CurrentDrawing = false;
 
+	V_Lights.resize(3);
+	for (auto& l : V_Lights)
+		l.dif = Vec4d(0, 0, 0, 0), l.spc = Vec4d(0, 0, 0, 0);
 	M_SetupHieraModels();
 }
 
@@ -300,6 +316,7 @@ void CGraphics::M_MoveCamera(void)
 }
 void CGraphics::M_CallbackDisplay()
 {
+	V_KeepLight = false;
 	M_ListenMessages();
 
 	V_CTM_Temp = glm::mat4(1.0);
@@ -377,11 +394,14 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 	ri.modelview = m;
 	ri.projection = V_CTM_Project;
 
-	ri.keeplight = false;
+	ri.keeplight = V_KeepLight;
 	ri.amb = Vec4d(0.1, 0.1, 0.1, 1.0);
-	ri.dif = Vec4d(0.5, 0.5, 0.5, 1.0);
-	ri.spc = Vec4d(0.0, 0.0, 0.0, 1.0);
-	ri.light1 = V_CTM_View * Vec4d(V_Light1[0], V_Light1[1], V_Light1[2], 1);
+
+	auto vt = V_CTM_View;
+	ri.lights.resize(V_Lights.size());
+	transform(V_Lights.begin(), V_Lights.end(), ri.lights.begin(),
+		[vt](SLight x)->SLight {x.pos = vt * x.pos; return x; });
+
 	ri.normtrans = m;
 	
 
