@@ -14,7 +14,7 @@ out vec2 uv;
 
 void main()
 {
-    vnormal = normalize(normaltrans * vec4(normal, 0.0)).xyz;
+    vnormal = normalize(normal);
 	uv = tex;
 	vpos = modelview * position;
     gl_Position = projection * vpos;

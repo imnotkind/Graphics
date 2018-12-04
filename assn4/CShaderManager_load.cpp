@@ -90,6 +90,7 @@ void CShaderManager::M_LoadMesh(string path, string name)
 		float* arr = new float[n * 4];
 		float* norm = new float[n * 3];
 		float* tex = new float[n * 2];
+		float* pnorm = new float[n * 3];
 
 		for (int i = 0; i < n; i++)
 		{
@@ -106,7 +107,7 @@ void CShaderManager::M_LoadMesh(string path, string name)
 			
 		}
 
-		bool flat = false;
+		bool flat = true;
 		if (flat)
 		{
 			glm::vec4 p[3];
@@ -127,7 +128,7 @@ void CShaderManager::M_LoadMesh(string path, string name)
 
 				for (int j = 0; j < 9; j++)
 				{
-					norm[i * 9 + j] = fn[j % 3];
+					pnorm[i * 9 + j] = fn[j % 3];
 				}
 			}
 		}
@@ -140,13 +141,16 @@ void CShaderManager::M_LoadMesh(string path, string name)
 		glGenBuffers(1, &vbid);
 		glBindBuffer(GL_ARRAY_BUFFER, vbid); // attach to currently bound vertex array
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (n * 4 + n * 3), NULL, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (n * 4 + n * 3 + n * 2 + n * 3), NULL, GL_STATIC_DRAW);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* (n * 4), arr);
 		glBufferSubData(GL_ARRAY_BUFFER, sizeof(float)* (n * 4), sizeof(float)* (n * 3), norm);
 		glBufferSubData(GL_ARRAY_BUFFER, sizeof(float)* (n * 7), sizeof(float)* (n * 2), tex);
+		glBufferSubData(GL_ARRAY_BUFFER, sizeof(float)* (n * 9), sizeof(float)* (n * 3), pnorm);
 
 		delete[] arr;
 		delete[] norm;
+		delete[] tex;
+		delete[] pnorm;
 
 		ostringstream os;
 		os << name << "_" << index;
@@ -350,6 +354,31 @@ void CShaderManager::M_LoadProgram(string name, string ver, string frag)
 
 			glEnableVertexAttribArray(nl);
 			glVertexAttribPointer(nl, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 4 * a.num));
+
+			glEnableVertexAttribArray(tl);
+			glVertexAttribPointer(tl, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 7 * a.num));
+		}
+	}
+	else if (name == "prg5")
+	{
+		V_Programs[name] = id;
+		auto vl = glGetAttribLocation(id, "position");
+		auto nl = glGetAttribLocation(id, "normal");
+		auto tl = glGetAttribLocation(id, "tex");
+
+		for (auto p : V_Polygons)
+		{
+			auto a = p.second;
+			auto b = V_Buffers[p.first];
+
+			glBindVertexArray(a.aindex);
+			glBindBuffer(GL_ARRAY_BUFFER, b);
+
+			glEnableVertexAttribArray(vl);
+			glVertexAttribPointer(vl, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+			glEnableVertexAttribArray(nl);
+			glVertexAttribPointer(nl, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 9 * a.num));
 
 			glEnableVertexAttribArray(tl);
 			glVertexAttribPointer(tl, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 7 * a.num));

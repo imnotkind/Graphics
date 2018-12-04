@@ -23,9 +23,9 @@ void CGraphics::M_RenderGame(void)
 	V_Lights[0].dif = Vec4d(0.5, 0.5, 0.5, 1);
 	V_Lights[0].spc = Vec4d(0.5, 0.5, 0.5, 1);
 
-	V_Lights[1].pos = Vec4d(cos(anim), sin(anim), 1.0, 0.0);
-	V_Lights[1].dif = Vec4d(0.5, 0.5, 0.5, 1);
-	V_Lights[1].spc = Vec4d(0.5, 0.5, 0.5, 1);
+	//V_Lights[1].pos = Vec4d(cos(anim), sin(anim), 1.0, 0.0);
+	//V_Lights[1].dif = Vec4d(0.5, 0.5, 0.5, 1);
+	//V_Lights[1].spc = Vec4d(0.5, 0.5, 0.5, 1);
 
 	for (auto l : V_Lights)
 	{
