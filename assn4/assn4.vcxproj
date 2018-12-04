@@ -202,6 +202,7 @@
     <None Include="resource\frag.glsl" />
     <None Include="resource\frag2.glsl" />
     <None Include="resource\frag_shd.glsl" />
+    <None Include="resource\frag_shd_map.glsl" />
     <None Include="resource\item.pol" />
     <None Include="resource\polygon.pol" />
     <None Include="resource\program.prg" />

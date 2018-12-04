@@ -85,6 +85,9 @@ CShaderManager::CShaderManager(string config_path)
 		M_LoadPolygon(p.second, p.first);
 	}
 
+	CTexture t; t.M_LoadBMP("resource/OBJ Files/wall/normal.bmp");
+	V_Textures["wall"] = t;
+
 
 	for (auto p : ObjData)
 	{

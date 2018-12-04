@@ -57,6 +57,11 @@ void CDrawing::M_Draw(const SRenderInfo& r)
 		}
 
 	}
+	if (V_Texture != -1)
+	{
+		p = glGetUniformLocation(V_PSM->M_GetProgram(), "texsam");
+		glUniform1i(p, 0);
+	}
 
 
 	if (V_DrawMode == 2) glDrawArrays(GL_TRIANGLE_STRIP, 0, V_Array.num); 

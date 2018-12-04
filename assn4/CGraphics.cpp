@@ -12,12 +12,18 @@ CGraphics::~CGraphics()
 
 void CGraphics::M_RenderGame(void)
 {
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, V_SM->V_Textures["wall"].textureID);
+
+	static double anim = 0.0;
+	anim += 0.05;
+
 	auto xx = V_PEngine->V_Player->M_GetDrawData().pos.convert_gl();
 	V_Lights[0].pos = Vec4d(xx[0], xx[1], 5.0, 1.0);
 	V_Lights[0].dif = Vec4d(0.5, 0.5, 0.5, 1);
 	V_Lights[0].spc = Vec4d(0.5, 0.5, 0.5, 1);
 
-	V_Lights[1].pos = Vec4d(xx[1], xx[0], 5.0, 1.0);
+	V_Lights[1].pos = Vec4d(cos(anim), sin(anim), 1.0, 0.0);
 	V_Lights[1].dif = Vec4d(0.5, 0.5, 0.5, 1);
 	V_Lights[1].spc = Vec4d(0.5, 0.5, 0.5, 1);
 
@@ -27,8 +33,7 @@ void CGraphics::M_RenderGame(void)
 	}
 	M_DrawModel(Vec4d(0,0,-100,0), "sphere", 1.0, 0.0, T4Int(255, 60, 255, 255)); //light setup
 	V_KeepLight = true;
-	static double anim = 0.0;
-	anim += 0.05;
+	
 
 
 	auto am1 = glm::rotate(glm::mat4(1.0), (float)(cos(anim) * 0.2 * PI), glm::vec3(0.0, 0.0, 1.0));
@@ -99,6 +104,11 @@ void CGraphics::M_RenderGame(void)
 	//render map
 	double gsize = V_PEngine->V_Grid_Size;
 	auto s = V_PEngine->V_Map.size;
+
+	V_KeepLight = false;
+	M_DrawModel(Vec3d(0,0,0), "cubeobj", gsize, 0, T4Int(0,0,0,255));
+	V_KeepLight = true;
+
 	for (int i = 0; i < s[0]; i++)
 	{
 		for (int j = 0; j < s[1]; j++)

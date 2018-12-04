@@ -7,16 +7,6 @@ uniform mat4 modelview;
 uniform mat4 normaltrans; // supposed to be rotation only from viewtrans
 uniform vec4 vicolor;
 
-uniform vec4 ambient;
-uniform vec4 diffuse;
-uniform vec4 specular;
-uniform vec4 light1;
-uniform vec4 light2;
-uniform vec4 light3;
-
-
-
-
 out vec3 vnormal;
 out vec4 vpos;
 

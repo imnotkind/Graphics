@@ -26,6 +26,7 @@ void CGraphics::M_SetupHieraModels(void)
 		di.Program = di.PolygonName == "cube1" ?  "prg2" : "prg1";
 		di.Line_Color = T4Double(0.0, 0.0, 0.0, 1.0);
 		di.light = false;
+		di.texture = -1;
 
 		auto& m = p->V_Polygon_suggested_mode;
 		if (m.find(di.PolygonName) != m.end())

@@ -242,6 +242,9 @@
     <None Include="resource\frag_shd.glsl">
       <Filter>Resource\glsl</Filter>
     </None>
+    <None Include="resource\frag_shd_map.glsl">
+      <Filter>Resource\glsl</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\map.txt">

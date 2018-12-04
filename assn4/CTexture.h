@@ -4,8 +4,9 @@
 class CTexture
 {
 private:
-	GLuint textureID;
+	
 public:
+	GLuint textureID;
 	CTexture();
 	virtual ~CTexture();
 	void M_LoadBMP(string imagepath);

@@ -2,6 +2,7 @@
 #include "CHandler.h"
 #include <fstream>
 #include <sstream>
+#include "CTexture.h"
 
 struct SVerArray
 {
@@ -20,6 +21,8 @@ class CShaderManager :
 	map<string, GLuint> V_Buffers;
 
 	map<string, T3Int> V_Polygon_aux;
+
+	
 	
 
 	void M_LoadShader(string path, string name, int type);
@@ -37,7 +40,7 @@ class CShaderManager :
 	CShaderManager(string config_path);
 	~CShaderManager();
 public:
-
+	map<string, CTexture> V_Textures;
 	set<string> V_Meshes; // meta path
 	map<string, int> V_Polygon_suggested_mode;
 	

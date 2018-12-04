@@ -1,22 +1,23 @@
 #version 330 core
 in vec4 position;
-in vec2 texcoord;
+in vec3 normal;
+in vec2 tex;
 
 uniform mat4 projection;
 uniform mat4 modelview;
 uniform mat4 normaltrans; // supposed to be rotation only from viewtrans
 uniform vec4 vicolor;
 
-uniform vec4 ambient;
-uniform vec4 diffuse;
-uniform vec4 specular;
-uniform vec4 light1;
-
-
-out vec4 vocolor;
+out vec3 vnormal;
+out vec4 vpos;
+out vec2 uv;
 
 void main()
 {
-    vocolor = vicolor * texcoord[0] * texcoord[1];
-    gl_Position = projection * modelview * position ;
+    vnormal = normalize(normaltrans * vec4(normal, 0.0)).xyz;
+	uv = tex;
+	vpos = modelview * position;
+    gl_Position = projection * vpos;
+	
 }
+

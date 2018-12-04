@@ -280,11 +280,12 @@ void CMesh::M_ConstructHierModel(void)
 		treenodes[V_Groups[i].group_parent].second.push_back(i);
 	}
 
-	int max = 29;
+	int max = 1;
 	for (int i = 0; i < N; i++) //most among sub-meshes that are member of some group
 		for (auto j : V_Groups[i].group_members)
 			if (j > max) max = j;
 
+	printf("<%d>\n", max);
 	vector<SHierModelNode> result;
 	map<int, SHierModelNode> all;
 
@@ -294,8 +295,9 @@ void CMesh::M_ConstructHierModel(void)
 	for (int i = 0; i < N; i++)
 		result.push_back(all[i]);
 
+	auto sm = CShaderManager::getInstance();
 	
-	for (int i = 0; i < max; i++)
+	for (int i = 0; i <= max; i++)
 	{
 		ostringstream os;
 		os << V_Name << "_" << i;
@@ -307,8 +309,10 @@ void CMesh::M_ConstructHierModel(void)
 		D.Global_Color = V_SurfaceColor;
 		D.Line_Color = V_LineColor;
 		D.PolygonName = os.str();
-		D.Program = "prg3";
+		D.Program = V_Name == "cubeobj" ? "prg4" : "prg3";
 		D.light = true;
+		D.texture = V_Name == "cubeobj" ? sm->V_Textures["wall"].textureID : -1;
+
 
 
 		auto p = CShaderManager::getInstance();
