@@ -124,7 +124,7 @@ void CShaderManager::M_LoadMesh(string path, string name)
 				glm::vec3 v1 = p[0] - p[1];
 				glm::vec3 v2 = p[1] - p[2];
 
-				glm::vec3 fn = glm::normalize(glm::cross(v1, v2));
+				glm::vec3 fn = -glm::normalize(glm::cross(v1, v2));
 
 				for (int j = 0; j < 9; j++)
 				{

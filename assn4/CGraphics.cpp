@@ -19,13 +19,17 @@ void CGraphics::M_RenderGame(void)
 	anim += 0.05;
 
 	auto xx = V_PEngine->V_Player->M_GetDrawData().pos.convert_gl();
-	V_Lights[0].pos = Vec4d(xx[0], xx[1], 5.0, 1.0);
-	V_Lights[0].dif = Vec4d(0.5, 0.5, 0.5, 1);
-	V_Lights[0].spc = Vec4d(0.5, 0.5, 0.5, 1);
+	V_Lights[0].pos = Vec4d(xx[0] + 3*cos(anim*0.2), xx[1] + 3*sin(anim*0.2), 5.0, 1.0);
+	V_Lights[0].dif = Vec4d(0.15, 0.15, 0.15, 1);
+	V_Lights[0].spc = Vec4d(0.15, 0.15, 0.15, 1);
 
-	//V_Lights[1].pos = Vec4d(cos(anim), sin(anim), 1.0, 0.0);
-	//V_Lights[1].dif = Vec4d(0.5, 0.5, 0.5, 1);
-	//V_Lights[1].spc = Vec4d(0.5, 0.5, 0.5, 1);
+	V_Lights[1].pos = Vec4d(cos(anim*0.3), sin(anim*0.3), 1.0, 0.0);
+	V_Lights[1].dif = Vec4d(0.05, 0.05, 0.05, 1);
+	V_Lights[1].spc = Vec4d(0.05, 0.05, 0.05, 1);
+
+	V_Lights[2].pos = Vec4d(xx[0] +  5*cos(anim*0.23), xx[1] + 0.0, 5*sin(anim*0.23), 1.0);
+	V_Lights[2].dif = Vec4d(0.1, 0.1, 0.1, 1);
+	V_Lights[2].spc = Vec4d(0.1, 0.1, 0.1, 1);
 
 	for (auto l : V_Lights)
 	{

@@ -39,12 +39,12 @@ void main()
 {
 	color = ambient;
 
-	vec3 samnorm = normalize(texture(texsam, uv).xyz);
-	vec3 zv = vec3(0.43446, 0.43446, 0.78898);
+	vec3 samnorm = normalize(texture(texsam, uv).xyz * 2 - vec3(1,1,1));
+	vec3 zv = vec3(0,0,1);
 	vec3 cv = cross(zv, vnormal);
 
 	mat3 sm = ss(cv);
-	mat3 R = mat3(1.0) + sm + sm*sm*(1.0/(1+dot(zv, vnormal)));
+	mat3 R = mat3(1.0) + sm + sm*sm*(1.0/(1+dot(zv, vnormal)+0.01));
 
 	samnorm = mat3(normaltrans)*R*samnorm;
 
@@ -59,8 +59,8 @@ void main()
 		float katt = light[i].pos[3] == 0 ? 1 : 5.0/length(light[i].pos- vpos);
 
 		
-		vec4 dif_r = vicolor * katt * max(dot(samnorm,L), 0.0); // NL is negative : backside
-		vec4 spc_r = vicolor * katt * pow(max(dot(R,E), 0.0), 0.8);
+		vec4 dif_r = vicolor*light[i].diffuse * katt * max(dot(samnorm,L), 0.0); // NL is negative : backside
+		vec4 spc_r = vicolor*light[i].specular * katt * pow(max(dot(R,E), 0.0), 0.8);
 		color += clamp(dif_r, 0.0, 1.0) + clamp(spc_r, 0.0, 0.5);
 	}
 	

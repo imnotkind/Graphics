@@ -38,8 +38,8 @@ void main()
 		float katt = light[i].pos[3] == 0 ? 1 : 5.0/length(light[i].pos- vpos);
 
 		
-		vec4 dif_r = vicolor * katt * max(dot(vnormal,L), 0.0); // NL is negative : backside
-		vec4 spc_r = vicolor * katt * pow(max(dot(R,E), 0.0), 0.8);
+		vec4 dif_r = vicolor*light[i].diffuse * katt * max(dot(vnormal,L), 0.0); // NL is negative : backside
+		vec4 spc_r = vicolor*light[i].specular * katt * pow(max(dot(R,E), 0.0), 0.8);
 		color += clamp(dif_r, 0.0, 1.0) + clamp(spc_r, 0.0, 0.5);
 	}
 	
