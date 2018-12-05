@@ -26,7 +26,6 @@ out vec4 color;
 
 uniform sampler2D texsam;
 
-
 mat3 ss(vec3 v)
 {
 	mat3 m;

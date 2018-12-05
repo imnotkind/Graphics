@@ -18,5 +18,4 @@ void main()
 
 	vpos = modelview * position;
     gl_Position = projection * vpos;
-	
 }

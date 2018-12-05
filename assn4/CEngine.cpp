@@ -350,7 +350,7 @@ void CEngine::M_Initialize(void)
 	V_Objects.clear();
 
 	V_CrazyMod = false;
-	V_Life = 30;
+	V_Life = 4;
 	V_Animation_Temp = 0.0;
 
 	V_StartTick = GetTickCount();
