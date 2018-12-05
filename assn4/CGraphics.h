@@ -27,6 +27,7 @@ class CGraphics : public CHandler
 
 	vector<SLight> V_Lights;
 	bool V_KeepLight;
+	bool V_PartyMode;
 
 
 	glm::mat4 V_CTM_View;

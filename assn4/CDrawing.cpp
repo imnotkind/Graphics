@@ -31,10 +31,12 @@ void CDrawing::M_Draw(const SRenderInfo& r)
 	for (int i = 0; i< 4; i++) col[i] = V_Color[i] * r.color[i];
 	glUniform4fv(p, 1, col);
 
+	p = glGetUniformLocation(V_PSM->M_GetProgram(), "normaltrans");
+	glUniformMatrix4fv(p, 1, GL_FALSE, &r.normtrans[0][0]);
+
 	if (V_Light && !r.keeplight)
 	{
-		p = glGetUniformLocation(V_PSM->M_GetProgram(), "normaltrans");
-		glUniformMatrix4fv(p, 1, GL_FALSE, &r.normtrans[0][0]);
+		
 
 		p = glGetUniformLocation(V_PSM->M_GetProgram(), "ambient");
 		glUniform4fv(p, 1, &r.amb[0]);

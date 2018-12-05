@@ -19,17 +19,38 @@ void CGraphics::M_RenderGame(void)
 	anim += 0.05;
 
 	auto xx = V_PEngine->V_Player->M_GetDrawData().pos.convert_gl();
-	V_Lights[0].pos = Vec4d(xx[0] + 3*cos(anim*0.2), xx[1] + 3*sin(anim*0.2), 5.0, 1.0);
-	V_Lights[0].dif = Vec4d(0.2, 0.2, 0.2, 1);
-	V_Lights[0].spc = Vec4d(0.2, 0.2, 0.2, 1);
+	
 
-	V_Lights[1].pos = Vec4d(cos(anim*0.3), sin(anim*0.3), 1.0, 0.0);
-	V_Lights[1].dif = Vec4d(0.03, 0.03, 0.03, 1);
-	V_Lights[1].spc = Vec4d(0.03, 0.03, 0.03, 1);
 
-	V_Lights[2].pos = Vec4d(xx[0] +  5*cos(anim*0.23), xx[1] + 0.0, 5*sin(anim*0.23), 1.0);
-	V_Lights[2].dif = Vec4d(0.2, 0.2, 0.2, 1);
-	V_Lights[2].spc = Vec4d(0.2, 0.2, 0.2, 1);
+	if (!V_PartyMode)
+	{
+		V_Lights[0].pos = Vec4d(xx[0] + 3 * cos(anim*0.2), xx[1] + 3 * sin(anim*0.2), 5.0, 1.0);
+		V_Lights[0].dif = Vec4d(0.2, 0.2, 0.2, 1);
+		V_Lights[0].spc = Vec4d(0.2, 0.2, 0.2, 1);
+
+		V_Lights[1].pos = Vec4d(cos(anim*0.3), sin(anim*0.3), 1.0, 0.0);
+		V_Lights[1].dif = Vec4d(0.03, 0.03, 0.03, 1);
+		V_Lights[1].spc = Vec4d(0.03, 0.03, 0.03, 1);
+
+		V_Lights[2].pos = Vec4d(xx[0] + 5 * cos(anim*0.23), xx[1] + 0.0, 5 * sin(anim*0.23), 1.0);
+		V_Lights[2].dif = Vec4d(0.2, 0.2, 0.2, 1);
+		V_Lights[2].spc = Vec4d(0.2, 0.2, 0.2, 1);
+	}
+	else
+	{
+		double anim2 = anim * 5;
+		V_Lights[0].pos = Vec4d(xx[0] + 9 * cos(anim2*0.2), xx[1] + 9 * sin(anim2*0.2), 5.0, 1.0);
+		V_Lights[0].dif = Vec4d(0.8, 0.2, 0.2, 1);
+		V_Lights[0].spc = Vec4d(0.2, 0.2, 0.8, 1);
+
+		V_Lights[1].pos = Vec4d(cos(anim2*0.3), sin(anim2*0.3), 1.0, 0.0);
+		V_Lights[1].dif = Vec4d(0.03, 0.3, 0.3, 1);
+		V_Lights[1].spc = Vec4d(0.03, 0.0, 0.3, 1);
+
+		V_Lights[2].pos = Vec4d(xx[0] + 12 * cos(anim2*0.23), xx[1] + 0.0, 9 + 12 * sin(anim2*0.23), 1.0);
+		V_Lights[2].dif = Vec4d(0.8, 0.8, 0.2, 1);
+		V_Lights[2].spc = Vec4d(0.2, 0.8, 0.8, 1);
+	}
 
 	for (auto l : V_Lights)
 	{
@@ -247,6 +268,8 @@ void CGraphics::M_Initialize2(void)
 		l.dif = Vec4d(0, 0, 0, 0), l.spc = Vec4d(0, 0, 0, 0);
 	M_SetupHieraModels();
 
+	V_PartyMode = false;
+
 }
 
 void CGraphics::M_ListenMessages(void)
@@ -277,6 +300,11 @@ bool CGraphics::M_Event_KeyPress(int key, bool special)
 	if (key == 'f' && special == false)
 	{
 		V_SM->Temp_Shading = !V_SM->Temp_Shading;
+		return true;
+	}
+	if (key == 'p' && special == false)
+	{
+		V_PartyMode = !V_PartyMode;
 		return true;
 	}
 	return false;

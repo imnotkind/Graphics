@@ -350,7 +350,7 @@ void CEngine::M_Initialize(void)
 	V_Objects.clear();
 
 	V_CrazyMod = false;
-	V_Life = 3;
+	V_Life = 30;
 	V_Animation_Temp = 0.0;
 
 	V_StartTick = GetTickCount();
@@ -392,7 +392,7 @@ void CEngine::M_Initialize(void)
 			type = 1;
 		else
 			type = 8;
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(30, 30, 220, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(50, 50, 236, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
 		//p.first->get()->~~ : some initialization
 	}
 

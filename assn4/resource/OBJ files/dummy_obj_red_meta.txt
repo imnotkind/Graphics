@@ -2,7 +2,7 @@
 enemy
 
 %obj_file_path
-resource/OBJ files/dummy_obj_red.obj
+resource/OBJ files/dummy_obj.obj
 
 %group_number
 15
