@@ -138,6 +138,7 @@ void CGraphics::M_RenderGame(void)
 	{
 		for (int j = 0; j < s[1]; j++)
 		{
+			vec3 offp = V_PartyMode ? Vec3d(0, 0, 3 + 3*sin(anim*2 + i*0.3) + 3*cos(anim*2 + j * 0.3)) : Vec3d(0);
 			int g = 10 * sin(i*j);
 			int r = 20 * cos(i*j);
 			if (V_PEngine->V_Map[T2Int(i, j)] == 1)
@@ -149,9 +150,9 @@ void CGraphics::M_RenderGame(void)
 				V_CTM_Temp = glm::scale(V_CTM_Temp, glm::vec3(1.0, 1.0, 3.0));
 
 				if(V_PEngine->V_IS_Camera)
-					M_DrawModel(p, "cubeobj", gsize , 0, T4Int(125 + r, 30 + g, 255, MC_R(255 - 200 * sin(V_PEngine->V_IS_Camera / 600.0 * PI))));
+					M_DrawModel(p + offp, "cubeobj", gsize , 0, T4Int(125 + r, 30 + g, 255, MC_R(255 - 200 * sin(V_PEngine->V_IS_Camera / 600.0 * PI))));
 				else
-					M_DrawModel(p, "cubeobj", gsize , 0, T4Int(125 + r, 30 + g, 255, 255));
+					M_DrawModel(p + offp, "cubeobj", gsize , 0, T4Int(125 + r, 30 + g, 255, 255));
 
 				V_CTM_Temp = old;
 			}
