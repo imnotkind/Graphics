@@ -1,5 +1,6 @@
 #version 330 core
 in vec4 position;
+in vec3 fnormal;
 in vec3 normal;
 in vec2 tex;
 

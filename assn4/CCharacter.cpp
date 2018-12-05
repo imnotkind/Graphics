@@ -19,7 +19,7 @@ void CCharacter::M_Loop(double t)
 	if (V_InvTime > 0)
 	{
 		V_InvTime--;
-		if(V_InvTime == 0) V_Color.set(255, 255, 255, 255);
+		if(V_InvTime == 0) V_Color.set(200, 30, 30, 255);
 	}
 	if (V_SuperTime > 0)
 	{
@@ -92,7 +92,7 @@ void CCharacter::M_Fire(void)
 		double speed = 1;
 
 		message.type = "creation";
-		message.content = (void*) new CBullet(V_Position, 2, T4Int(255, 0, 0, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
+		message.content = (void*) new CBullet(V_Position, 2, T4Int(255, 255, 255, 255), 0.3, T2Double(cos(theta), sin(theta)) * speed);
 		mq->M_Push(message);
 	}
 	V_Power = 0;

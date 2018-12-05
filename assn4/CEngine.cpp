@@ -368,7 +368,7 @@ void CEngine::M_Initialize(void)
 	int n_enm = V_Max_Enemies;
 	int n_itm = V_Max_Items;
 
-	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3));
+	V_Player = shared_ptr<CCharacter>(new CCharacter(T2Double(1, 1) * V_Grid_Size, 0, T4Int(200, 30, 30, 255), V_Grid_Size * 0.3));
 
 	//place items
 	for (int i = 0; i < n_itm; i++)
@@ -392,7 +392,7 @@ void CEngine::M_Initialize(void)
 			type = 1;
 		else
 			type = 8;
-		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, type, T4Int(255, 255, 255, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
+		auto q = V_Objects.insert(shared_ptr<CEnemy>(new CEnemy(T2Double(p[0], p[1]) * V_Grid_Size, 1, T4Int(30, 30, 220, 255), V_Grid_Size * 0.3, V_Math->M_Num_dRandom(0.4, 0.6))));
 		//p.first->get()->~~ : some initialization
 	}
 

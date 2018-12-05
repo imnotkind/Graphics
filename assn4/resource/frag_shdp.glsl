@@ -2,7 +2,7 @@
 
 
 // Ouput data
-in vec4 ocolor;
+flat in vec4 ocolor;
 out vec4 color;
 
 void main()

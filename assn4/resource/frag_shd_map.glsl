@@ -40,11 +40,11 @@ void main()
 	color = ambient;
 
 	vec3 samnorm = normalize(texture(texsam, uv).xyz * 2 - vec3(1,1,1));
-	vec3 zv = vec3(0,0,1);
+	vec3 zv = vec3(0,0,-1);
 	vec3 cv = cross(zv, vnormal);
 
 	mat3 sm = ss(cv);
-	mat3 R = mat3(1.0) + sm + sm*sm*(1.0/(1+dot(zv, vnormal)+0.01));
+	mat3 R = mat3(1.0) + sm + sm*sm*(1.0/(1+dot(zv, vnormal)+0.001));
 
 	samnorm = mat3(normaltrans)*R*samnorm;
 
@@ -65,6 +65,7 @@ void main()
 	}
 	
 	color = clamp(color, 0.0, 1.0);
+	color[3] = vicolor[3];
 	
 	 
 

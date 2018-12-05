@@ -20,20 +20,20 @@ void CGraphics::M_RenderGame(void)
 
 	auto xx = V_PEngine->V_Player->M_GetDrawData().pos.convert_gl();
 	V_Lights[0].pos = Vec4d(xx[0] + 3*cos(anim*0.2), xx[1] + 3*sin(anim*0.2), 5.0, 1.0);
-	V_Lights[0].dif = Vec4d(0.15, 0.15, 0.15, 1);
-	V_Lights[0].spc = Vec4d(0.15, 0.15, 0.15, 1);
+	V_Lights[0].dif = Vec4d(0.2, 0.2, 0.2, 1);
+	V_Lights[0].spc = Vec4d(0.2, 0.2, 0.2, 1);
 
 	V_Lights[1].pos = Vec4d(cos(anim*0.3), sin(anim*0.3), 1.0, 0.0);
-	V_Lights[1].dif = Vec4d(0.05, 0.05, 0.05, 1);
-	V_Lights[1].spc = Vec4d(0.05, 0.05, 0.05, 1);
+	V_Lights[1].dif = Vec4d(0.03, 0.03, 0.03, 1);
+	V_Lights[1].spc = Vec4d(0.03, 0.03, 0.03, 1);
 
 	V_Lights[2].pos = Vec4d(xx[0] +  5*cos(anim*0.23), xx[1] + 0.0, 5*sin(anim*0.23), 1.0);
-	V_Lights[2].dif = Vec4d(0.1, 0.1, 0.1, 1);
-	V_Lights[2].spc = Vec4d(0.1, 0.1, 0.1, 1);
+	V_Lights[2].dif = Vec4d(0.2, 0.2, 0.2, 1);
+	V_Lights[2].spc = Vec4d(0.2, 0.2, 0.2, 1);
 
 	for (auto l : V_Lights)
 	{
-		M_DrawModel(l.pos, "star", 1.0, 0.0, T4Int(255, 60, 255, 255));
+		M_DrawModel(l.pos, "star", 1.0, 0.0, T4Int(220, 220, 20, 255));
 	}
 	M_DrawModel(Vec4d(0,0,-100,0), "sphere", 1.0, 0.0, T4Int(255, 60, 255, 255)); //light setup
 	V_KeepLight = true;
@@ -274,6 +274,11 @@ bool CGraphics::M_Event_KeyPress(int key, bool special)
 		V_ViewMode = !V_ViewMode;
 		return true;
 	}
+	if (key == 'f' && special == false)
+	{
+		V_SM->Temp_Shading = !V_SM->Temp_Shading;
+		return true;
+	}
 	return false;
 }
 
@@ -407,7 +412,7 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 	ri.projection = V_CTM_Project;
 
 	ri.keeplight = V_KeepLight;
-	ri.amb = Vec4d(0.1, 0.1, 0.1, 1.0);
+	ri.amb = Vec4d(0.0, 0.0, 0.0, 1.0);
 
 	auto vt = V_CTM_View;
 	ri.lights.resize(V_Lights.size());

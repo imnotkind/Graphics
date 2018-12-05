@@ -218,7 +218,7 @@ CMesh::CMesh(string meta)
 	}
 
 	V_LineColor = line_color;
-	V_SurfaceColor = surface_color;
+	V_SurfaceColor = T4Double(1.0, 1.0, 1.0, 1.0);
 	M_ConstructHierModel();
 }
 
@@ -309,7 +309,7 @@ void CMesh::M_ConstructHierModel(void)
 		D.Global_Color = V_SurfaceColor;
 		D.Line_Color = V_LineColor;
 		D.PolygonName = os.str();
-		D.Program = V_Name == "cubeobj" ? "prg4" : "prg5";
+		D.Program = V_Name == "cubeobj" ? "prg4" : "prg3";
 		D.light = true;
 		D.texture = V_Name == "cubeobj" ? sm->V_Textures["wall"].textureID : -1;
 

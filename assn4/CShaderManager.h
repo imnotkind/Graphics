@@ -40,6 +40,9 @@ class CShaderManager :
 	CShaderManager(string config_path);
 	~CShaderManager();
 public:
+
+	bool Temp_Shading;
+
 	map<string, CTexture> V_Textures;
 	set<string> V_Meshes; // meta path
 	map<string, int> V_Polygon_suggested_mode;

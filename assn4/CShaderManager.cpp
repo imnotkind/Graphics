@@ -3,6 +3,8 @@
 
 CShaderManager::CShaderManager(string config_path)
 {
+	V_CurrentProgram = -1;
+	Temp_Shading = false;
 	//parse well and
 	map<string, string> VerShaderPaths;
 	map<string, string> FragShaderPaths;
@@ -146,6 +148,12 @@ CShaderManager::~CShaderManager()
 
 void CShaderManager::M_UseProgram(string name)
 { 
+	if (Temp_Shading)
+	{
+		if (name == "prg3") name = "prg5";
+		if (name == "prg4") name = "prg5";
+	}
+
 	if (V_CurrentProgram == V_Programs[name]) return; // no redundant binding
 	V_CurrentProgram = V_Programs[name];
 	glUseProgram(V_CurrentProgram); 
