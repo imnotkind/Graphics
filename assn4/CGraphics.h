@@ -49,11 +49,8 @@ class CGraphics : public CHandler
 	glm::mat4 M_GetBillboardMat(void);
 
 	void M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba);
-	void M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int rgba); //lying on xy
-	void M_DrawFont(Vec2d p, string str, T4Int rgba);
-	void M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba);
-	void M_DrawItem(Vec3d p, double r, int z);
-	void M_DrawNumber(Vec3d p, double r, int num, T4Int rgba);
+	void M_DrawModel(Vec3d p, string name, Vec3d r, double rotate, T4Int rgba); //lying on xy
+	void M_DrawNumber(Vec3d p, double s, int num, T4Int rgba);
 
 	void M_ListenMessages(void);
 	bool M_Event_KeyPress(int key, bool special);

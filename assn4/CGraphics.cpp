@@ -14,49 +14,6 @@ CGraphics::~CGraphics()
 void CGraphics::M_RenderUI(void)
 {
 
-	
-	if (V_PEngine->V_GameEnd == 1)
-	{
-		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2 - 150, V_Screen_Size[1] / 2, 0), 100, V_PEngine->V_PEnemies.size(), T4Int(255, 0, 0, 255));
-		M_DrawModel(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(130, 100, 100, 255));
-	}
-	if (V_PEngine->V_GameEnd == 2)
-	{
-		M_DrawNumber(Vec3d(V_Screen_Size[0] / 2 - 150, V_Screen_Size[1] / 2, 0), 100, V_PEngine->V_LeftTime, T4Int(125, 255, 0, 255));
-		M_DrawModel(Vec3d(V_Screen_Size[0] / 2, V_Screen_Size[1] / 2, 0), "square", 250, 0, T4Int(100, 130, 100, 255));
-	}
-	
-
-	M_DrawNumber(Vec3d(50, 100, 0), 10, V_PEngine->V_PEnemies.size(), T4Int(255,0,0,255));
-	M_DrawNumber(Vec3d(50, 150, 0), 10, V_PEngine->V_LeftTime, T4Int(125,255,0,255));
-	M_DrawNumber(Vec3d(50, 200, 0), 10, V_PEngine->V_Life, T4Int(255, 255, 0, 255));
-	M_DrawModel(Vec3d(50, 150, 0), "square", 80, 0, T4Int(100, 100, 100, 200));
-	
-	
-	auto l = V_PEngine->V_Player->M_GetItemList();
-
-	auto n = std::min(4, (int)l.size());
-	auto it = l.begin();
-
-	switch (n)
-	{
-		case 4:
-			M_DrawItem(Vec3d(300, V_Screen_Size[1] - 40, 0), 30, *next(it, 3));
-		case 3:
-			M_DrawItem(Vec3d(230, V_Screen_Size[1] - 40, 0), 30, *next(it, 2));
-		case 2:
-			M_DrawItem(Vec3d(160, V_Screen_Size[1] - 40, 0), 30, *next(it, 1));
-		case 1:
-			M_DrawItem(Vec3d(70, V_Screen_Size[1] - 60, 0), 50,*it);
-		case 0:
-			break;
-	}
-
-	M_DrawModel(Vec3d(70, V_Screen_Size[1] - 60, 0), "square", 50, 0, T4Int(100, 170, 170, 200));
-	M_DrawModel(Vec3d(160, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
-	M_DrawModel(Vec3d(230, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
-	M_DrawModel(Vec3d(300, V_Screen_Size[1] - 40, 0), "square", 30, 0, T4Int(100, 170, 170, 200));
-
 
 
 }
@@ -153,39 +110,12 @@ glm::mat4 CGraphics::M_GetBillboardMat(void)
 }
 void CGraphics::M_MoveCamera(void)
 {
-	double static olda = 0.0;
-	V_Camera_Look_Angle = V_PEngine->V_Player->M_GetLook().convert_gl();
-	olda = olda * 0.9 + V_Camera_Look_Angle[0]*0.1;
+	static double k = 0;
+	k += 0.001;
 
-	
-	if (V_ViewMode)
-	{
-		auto ui = CUserInput::getInstance();
-		double d = 1-ui->M_MouseGet_Normalized()[1];
-		d *= 2;
-		auto p = V_PEngine->V_Player->M_GetPosition();
-		V_Camera_Pos[0] = p[0] - cos(olda) * (15 + 15*d);
-		V_Camera_Pos[1] = p[1] - sin(olda) * (15 + 15*d);
-		V_Camera_Pos[2] = 20;
-
-		V_Camera_Look = V_Camera_Pos;
-		V_Camera_Look[0] += (20 + 15*d)*cos(V_Camera_Look_Angle[0]);
-		V_Camera_Look[1] += (20 + 15 * d)*sin(V_Camera_Look_Angle[0]);
-		V_Camera_Look[2] = 5;
-	}
-	else
-	{
-		auto p = V_PEngine->V_Player->M_GetPosition();
-		V_Camera_Pos[0] = p[0] + 0.8*cos(V_Camera_Look_Angle[0]);
-		V_Camera_Pos[1] = p[1] + 0.8*sin(V_Camera_Look_Angle[0]);
-		V_Camera_Pos[2] = 3;
-
-		V_Camera_Look = V_Camera_Pos;
-		V_Camera_Look[0] += 5 * cos(V_Camera_Look_Angle[0]);
-		V_Camera_Look[1] += 5 * sin(V_Camera_Look_Angle[0]);
-		V_Camera_Look[2] += 2 * sin(V_Camera_Look_Angle[1]);
-	}
-
+	V_Camera_Look = Vec3d(0, 0, 0);
+	V_Camera_Pos = Vec3d(cos(k), sin(k), 1);
+	V_Camera_Pos *= 50;
 
 	return;
 
@@ -256,7 +186,7 @@ void CGraphics::M_DrawLine(Vec3d p1, Vec3d p2, T4Int rgba)
 	V_Models["line"]->M_Draw(r);
 }
 
-void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int rgba)
+void CGraphics::M_DrawModel(Vec3d p, string name, Vec3d r, double rotate, T4Int rgba)
 {
 
 	SRenderInfo ri;
@@ -264,7 +194,7 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 	glm::mat4 m = V_CTM_View;
 	m = glm::translate(m, glm::vec3(p));
 	m = glm::rotate(m, float(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
-	m = glm::scale(m, glm::vec3(r, r, r));
+	m = glm::scale(m, r);
 	m = m * V_CTM_Temp; //billboard
 
 	ri.modelview = m;
@@ -284,62 +214,12 @@ void CGraphics::M_DrawModel(Vec3d p, string name, double r, double rotate, T4Int
 	for (int i = 0; i < 4; i++) ri.color[i] = rgba[i] / 255.0;
 	V_Models[name]->M_Draw(ri);
 }
-void CGraphics::M_DrawFont(Vec2d p, string str, T4Int rgba)
-{
-}
 
-void CGraphics::M_DrawFontBig(Vec2d p, string str, double scale, T4Int rgba)
-{
-}
-
-void CGraphics::M_DrawItem(Vec3d p, double r, int z)
-{
-	if (z == 0) // Mega fire
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			M_DrawModel(p, "diamond", r*0.5, (2 * PI / 10.0)*i, T4Int(255, 255, 0, 255));
-		}
-		for (int i = 0; i < 10; i++)
-		{
-			M_DrawModel(p, "diamond", r, (2 * PI / 10.0)*i, T4Int(255, 0, 0, 255));
-		}
-		
-	}
-	if (z == 1) // Camera up
-	{
-		M_DrawModel(p, "circle", r*0.4, 0, T4Int(255, 255, 255, 255));
-		//M_DrawModel(p + Vec3d(r*0.7, r*0.5, 0), "circle", r*0.1, 0, T4Int(255, 255, 255, 255)); fix this
-		M_DrawModel(p, "rectangle", r*0.9, 0, T4Int(90, 90, 90, 255));
-
-	}
-	if (z == 2) // Invincible
-	{
-		M_DrawModel(p, "star", r*0.8, 0, T4Int(255, 255, 0, 255));
-		M_DrawModel(p, "star", r, 0, T4Int(255, 204, 0, 255));
-		
-	}
-	if (z == 3) // Speed up
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			M_DrawModel(p+Vec3d(r*0.1,0,0), "diamond", r, PI/12 + (PI/12)*i, T4Int(255, 255, 255, 255));
-			M_DrawModel(p-Vec3d(r*0.1,0,0), "diamond", r, PI - (PI / 12 + (PI / 12)*i), T4Int(255, 255, 255, 255));
-		}
-	}
-	if (z == 4) // SuperFire
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			M_DrawModel(p, "diamond", r, (2*PI/4.0)*i, T4Int(30, 30, 30, 255));
-		}
-	}
-}
-
-void CGraphics::M_DrawNumber(Vec3d p, double r, int num, T4Int rgba)
+void CGraphics::M_DrawNumber(Vec3d p, double s, int num, T4Int rgba)
 {
 	string str = to_string(num);
 	Vec3d i = Vec3d(0, 0, 0);
+	auto r = Vec3d(s, s, s);
 	for (auto c : str)
 	{
 		int k = c - '0';
@@ -378,6 +258,6 @@ void CGraphics::M_DrawNumber(Vec3d p, double r, int num, T4Int rgba)
 			M_DrawModel(p+i, "G", r, 0.0, rgba);
 		}
 
-		i += Vec3d(r*1.5, 0, 0);
+		i += Vec3d(s*1.5, 0, 0);
 	}
 }
