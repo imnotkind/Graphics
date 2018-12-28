@@ -10,38 +10,9 @@ CEngine::CEngine()
 CEngine::~CEngine()
 {
 }
-void CEngine::M_ReadMap(string path)
-{
-	ifstream fs;
-	fs.open(path);
 
-	int w, h;
-	fs >> w >> h >> V_Max_Items >> V_Max_Enemies;
-	string s;
-	V_Map.resize(T2Int(w, h), -1);
-	for (int i = 0; i < h; i++)
-	{
-		fs >> s;
-		if (s.size() != w) CError("Invliad map data format", true);
-		for (int j = 0; j < w; j++)
-		{
-			V_Map[T2Int(j, i)] = s[j] - '0';
-		}
-	}
-}
 void CEngine::M_ListenMessages(void)
 {
-	//Script Messages
-	auto mq = SMQueue::M_GetSingletone(0);
-	while (!mq->M_Empty()) 
-	{
-		auto m = mq->M_Pop();
-		if (m.type == "creation") // object creation request
-		{
-			V_Objects.insert(shared_ptr<CSomething>((CSomething*)m.content));
-		}
-	}
-
 	//Input Messages;
 	auto iq = SIQueue::M_GetSingletone(0);
 	auto rq = SIQueue::M_GetSingletone(1);

@@ -14,6 +14,6 @@ out vec4 vocolor;
 void main()
 {
 
-    vocolor = vicolor;// * texcoord[0] * texcoord[1];
+    vocolor = vicolor;
     gl_Position = projection * modelview * position ;
 }

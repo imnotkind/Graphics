@@ -78,9 +78,6 @@
     <ClCompile Include="CEngine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="CGraphics.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CTexture.cpp">
       <Filter>Engine\Graphics\Texture</Filter>
@@ -135,6 +132,12 @@
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
       <Filter>Engine\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphics.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TestRender.cpp">
+      <Filter>Engine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
